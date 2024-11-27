@@ -1,19 +1,19 @@
 {
   "name": "protag",
-  "module": "index.ts",
-  "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "esbuild": "^0.24.0",
+    "purescript": "^0.15.16-4",
+    "spago": "^0.93.41"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "dependencies": {
-    "purescript": "^0.15.16-4",
-    "spago": "^0.93.41"
-  },
   "scripts": {
     "build": "spago build",
-    "build.clean": "rm -rf output/Protag* && spago build"
+    "build.clean": "rm -rf output/Protag* && spago build",
+    "bundle": "spago bundle --outfile public/main.js --source-maps",
+    "publish": "cp -rf public docs && git add -A && git commit -m\"publish\"",
+    "serve": "bun server.ts"
   }
 }
