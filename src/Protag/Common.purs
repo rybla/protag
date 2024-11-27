@@ -3,6 +3,7 @@ module Protag.Common where
 import Prelude
 
 import Data.Const (Const)
+import Data.Exists (Exists)
 import Effect.Aff (Aff)
 import Halogen (Component, ComponentHTML, Slot)
 import Protag.Interaction (InteractionT)
@@ -16,17 +17,16 @@ type GameImpl =
   , render :: GameState -> GameComponentHTML
   }
 
-type GameComponentQuery = Const Void
-
-type GameComponentInput =
-  { impl :: GameImpl
-  }
-
+type GameComponentQuery = Const Void :: Type -> Type
+type GameComponentInput = {}
 type GameComponentOutput = Void
 
 type GameComponent = Component GameComponentQuery GameComponentInput GameComponentOutput Aff
 type GameComponentHTML = ComponentHTML GameComponentAction GameComponentSlots Aff
-type GameComponentSlots = (scene :: SceneSlot Int)
+type GameComponentSlots =
+  ( scene :: SceneSlot String
+  , widget :: WidgetSlot (GameM Unit) String
+  )
 
 data GameComponentAction
   = InitializeGame
@@ -36,7 +36,7 @@ type GameState =
   { title :: String
   }
 
-data GameF m a = GameF (m a)
+data GameF m (a :: Type) = GameF (m a)
 type GameM = InteractionT GameF Aff
 
 --------------------------------------------------------------------------------
@@ -45,33 +45,32 @@ type GameM = InteractionT GameF Aff
 
 type SceneSlot = Slot SceneComponentQuery (GameM Unit)
 
-type SceneImpl state =
+type SceneImplE = Exists SceneImpl
+
+newtype SceneImpl state = SceneImpl
   { initialState :: state
   , render :: state -> SceneComponentHTML state
   }
 
-data SceneComponentQuery a
+type SceneComponentQuery = Const Void :: Type -> Type
 type SceneComponentInput = {}
 data SceneComponentOutput
 
 type SceneComponent = Component SceneComponentQuery SceneComponentInput SceneComponentOutput Aff
 type SceneComponentHTML state = ComponentHTML (SceneComponentAction state) (SceneComponentSlots state) Aff
-type SceneComponentSlots state = (widget :: WidgetSlot (SceneM state Unit) Int)
+type SceneComponentSlots state = (widget :: WidgetSlot (SceneM state Unit) String)
 
 data SceneComponentAction state
   = InitializeScene
   | InteractScene (SceneM state Unit)
 
 type SceneM state = InteractionT (SceneF state) Aff
-data SceneF state m a = SceneF (m a)
+data SceneF (state :: Type) m (a :: Type) = SceneF (m a)
 
 --------------------------------------------------------------------------------
 -- Widget
 --------------------------------------------------------------------------------
 
-data WidgetComponentQuery a
+type WidgetSlot = Slot WidgetComponentQuery
 
-type WidgetSlot = Slot WidgetQuery
-
-data WidgetQuery a
-
+type WidgetComponentQuery = Const Void :: Type -> Type

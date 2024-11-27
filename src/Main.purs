@@ -9,5 +9,7 @@ import Protag.Component.Game as Protag.Component.Game
 import Protag.Impl.Game (impl)
 
 main :: Effect Unit
-main = HA.runHalogenAff (HVD.runUI Protag.Component.Game.component { impl } =<< HA.awaitBody)
+main = do
+  let component = Protag.Component.Game.component impl
+  HA.runHalogenAff (HVD.runUI component {} =<< HA.awaitBody)
 

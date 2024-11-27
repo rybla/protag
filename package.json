@@ -13,6 +13,7 @@
     "spago": "^0.93.41"
   },
   "scripts": {
-    "build": "spago build"
+    "build": "spago build",
+    "build.clean": "rm -rf output/Protag* && spago build"
   }
 }

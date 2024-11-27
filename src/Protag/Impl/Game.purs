@@ -1,6 +1,6 @@
 module Protag.Impl.Game where
 
-import Prelude
+-- import Prelude
 
 import Halogen.HTML as HH
 import Protag.Common (GameImpl)
