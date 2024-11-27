@@ -43,6 +43,8 @@ type GameM = InteractionT GameF Aff
 -- Scene
 --------------------------------------------------------------------------------
 
+type SceneSlot = Slot SceneComponentQuery (GameM Unit)
+
 type SceneImpl state =
   { initialState :: state
   , render :: state -> SceneComponentHTML state
@@ -51,8 +53,6 @@ type SceneImpl state =
 data SceneComponentQuery a
 type SceneComponentInput = {}
 data SceneComponentOutput
-
-type SceneSlot = Slot SceneComponentQuery (GameM Unit)
 
 type SceneComponent = Component SceneComponentQuery SceneComponentInput SceneComponentOutput Aff
 type SceneComponentHTML state = ComponentHTML (SceneComponentAction state) (SceneComponentSlots state) Aff
