@@ -13,6 +13,7 @@
     "build": "spago build",
     "build.clean": "rm -rf output/Protag* && spago build",
     "bundle": "spago bundle --outfile public/main.js --source-maps",
+    "bundle.NestedComponentStateCache": "spago bundle --module Experiment.NestedComponentStateCache --outfile public/NestedComponentStateCache/main.js --source-maps",
     "publish": "cp -rf public docs && git add -A && git commit -m\"publish\"",
     "serve": "bun server.ts"
   }
