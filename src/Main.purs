@@ -5,11 +5,8 @@ import Prelude
 import Effect (Effect)
 import Halogen.Aff as HA
 import Halogen.VDom.Driver as HVD
-import Protag.Component.Game as Protag.Component.Game
-import Protag.Impl.Game (game_impl)
+import Protag.Game as Protag.Game
 
 main :: Effect Unit
-main = do
-  let component = Protag.Component.Game.component game_impl
-  HA.runHalogenAff (HVD.runUI component {} =<< HA.awaitBody)
+main = HA.runHalogenAff (HVD.runUI Protag.Game.component {} =<< HA.awaitBody)
 
