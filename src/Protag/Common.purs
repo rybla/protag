@@ -43,6 +43,7 @@ type GameState =
 data SceneIndex
   = MenuSceneIndex
   | ExampleSceneIndex
+  | IntroSceneIndex
 
 derive instance Generic SceneIndex _
 

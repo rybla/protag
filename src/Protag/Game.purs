@@ -7,6 +7,7 @@ import Control.Monad.State (get)
 import Effect.Class.Console as Console
 import Halogen as H
 import Halogen.HTML as HH
+import Halogen.HTML.Properties as HP
 import Protag.Scene (getSceneComponent)
 import Type.Prelude (Proxy(..))
 
@@ -36,10 +37,9 @@ component = H.mkComponent { initialState, eval, render }
     }
 
   render state =
-    HH.div
-      []
-      [ HH.div
-          []
+    HH.div [ HP.style "box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
+      [ HH.div [ HP.style "font-size: 2em;" ] [ HH.text "Protag" ]
+      , HH.div [ HP.style "box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
           [ HH.div [] [ HH.text $ "player_name = " <> state.player_name ]
           , HH.div [] [ HH.text $ "player_health = " <> show state.player_health ]
           ]

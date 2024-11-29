@@ -1060,23 +1060,23 @@
 
   // output/Control.Monad/index.js
   var unlessM = function(dictMonad) {
-    var bind6 = bind(dictMonad.Bind1());
+    var bind8 = bind(dictMonad.Bind1());
     var unless2 = unless(dictMonad.Applicative0());
     return function(mb) {
       return function(m) {
-        return bind6(mb)(function(b2) {
+        return bind8(mb)(function(b2) {
           return unless2(b2)(m);
         });
       };
     };
   };
   var ap = function(dictMonad) {
-    var bind6 = bind(dictMonad.Bind1());
+    var bind8 = bind(dictMonad.Bind1());
     var pure10 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a2) {
-        return bind6(f)(function(f$prime) {
-          return bind6(a2)(function(a$prime) {
+        return bind8(f)(function(f$prime) {
+          return bind8(a2)(function(a$prime) {
             return pure10(f$prime(a$prime));
           });
         });
@@ -1276,6 +1276,21 @@
     };
     return Just2;
   }();
+  var maybe$prime = function(v) {
+    return function(v1) {
+      return function(v2) {
+        if (v2 instanceof Nothing) {
+          return v(unit);
+        }
+        ;
+        if (v2 instanceof Just) {
+          return v1(v2.value0);
+        }
+        ;
+        throw new Error("Failed pattern match at Data.Maybe (line 250, column 1 - line 250, column 62): " + [v.constructor.name, v1.constructor.name, v2.constructor.name]);
+      };
+    };
+  };
   var maybe = function(v) {
     return function(v1) {
       return function(v2) {
@@ -1305,6 +1320,9 @@
     }
   };
   var map2 = /* @__PURE__ */ map(functorMaybe);
+  var fromMaybe$prime = function(a2) {
+    return maybe$prime(a2)(identity3);
+  };
   var fromMaybe = function(a2) {
     return maybe(a2)(identity3);
   };
@@ -3352,6 +3370,16 @@
   };
   var empty3 = empty2;
 
+  // output/Data.String.Common/foreign.js
+  var split = function(sep) {
+    return function(s) {
+      return s.split(sep);
+    };
+  };
+  var trim = function(s) {
+    return s.trim();
+  };
+
   // output/Halogen.Query.Input/index.js
   var RefUpdate = /* @__PURE__ */ function() {
     function RefUpdate2(value0, value1) {
@@ -3397,6 +3425,9 @@
   var length3 = function(xs) {
     return xs.length;
   };
+  var indexImpl = function(just, nothing, xs, i2) {
+    return i2 < 0 || i2 >= xs.length ? nothing : just(xs[i2]);
+  };
   var findIndexImpl = function(just, nothing, f, xs) {
     for (var i2 = 0, l = xs.length; i2 < l; i2++) {
       if (f(xs[i2])) return just(i2);
@@ -3425,6 +3456,9 @@
 
   // output/Data.Array/index.js
   var fromJust2 = /* @__PURE__ */ fromJust();
+  var index2 = /* @__PURE__ */ function() {
+    return runFn4(indexImpl)(Just.create)(Nothing.value);
+  }();
   var findIndex = /* @__PURE__ */ function() {
     return runFn4(findIndexImpl)(Just.create)(Nothing.value);
   }();
@@ -4419,6 +4453,11 @@
       };
     };
   };
+  var attr = function(ns) {
+    return function(v) {
+      return Attribute.create(ns)(v);
+    };
+  };
 
   // output/Control.Applicative.Free/index.js
   var identity5 = /* @__PURE__ */ identity(categoryFn);
@@ -5000,11 +5039,11 @@
   // output/Control.Monad.State.Trans/index.js
   var monadTransStateT = {
     lift: function(dictMonad) {
-      var bind6 = bind(dictMonad.Bind1());
+      var bind8 = bind(dictMonad.Bind1());
       var pure10 = pure(dictMonad.Applicative0());
       return function(m) {
         return function(s) {
-          return bind6(m)(function(x) {
+          return bind8(m)(function(x) {
             return pure10(new Tuple(x, s));
           });
         };
@@ -5045,12 +5084,12 @@
     };
   };
   var bindStateT = function(dictMonad) {
-    var bind6 = bind(dictMonad.Bind1());
+    var bind8 = bind(dictMonad.Bind1());
     return {
       bind: function(v) {
         return function(f) {
           return function(s) {
-            return bind6(v(s))(function(v1) {
+            return bind8(v(s))(function(v1) {
               var v3 = f(v1.value0);
               return v3(v1.value1);
             });
@@ -5600,9 +5639,14 @@
   var element2 = /* @__PURE__ */ function() {
     return element(Nothing.value);
   }();
-  var h2 = /* @__PURE__ */ element2("h2");
   var div2 = /* @__PURE__ */ element2("div");
   var button = /* @__PURE__ */ element2("button");
+
+  // output/Halogen.HTML.Properties/index.js
+  var attr2 = /* @__PURE__ */ function() {
+    return attr(Nothing.value);
+  }();
+  var style = /* @__PURE__ */ attr2("style");
 
   // output/Halogen.HTML/index.js
   var componentSlot2 = /* @__PURE__ */ componentSlot();
@@ -6548,50 +6592,6 @@
     };
   };
 
-  // output/Data.Profunctor.Strong/index.js
-  var strongFn = {
-    first: function(a2b) {
-      return function(v) {
-        return new Tuple(a2b(v.value0), v.value1);
-      };
-    },
-    second: /* @__PURE__ */ map(functorTuple),
-    Profunctor0: function() {
-      return profunctorFn;
-    }
-  };
-  var first = function(dict) {
-    return dict.first;
-  };
-
-  // output/Data.Lens.Setter/index.js
-  var over2 = function(l) {
-    return l;
-  };
-  var set = function(l) {
-    return function(b2) {
-      return over2(l)($$const(b2));
-    };
-  };
-  var modifying = function(dictMonadState) {
-    var $$void8 = $$void(dictMonadState.Monad0().Bind1().Apply0().Functor0());
-    var modify5 = modify2(dictMonadState);
-    return function(p2) {
-      return function(f) {
-        return $$void8(modify5(over2(p2)(f)));
-      };
-    };
-  };
-  var assign2 = function(dictMonadState) {
-    var $$void8 = $$void(dictMonadState.Monad0().Bind1().Apply0().Functor0());
-    var modify5 = modify2(dictMonadState);
-    return function(p2) {
-      return function(b2) {
-        return $$void8(modify5(set(p2)(b2)));
-      };
-    };
-  };
-
   // output/Effect.Class.Console/index.js
   var log3 = function(dictMonadEffect) {
     var $67 = liftEffect(dictMonadEffect);
@@ -6599,25 +6599,6 @@
       return $67(log($68));
     };
   };
-
-  // output/Web.UIEvent.MouseEvent.EventTypes/index.js
-  var click2 = "click";
-
-  // output/Halogen.HTML.Events/index.js
-  var mouseHandler = unsafeCoerce2;
-  var handler2 = function(et) {
-    return function(f) {
-      return handler(et)(function(ev) {
-        return new Just(new Action(f(ev)));
-      });
-    };
-  };
-  var onClick = /* @__PURE__ */ function() {
-    var $15 = handler2(click2);
-    return function($16) {
-      return $15(mouseHandler($16));
-    };
-  }();
 
   // output/Data.Show.Generic/foreign.js
   var intercalate2 = function(separator) {
@@ -6687,6 +6668,14 @@
 
   // output/Protag.Common/index.js
   var genericShowConstructor2 = /* @__PURE__ */ genericShowConstructor(genericShowArgsNoArguments);
+  var discard5 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
+  var put2 = /* @__PURE__ */ put(monadStateHalogenM);
+  var pure9 = /* @__PURE__ */ pure(applicativeHalogenM);
+  var pure13 = /* @__PURE__ */ pure(applicativeMaybe);
+  var bind5 = /* @__PURE__ */ bind(bindHalogenM);
+  var get2 = /* @__PURE__ */ get(monadStateHalogenM);
+  var execStateT2 = /* @__PURE__ */ execStateT(functorHalogenM);
+  var map18 = /* @__PURE__ */ map(functorHalogenM);
   var MenuSceneIndex = /* @__PURE__ */ function() {
     function MenuSceneIndex2() {
     }
@@ -6700,6 +6689,13 @@
     ;
     ExampleSceneIndex2.value = new ExampleSceneIndex2();
     return ExampleSceneIndex2;
+  }();
+  var IntroSceneIndex = /* @__PURE__ */ function() {
+    function IntroSceneIndex2() {
+    }
+    ;
+    IntroSceneIndex2.value = new IntroSceneIndex2();
+    return IntroSceneIndex2;
   }();
   var PutSceneState = /* @__PURE__ */ function() {
     function PutSceneState2(value0, value1) {
@@ -6740,11 +6736,15 @@
         return MenuSceneIndex.value;
       }
       ;
-      if (x instanceof Inr) {
+      if (x instanceof Inr && x.value0 instanceof Inl) {
         return ExampleSceneIndex.value;
       }
       ;
-      throw new Error("Failed pattern match at Protag.Common (line 47, column 1 - line 47, column 37): " + [x.constructor.name]);
+      if (x instanceof Inr && x.value0 instanceof Inr) {
+        return IntroSceneIndex.value;
+      }
+      ;
+      throw new Error("Failed pattern match at Protag.Common (line 48, column 1 - line 48, column 37): " + [x.constructor.name]);
     },
     from: function(x) {
       if (x instanceof MenuSceneIndex) {
@@ -6752,21 +6752,29 @@
       }
       ;
       if (x instanceof ExampleSceneIndex) {
-        return new Inr(NoArguments.value);
+        return new Inr(new Inl(NoArguments.value));
       }
       ;
-      throw new Error("Failed pattern match at Protag.Common (line 47, column 1 - line 47, column 37): " + [x.constructor.name]);
+      if (x instanceof IntroSceneIndex) {
+        return new Inr(new Inr(NoArguments.value));
+      }
+      ;
+      throw new Error("Failed pattern match at Protag.Common (line 48, column 1 - line 48, column 37): " + [x.constructor.name]);
     }
   };
   var genericShow2 = /* @__PURE__ */ genericShow(genericSceneIndex_)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
     reflectSymbol: function() {
       return "MenuSceneIndex";
     }
-  }))(/* @__PURE__ */ genericShowConstructor2({
+  }))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2({
     reflectSymbol: function() {
       return "ExampleSceneIndex";
     }
-  })));
+  }))(/* @__PURE__ */ genericShowConstructor2({
+    reflectSymbol: function() {
+      return "IntroSceneIndex";
+    }
+  }))));
   var showSceneIndex = {
     show: function(x) {
       return genericShow2(x);
@@ -6774,6 +6782,95 @@
   };
   var toOpaqueSceneState = unsafeCoerce2;
   var fromOpaqueSceneState = unsafeCoerce2;
+  var makeSceneComponent = function(args) {
+    var initialState = function(v) {
+      return args.initialState;
+    };
+    var $$eval = mkEval({
+      receive: defaultEval.receive,
+      finalize: defaultEval.finalize,
+      handleQuery: function(v1) {
+        return discard5(put2(fromOpaqueSceneState(v1.value0)))(function() {
+          return pure9(pure13(v1.value1));
+        });
+      },
+      initialize: pure13(args.initialize),
+      handleAction: function(action2) {
+        return bind5(get2)(function(state3) {
+          var m = execStateT2(action2)(state3);
+          return raise(new SceneAction(map18(toOpaqueSceneState)(m)));
+        });
+      }
+    });
+    return mkComponent({
+      initialState,
+      "eval": $$eval,
+      render: args.render
+    });
+  };
+
+  // output/Data.Profunctor.Strong/index.js
+  var strongFn = {
+    first: function(a2b) {
+      return function(v) {
+        return new Tuple(a2b(v.value0), v.value1);
+      };
+    },
+    second: /* @__PURE__ */ map(functorTuple),
+    Profunctor0: function() {
+      return profunctorFn;
+    }
+  };
+  var first = function(dict) {
+    return dict.first;
+  };
+
+  // output/Data.Lens.Setter/index.js
+  var over2 = function(l) {
+    return l;
+  };
+  var set = function(l) {
+    return function(b2) {
+      return over2(l)($$const(b2));
+    };
+  };
+  var modifying = function(dictMonadState) {
+    var $$void8 = $$void(dictMonadState.Monad0().Bind1().Apply0().Functor0());
+    var modify5 = modify2(dictMonadState);
+    return function(p2) {
+      return function(f) {
+        return $$void8(modify5(over2(p2)(f)));
+      };
+    };
+  };
+  var assign2 = function(dictMonadState) {
+    var $$void8 = $$void(dictMonadState.Monad0().Bind1().Apply0().Functor0());
+    var modify5 = modify2(dictMonadState);
+    return function(p2) {
+      return function(b2) {
+        return $$void8(modify5(set(p2)(b2)));
+      };
+    };
+  };
+
+  // output/Web.UIEvent.MouseEvent.EventTypes/index.js
+  var click2 = "click";
+
+  // output/Halogen.HTML.Events/index.js
+  var mouseHandler = unsafeCoerce2;
+  var handler2 = function(et) {
+    return function(f) {
+      return handler(et)(function(ev) {
+        return new Just(new Action(f(ev)));
+      });
+    };
+  };
+  var onClick = /* @__PURE__ */ function() {
+    var $15 = handler2(click2);
+    return function($16) {
+      return $15(mouseHandler($16));
+    };
+  }();
 
   // output/Data.Lens.Lens/index.js
   var lens$prime = function(to) {
@@ -6787,11 +6884,11 @@
       };
     };
   };
-  var lens = function(get4) {
+  var lens = function(get6) {
     return function(set3) {
       return function(dictStrong) {
         return lens$prime(function(s) {
-          return new Tuple(get4(s), function(b2) {
+          return new Tuple(get6(s), function(b2) {
             return set3(s)(b2);
           });
         })(dictStrong);
@@ -6814,7 +6911,7 @@
       };
     };
   };
-  var get2 = function(dictIsSymbol) {
+  var get3 = function(dictIsSymbol) {
     var reflectSymbol2 = reflectSymbol(dictIsSymbol);
     return function() {
       return function(l) {
@@ -6827,13 +6924,13 @@
 
   // output/Data.Lens.Record/index.js
   var prop3 = function(dictIsSymbol) {
-    var get4 = get2(dictIsSymbol)();
+    var get6 = get3(dictIsSymbol)();
     var set3 = set2(dictIsSymbol)()();
     return function() {
       return function() {
         return function(l) {
           return function(dictStrong) {
-            return lens(get4(l))(flip(set3(l)))(dictStrong);
+            return lens(get6(l))(flip(set3(l)))(dictStrong);
           };
         };
       };
@@ -6851,18 +6948,12 @@
       };
     };
   };
+  var bug = function(msg) {
+    return unsafeCrashWith("BUG: " + msg);
+  };
 
-  // output/Protag.Game/index.js
-  var discard5 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
-  var put2 = /* @__PURE__ */ put(monadStateHalogenM);
-  var pure9 = /* @__PURE__ */ pure(applicativeHalogenM);
-  var pure13 = /* @__PURE__ */ pure(applicativeMaybe);
-  var bind5 = /* @__PURE__ */ bind(bindHalogenM);
-  var get3 = /* @__PURE__ */ get(monadStateHalogenM);
-  var execStateT2 = /* @__PURE__ */ execStateT(functorHalogenM);
-  var map18 = /* @__PURE__ */ map(functorHalogenM);
-  var monadEffectHalogenM2 = /* @__PURE__ */ monadEffectHalogenM(monadEffectAff);
-  var log4 = /* @__PURE__ */ log3(/* @__PURE__ */ monadEffectState(monadEffectHalogenM2));
+  // output/Protag.Scene/index.js
+  var log4 = /* @__PURE__ */ log3(/* @__PURE__ */ monadEffectState(/* @__PURE__ */ monadEffectHalogenM(monadEffectAff)));
   var lift4 = /* @__PURE__ */ lift(monadTransStateT)(monadHalogenM);
   var assign3 = /* @__PURE__ */ assign2(monadStateHalogenM);
   var prop5 = /* @__PURE__ */ prop4({
@@ -6870,70 +6961,66 @@
       return "scene_index";
     }
   })()()(strongFn);
-  var modifying2 = /* @__PURE__ */ modifying(monadStateHalogenM);
+  var bind6 = /* @__PURE__ */ bind(/* @__PURE__ */ bindStateT(monadHalogenM));
+  var monadStateStateT2 = /* @__PURE__ */ monadStateStateT(monadHalogenM);
+  var get4 = /* @__PURE__ */ get(monadStateStateT2);
+  var modifying2 = /* @__PURE__ */ modifying(monadStateStateT2);
   var prop1 = /* @__PURE__ */ prop4({
+    reflectSymbol: function() {
+      return "dialogue_index";
+    }
+  })()()(strongFn);
+  var show2 = /* @__PURE__ */ show(showInt);
+  var modifying1 = /* @__PURE__ */ modifying(monadStateHalogenM);
+  var prop22 = /* @__PURE__ */ prop4({
     reflectSymbol: function() {
       return "player_health";
     }
   })()()(strongFn);
-  var show2 = /* @__PURE__ */ show(showInt);
-  var modifying1 = /* @__PURE__ */ modifying(/* @__PURE__ */ monadStateStateT(monadHalogenM));
-  var prop22 = /* @__PURE__ */ prop4({
+  var prop32 = /* @__PURE__ */ prop4({
     reflectSymbol: function() {
       return "counter";
     }
   })()()(strongFn);
-  var sceneIsSymbol = {
-    reflectSymbol: function() {
-      return "scene";
-    }
-  };
-  var slot2 = /* @__PURE__ */ slot()(sceneIsSymbol)(ordString);
-  var show1 = /* @__PURE__ */ show(showSceneIndex);
-  var identity8 = /* @__PURE__ */ identity(categoryFn);
-  var tell3 = /* @__PURE__ */ tell2()(sceneIsSymbol)(ordString);
-  var makeSceneComponent = function(args) {
-    var initialState = function(v) {
-      return args.initialState;
-    };
-    var $$eval = mkEval({
-      receive: defaultEval.receive,
-      finalize: defaultEval.finalize,
-      handleQuery: function(v1) {
-        return discard5(put2(fromOpaqueSceneState(v1.value0)))(function() {
-          return pure9(pure13(v1.value1));
-        });
-      },
-      initialize: pure13(args.initialize),
-      handleAction: function(action2) {
-        return bind5(get3)(function(state3) {
-          var m = execStateT2(action2)(state3);
-          return raise(new SceneAction(map18(toOpaqueSceneState)(m)));
-        });
-      }
-    });
-    return mkComponent({
-      initialState,
-      "eval": $$eval,
-      render: args.render
-    });
-  };
   var menu_component = /* @__PURE__ */ makeSceneComponent({
     initialState: {},
     initialize: /* @__PURE__ */ log4("[menu.initialize]"),
     render: function(v) {
-      return div2([])([div2([])([h2([])([text5("menu")])]), div2([])([button([onClick($$const(lift4(assign3(prop5)(ExampleSceneIndex.value))))])([text5("example scene")])])]);
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("menu")]), div2([])([button([onClick($$const(lift4(assign3(prop5)(IntroSceneIndex.value))))])([text5("start")])]), div2([])([button([onClick($$const(lift4(assign3(prop5)(ExampleSceneIndex.value))))])([text5("example scene")])])]);
     }
   });
+  var intro_component = /* @__PURE__ */ function() {
+    var dialogue = split(". ")(trim("\nIn the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. Here, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities. The air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the secrets of the Horizon Gates\u2014mystical portals said to lead to realms where time and space unravel. But as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation\u2014or the undoing of all that soars.\n  "));
+    return makeSceneComponent({
+      initialState: {
+        dialogue_index: 0
+      },
+      initialize: log4("[intro.initialize]"),
+      render: function(state3) {
+        return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("intro")]), div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([])([button([onClick($$const(bind6(get4)(function(v) {
+          var $46 = v.dialogue_index >= (length3(dialogue) - 1 | 0);
+          if ($46) {
+            return lift4(assign3(prop5)(ExampleSceneIndex.value));
+          }
+          ;
+          return modifying2(prop1)(function(v1) {
+            return v1 + 1 | 0;
+          });
+        })))])([text5("next")])]), div2([])([text5(show2(state3.dialogue_index + 1 | 0) + (" / " + show2(length3(dialogue))))])]), div2([style("padding: 0.5em;")])([text5(fromMaybe$prime(function(v) {
+          return bug("impossible");
+        })(index2(dialogue)(state3.dialogue_index)))])]);
+      }
+    });
+  }();
   var example_component = /* @__PURE__ */ makeSceneComponent({
     initialState: {
       counter: 0
     },
     initialize: /* @__PURE__ */ log4("[example.initialize]"),
     render: function(state3) {
-      return div2([])([div2([])([h2([])([text5("example")])]), div2([])([button([onClick($$const(lift4(assign3(prop5)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift4(modifying2(prop1)(function(v) {
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift4(assign3(prop5)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift4(modifying1(prop22)(function(v) {
         return v + 1 | 0;
-      }))))])([text5("heal")])]), div2([])([text5("counter = " + show2(state3.counter))]), div2([])([button([onClick($$const(modifying1(prop22)(function(v) {
+      }))))])([text5("heal")])]), div2([])([text5("counter = " + show2(state3.counter))]), div2([])([button([onClick($$const(modifying2(prop32)(function(v) {
         return v + 1 | 0;
       })))])([text5("increment")])])]);
     }
@@ -6947,11 +7034,29 @@
       return example_component;
     }
     ;
-    throw new Error("Failed pattern match at Protag.Game (line 53, column 21 - line 55, column 41): " + [v.constructor.name]);
+    if (v instanceof IntroSceneIndex) {
+      return intro_component;
+    }
+    ;
+    throw new Error("Failed pattern match at Protag.Scene (line 20, column 21 - line 23, column 37): " + [v.constructor.name]);
   };
+
+  // output/Protag.Game/index.js
+  var show3 = /* @__PURE__ */ show(showInt);
+  var sceneIsSymbol = {
+    reflectSymbol: function() {
+      return "scene";
+    }
+  };
+  var slot2 = /* @__PURE__ */ slot()(sceneIsSymbol)(ordString);
+  var show1 = /* @__PURE__ */ show(showSceneIndex);
+  var identity8 = /* @__PURE__ */ identity(categoryFn);
+  var bind7 = /* @__PURE__ */ bind(bindHalogenM);
+  var get5 = /* @__PURE__ */ get(monadStateHalogenM);
+  var tell3 = /* @__PURE__ */ tell2()(sceneIsSymbol)(ordString);
   var component = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([])([div2([])([div2([])([text5("player_name = " + state3.player_name)]), div2([])([text5("player_health = " + show2(state3.player_health))])]), slot2($$Proxy.value)(show1(state3.scene_index))(getSceneComponent(state3.scene_index))({})(identity8)]);
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("Protag")]), div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([])([text5("player_name = " + state3.player_name)]), div2([])([text5("player_health = " + show3(state3.player_health))])]), slot2($$Proxy.value)(show1(state3.scene_index))(getSceneComponent(state3.scene_index))({})(identity8)]);
     };
     var initialState = function(v) {
       return {
@@ -6964,21 +7069,21 @@
       handleQuery: defaultEval.handleQuery,
       receive: defaultEval.receive,
       finalize: defaultEval.finalize,
-      initialize: pure13(new GameAction(log3(monadEffectHalogenM2)("[game.initialize]"))),
+      initialize: pure(applicativeMaybe)(new GameAction(log3(monadEffectHalogenM(monadEffectAff))("[game.initialize]"))),
       handleAction: function(v1) {
         if (v1 instanceof GameAction) {
           return v1.value0;
         }
         ;
         if (v1 instanceof SceneAction) {
-          return bind5(get3)(function(v2) {
-            return bind5(v1.value0)(function(s) {
+          return bind7(get5)(function(v2) {
+            return bind7(v1.value0)(function(s) {
               return tell3($$Proxy.value)(show1(v2.scene_index))(PutSceneState.create(s));
             });
           });
         }
         ;
-        throw new Error("Failed pattern match at Protag.Game (line 28, column 22 - line 38, column 71): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Protag.Game (line 26, column 22 - line 36, column 71): " + [v1.constructor.name]);
       }
     });
     return mkComponent({
