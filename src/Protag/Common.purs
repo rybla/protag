@@ -2,7 +2,7 @@ module Protag.Common where
 
 import Prelude
 
-import Control.Monad.State (StateT)
+import Control.Monad.State (StateT, execStateT, get, put)
 import Data.Const (Const)
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
@@ -62,6 +62,29 @@ type SceneInput = {}
 type SceneOutput = GameAction
 type SceneSlotId = String
 type SceneAction state = StateT state GameM Unit
+
+makeSceneComponent
+  :: forall state slots
+   . { initialState :: state
+     , initialize :: SceneAction state
+     , render :: state -> SceneHTML state slots
+     }
+  -> SceneComponent
+makeSceneComponent args = H.mkComponent { initialState, eval, render }
+  where
+  initialState {} = args.initialState
+  eval = H.mkEval H.defaultEval
+    { handleQuery = case _ of
+        PutSceneState s a -> do
+          put $ fromOpaqueSceneState $ s
+          pure (pure a)
+    , initialize = pure args.initialize
+    , handleAction = \action -> do
+        state <- get
+        let m = execStateT action state
+        H.raise $ SceneAction $ map toOpaqueSceneState m
+    }
+  render = args.render
 
 --------------------------------------------------------------------------------
 -- OpaqueSceneState
