@@ -1,7 +1,6 @@
 module Protag.Scene where
 
 import Prelude
-import Protag.Common
 
 import Control.Monad.State (get)
 import Control.Monad.Trans.Class (lift)
@@ -13,6 +12,7 @@ import Effect.Class.Console as Console
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
+import Protag.Common (SceneComponent, SceneIndex(..), makeSceneComponent)
 import Protag.Utility (bug, prop)
 
 getSceneComponent :: SceneIndex -> SceneComponent
