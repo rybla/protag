@@ -7042,21 +7042,21 @@
   };
 
   // output/Protag.Game/index.js
-  var show3 = /* @__PURE__ */ show(showInt);
   var sceneIsSymbol = {
     reflectSymbol: function() {
       return "scene";
     }
   };
   var slot2 = /* @__PURE__ */ slot()(sceneIsSymbol)(ordString);
-  var show1 = /* @__PURE__ */ show(showSceneIndex);
+  var show3 = /* @__PURE__ */ show(showSceneIndex);
   var identity8 = /* @__PURE__ */ identity(categoryFn);
+  var show1 = /* @__PURE__ */ show(showInt);
   var bind7 = /* @__PURE__ */ bind(bindHalogenM);
   var get5 = /* @__PURE__ */ get(monadStateHalogenM);
   var tell3 = /* @__PURE__ */ tell2()(sceneIsSymbol)(ordString);
   var component = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("Protag")]), div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([])([text5("player_name = " + state3.player_name)]), div2([])([text5("player_health = " + show3(state3.player_health))])]), slot2($$Proxy.value)(show1(state3.scene_index))(getSceneComponent(state3.scene_index))({})(identity8)]);
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("Protag")]), div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([style("flex-grow: 1;")])([slot2($$Proxy.value)(show3(state3.scene_index))(getSceneComponent(state3.scene_index))({})(identity8)]), div2([style("flex-shrink: 0; width: 400px; box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([])([text5("player_name = " + state3.player_name)]), div2([])([text5("player_health = " + show1(state3.player_health))])])])]);
     };
     var initialState = function(v) {
       return {
@@ -7078,7 +7078,7 @@
         if (v1 instanceof SceneAction) {
           return bind7(get5)(function(v2) {
             return bind7(v1.value0)(function(s) {
-              return tell3($$Proxy.value)(show1(v2.scene_index))(PutSceneState.create(s));
+              return tell3($$Proxy.value)(show3(v2.scene_index))(PutSceneState.create(s));
             });
           });
         }
