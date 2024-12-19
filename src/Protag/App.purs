@@ -10,8 +10,7 @@ component = H.mkComponent { initialState, eval, render }
   where
   initialState _ =
     { game_state:
-        { player_name: "Kellan Veylor"
-        , player_health: 10
+        { player: { name: "Kellan Veylor", health: 10 }
         , scene_index: MenuSceneIndex
         } :: InputGameState
     }

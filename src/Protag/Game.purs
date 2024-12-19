@@ -15,8 +15,7 @@ component :: GameComponent
 component = H.mkComponent { initialState, eval, render }
   where
   initialState input =
-    { player_name: input.game_state.player_name
-    , player_health: input.game_state.player_health
+    { player: input.game_state.player
     , scene_index: input.game_state.scene_index
     }
 
@@ -49,8 +48,7 @@ component = H.mkComponent { initialState, eval, render }
               [ HH.slot (Proxy @"scene") (show state.scene_index) (getSceneComponent state.scene_index) {} identity ]
           , HH.div
               [ HP.style "flex-shrink: 0; width: 400px; box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
-              [ HH.div [] [ HH.text $ "player_name = " <> state.player_name ]
-              , HH.div [] [ HH.text $ "player_health = " <> show state.player_health ]
+              [ HH.div [] [ HH.text $ "player = " <> show state.player ]
               ]
           ]
       ]

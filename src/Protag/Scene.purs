@@ -107,7 +107,7 @@ example_component = makeSceneComponent
         , HH.div []
             [ HH.button
                 [ HE.onClick $ const do
-                    prop @"player_health" %= (_ + 1) # lift
+                    prop @"player" <<< prop @"health" %= (_ + 1) # lift
                 ]
                 [ HH.text "heal" ]
             ]

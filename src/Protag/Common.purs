@@ -42,8 +42,10 @@ type GameState = GameState_ ()
 type InputGameState = GameState_ ()
 
 type GameState_ r =
-  { player_name :: String
-  , player_health :: Int
+  { player ::
+      { name :: String
+      , health :: Int
+      }
   , scene_index :: SceneIndex
   | r
   }
