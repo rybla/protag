@@ -1,13 +1,13 @@
 module Protag.Game where
 
 import Prelude
-import Protag.Common
 
 import Control.Monad.State (get)
 import Effect.Class.Console as Console
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
+import Protag.Common (GameAction(..), GameComponent, SceneIndex(..), SceneQuery(..))
 import Protag.Scene (getSceneComponent)
 import Type.Prelude (Proxy(..))
 
