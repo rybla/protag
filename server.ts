@@ -1,15 +1,16 @@
-import type { Server } from "bun";
+const port = 8000;
 
-const server: Server = Bun.serve({
-  port: 8080,
-  fetch(req: Request): Response {
-    const url = new URL(req.url);
-    var pathname = url.pathname;
-    if (pathname.endsWith("/")) { pathname += "index.html" }
-    const filePath = `./public${pathname}`;
-    try { return new Response(Bun.file(filePath)); }
-    catch (error) { return new Response("File not found", { status: 404 }); }
-  },
+const server = Bun.serve({
+  port,
+  async fetch(req) {
+    const url_str = req.url.endsWith("/") ? `${req.url}index.html` : req.url
+    const url = new URL(url_str);
+    const filePath = `public${url.pathname}`;
+    console.log(`GET ${filePath}`)
+    const file = Bun.file(filePath);
+    if (!(await file.exists())) return new Response(`Not Found: ${url_str}`, { status: 404 });
+    return new Response(file);
+  }
 });
 
-console.log(`server url is http://${server.hostname}:${server.port}`);
+console.log(`serving at http://${server.hostname}:${server.port}`);

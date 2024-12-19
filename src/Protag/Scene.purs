@@ -6,7 +6,6 @@ import Protag.Common
 import Control.Monad.State (get)
 import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
-import Data.Foldable (fold, length)
 import Data.Lens ((%=), (.=))
 import Data.Maybe (fromMaybe')
 import Data.String as String

@@ -7038,7 +7038,7 @@
       return intro_component;
     }
     ;
-    throw new Error("Failed pattern match at Protag.Scene (line 20, column 21 - line 23, column 37): " + [v.constructor.name]);
+    throw new Error("Failed pattern match at Protag.Scene (line 19, column 21 - line 22, column 37): " + [v.constructor.name]);
   };
 
   // output/Protag.Game/index.js

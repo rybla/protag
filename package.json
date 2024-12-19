@@ -15,6 +15,6 @@
     "bundle": "spago bundle --outfile public/main.js --source-maps",
     "bundle.NestedComponentStateCache": "spago bundle --module Experiment.NestedComponentStateCache --outfile public/NestedComponentStateCache/main.js --source-maps",
     "publish": "rm -rf docs && cp -r public docs && git add -A && git commit -m\"publish\"",
-    "serve": "bun server.ts"
+    "serve": "bun run --hot server.ts"
   }
 }
