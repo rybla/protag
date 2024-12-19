@@ -7,17 +7,17 @@ import Effect.Class.Console as Console
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
-import Protag.Common (GameAction(..), GameComponent, SceneIndex(..), SceneQuery(..))
+import Protag.Common (GameAction(..), GameComponent, SceneQuery(..))
 import Protag.Scene (getSceneComponent)
 import Type.Prelude (Proxy(..))
 
 component :: GameComponent
 component = H.mkComponent { initialState, eval, render }
   where
-  initialState {} =
-    { player_name: "Kellan Veylor"
-    , player_health: 10
-    , scene_index: MenuSceneIndex
+  initialState input =
+    { player_name: input.game_state.player_name
+    , player_health: input.game_state.player_health
+    , scene_index: input.game_state.scene_index
     }
 
   eval = H.mkEval H.defaultEval

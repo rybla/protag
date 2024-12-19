@@ -19,7 +19,10 @@ type GameHTML = H.ComponentHTML GameAction GameSlots Aff
 type GameM = H.HalogenM GameState GameAction GameSlots GameOutput Aff
 
 type GameQuery = Const Void :: Type -> Type
-type GameInput = {}
+type GameInput =
+  { game_state :: InputGameState
+  }
+
 type GameOutput = Void
 
 data GameAction
@@ -34,10 +37,15 @@ type GameSlots =
 -- GameState
 --------------------------------------------------------------------------------
 
-type GameState =
+type GameState = GameState_ ()
+
+type InputGameState = GameState_ ()
+
+type GameState_ r =
   { player_name :: String
   , player_health :: Int
   , scene_index :: SceneIndex
+  | r
   }
 
 data SceneIndex
