@@ -3,6 +3,9 @@ module Protag.Common where
 import Prelude
 
 import Control.Monad.State (StateT, execStateT, get, put)
+import Data.Argonaut (class DecodeJson, class EncodeJson)
+import Data.Argonaut.Decode.Generic (genericDecodeJson)
+import Data.Argonaut.Encode.Generic (genericEncodeJson)
 import Data.Const (Const)
 import Data.Generic.Rep (class Generic)
 import Data.Show.Generic (genericShow)
@@ -42,12 +45,14 @@ type GameState = GameState_ ()
 type InputGameState = GameState_ ()
 
 type GameState_ r =
-  { player ::
-      { name :: String
-      , health :: Int
-      }
+  { player :: Player
   , scene_index :: SceneIndex
   | r
+  }
+
+type Player =
+  { name :: String
+  , health :: Int
   }
 
 data SceneIndex
@@ -59,6 +64,12 @@ derive instance Generic SceneIndex _
 
 instance Show SceneIndex where
   show x = genericShow x
+
+instance EncodeJson SceneIndex where
+  encodeJson x = genericEncodeJson x
+
+instance DecodeJson SceneIndex where
+  decodeJson x = genericDecodeJson x
 
 --------------------------------------------------------------------------------
 -- Scene

@@ -1070,23 +1070,23 @@
 
   // output/Control.Monad/index.js
   var unlessM = function(dictMonad) {
-    var bind11 = bind(dictMonad.Bind1());
+    var bind10 = bind(dictMonad.Bind1());
     var unless2 = unless(dictMonad.Applicative0());
     return function(mb) {
       return function(m) {
-        return bind11(mb)(function(b2) {
+        return bind10(mb)(function(b2) {
           return unless2(b2)(m);
         });
       };
     };
   };
   var ap = function(dictMonad) {
-    var bind11 = bind(dictMonad.Bind1());
+    var bind10 = bind(dictMonad.Bind1());
     var pure14 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a2) {
-        return bind11(f)(function(f$prime) {
-          return bind11(a2)(function(a$prime) {
+        return bind10(f)(function(f$prime) {
+          return bind10(a2)(function(a$prime) {
             return pure14(f$prime(a$prime));
           });
         });
@@ -2153,12 +2153,12 @@
     };
   };
   var bindExceptT = function(dictMonad) {
-    var bind11 = bind(dictMonad.Bind1());
+    var bind10 = bind(dictMonad.Bind1());
     var pure14 = pure(dictMonad.Applicative0());
     return {
       bind: function(v) {
         return function(k) {
-          return bind11(v)(either(function($193) {
+          return bind10(v)(either(function($193) {
             return pure14(Left.create($193));
           })(function(a2) {
             var v1 = k(a2);
@@ -4183,16 +4183,6 @@
   var newImpl = function() {
     return {};
   };
-  function poke2(k) {
-    return function(v) {
-      return function(m) {
-        return function() {
-          m[k] = v;
-          return m;
-        };
-      };
-    };
-  }
 
   // output/Halogen.VDom.Util/index.js
   var unsafeLookup = unsafeGetAny;
@@ -4530,9 +4520,6 @@
       };
     };
   };
-  var toNumber = function(n) {
-    return n;
-  };
   var fromStringAsImpl = function(just) {
     return function(nothing) {
       return function(radix) {
@@ -4623,21 +4610,6 @@
   };
 
   // output/Foreign.Object/foreign.js
-  function _copyST(m) {
-    return function() {
-      var r = {};
-      for (var k in m) {
-        if (hasOwnProperty.call(m, k)) {
-          r[k] = m[k];
-        }
-      }
-      return r;
-    };
-  }
-  var empty4 = {};
-  function runST(f) {
-    return f();
-  }
   function _lookup(no, yes, k, m) {
     return k in m ? yes(m[k]) : no;
   }
@@ -4659,24 +4631,9 @@
   });
 
   // output/Foreign.Object/index.js
-  var thawST = _copyST;
-  var mutate = function(f) {
-    return function(m) {
-      return runST(function __do2() {
-        var s = thawST(m)();
-        f(s)();
-        return s;
-      });
-    };
-  };
   var lookup3 = /* @__PURE__ */ function() {
     return runFn4(_lookup)(Nothing.value)(Just.create);
   }();
-  var insert3 = function(k) {
-    return function(v) {
-      return mutate(poke2(k)(v));
-    };
-  };
 
   // output/Halogen.VDom.DOM.Prop/index.js
   var $runtime_lazy5 = function(name15, moduleName, init3) {
@@ -5582,11 +5539,11 @@
   // output/Control.Monad.State.Trans/index.js
   var monadTransStateT = {
     lift: function(dictMonad) {
-      var bind11 = bind(dictMonad.Bind1());
+      var bind10 = bind(dictMonad.Bind1());
       var pure14 = pure(dictMonad.Applicative0());
       return function(m) {
         return function(s) {
-          return bind11(m)(function(x) {
+          return bind10(m)(function(x) {
             return pure14(new Tuple(x, s));
           });
         };
@@ -5627,12 +5584,12 @@
     };
   };
   var bindStateT = function(dictMonad) {
-    var bind11 = bind(dictMonad.Bind1());
+    var bind10 = bind(dictMonad.Bind1());
     return {
       bind: function(v) {
         return function(f) {
           return function(s) {
-            return bind11(v(s))(function(v1) {
+            return bind10(v(s))(function(v1) {
               var v3 = f(v1.value0);
               return v3(v1.value1);
             });
@@ -6083,7 +6040,7 @@
   var pure5 = /* @__PURE__ */ pure(applicativeHalogenM);
   var lookup5 = /* @__PURE__ */ lookup2();
   var pop3 = /* @__PURE__ */ pop2();
-  var insert4 = /* @__PURE__ */ insert2();
+  var insert3 = /* @__PURE__ */ insert2();
   var ComponentSlot = /* @__PURE__ */ function() {
     function ComponentSlot2(value0) {
       this.value0 = value0;
@@ -6151,7 +6108,7 @@
     return function(dictIsSymbol) {
       var lookup13 = lookup5(dictIsSymbol);
       var pop12 = pop3(dictIsSymbol);
-      var insert13 = insert4(dictIsSymbol);
+      var insert13 = insert3(dictIsSymbol);
       return function(dictOrd) {
         var lookup23 = lookup13(dictOrd);
         var pop22 = pop12(dictOrd);
@@ -6184,9 +6141,6 @@
   }();
   var input2 = function(props) {
     return element2("input")(props)([]);
-  };
-  var textarea = function(es) {
-    return element2("textarea")(es)([]);
   };
   var div2 = /* @__PURE__ */ element2("div");
   var div_ = /* @__PURE__ */ div2([]);
@@ -6348,7 +6302,7 @@
   var map16 = /* @__PURE__ */ map(functorAff);
   var sequential2 = /* @__PURE__ */ sequential(parallelAff);
   var map22 = /* @__PURE__ */ map(functorMaybe);
-  var insert5 = /* @__PURE__ */ insert(ordSubscriptionId);
+  var insert4 = /* @__PURE__ */ insert(ordSubscriptionId);
   var retractFreeAp2 = /* @__PURE__ */ retractFreeAp(applicativeParAff);
   var $$delete2 = /* @__PURE__ */ $$delete(ordForkId);
   var unlessM2 = /* @__PURE__ */ unlessM(monadEffect);
@@ -6485,7 +6439,7 @@
                   return handleAff(evalF(render)(ref2)(new Action(act)));
                 })))(function(finalize) {
                   return bind12(liftEffect4(read(ref2)))(function(v2) {
-                    return discard1(liftEffect4(modify_(map22(insert5(sid)(finalize)))(v2.subscriptions)))(function() {
+                    return discard1(liftEffect4(modify_(map22(insert4(sid)(finalize)))(v2.subscriptions)))(function() {
                       return pure6(v1.value1(sid));
                     });
                   });
@@ -7438,7 +7392,7 @@
       };
     };
   };
-  var insert7 = function(dictIsSymbol) {
+  var insert6 = function(dictIsSymbol) {
     var reflectSymbol2 = reflectSymbol(dictIsSymbol);
     return function() {
       return function() {
@@ -7511,7 +7465,7 @@
       var gDecodeJson1 = gDecodeJson(dictGDecodeJson);
       return function(dictIsSymbol) {
         var reflectSymbol2 = reflectSymbol(dictIsSymbol);
-        var insert8 = insert7(dictIsSymbol)()();
+        var insert8 = insert6(dictIsSymbol)()();
         return function() {
           return function() {
             return {
@@ -7581,70 +7535,6 @@
   var composeKleisli2 = /* @__PURE__ */ composeKleisli(bindEither);
   var fromJsonString = function(dictDecodeJson) {
     return composeKleisli2(parseJson)(decodeJson(dictDecodeJson));
-  };
-
-  // output/Data.Argonaut.Encode.Encoders/index.js
-  var encodeString = id2;
-  var encodeInt = function($53) {
-    return id2(toNumber($53));
-  };
-
-  // output/Data.Argonaut.Encode.Class/index.js
-  var gEncodeJsonNil = {
-    gEncodeJson: function(v) {
-      return function(v1) {
-        return empty4;
-      };
-    }
-  };
-  var gEncodeJson = function(dict) {
-    return dict.gEncodeJson;
-  };
-  var encodeRecord = function(dictGEncodeJson) {
-    var gEncodeJson1 = gEncodeJson(dictGEncodeJson);
-    return function() {
-      return {
-        encodeJson: function(rec) {
-          return id2(gEncodeJson1(rec)($$Proxy.value));
-        }
-      };
-    };
-  };
-  var encodeJsonJString = {
-    encodeJson: encodeString
-  };
-  var encodeJsonInt = {
-    encodeJson: encodeInt
-  };
-  var encodeJson = function(dict) {
-    return dict.encodeJson;
-  };
-  var gEncodeJsonCons = function(dictEncodeJson) {
-    var encodeJson1 = encodeJson(dictEncodeJson);
-    return function(dictGEncodeJson) {
-      var gEncodeJson1 = gEncodeJson(dictGEncodeJson);
-      return function(dictIsSymbol) {
-        var reflectSymbol2 = reflectSymbol(dictIsSymbol);
-        var get7 = get2(dictIsSymbol)();
-        return function() {
-          return {
-            gEncodeJson: function(row) {
-              return function(v) {
-                return insert3(reflectSymbol2($$Proxy.value))(encodeJson1(get7($$Proxy.value)(row)))(gEncodeJson1(row)($$Proxy.value));
-              };
-            }
-          };
-        };
-      };
-    };
-  };
-
-  // output/Data.Argonaut.Encode/index.js
-  var toJsonString = function(dictEncodeJson) {
-    var $3 = encodeJson(dictEncodeJson);
-    return function($4) {
-      return stringify($3($4));
-    };
   };
 
   // output/Data.Lens.Internal.Forget/index.js
@@ -7976,83 +7866,6 @@
     };
   };
 
-  // output/Data.Argonaut.Encode.Generic/index.js
-  var encodeRepWith = function(dict) {
-    return dict.encodeRepWith;
-  };
-  var genericEncodeJsonWith = function(dictGeneric) {
-    var from3 = from(dictGeneric);
-    return function(dictEncodeRep) {
-      var encodeRepWith1 = encodeRepWith(dictEncodeRep);
-      return function(e) {
-        var $73 = encodeRepWith1(e);
-        return function($74) {
-          return $73(from3($74));
-        };
-      };
-    };
-  };
-  var genericEncodeJson = function(dictGeneric) {
-    var genericEncodeJsonWith1 = genericEncodeJsonWith(dictGeneric);
-    return function(dictEncodeRep) {
-      return genericEncodeJsonWith1(dictEncodeRep)(defaultEncoding);
-    };
-  };
-  var encodeRepSum = function(dictEncodeRep) {
-    var encodeRepWith1 = encodeRepWith(dictEncodeRep);
-    return function(dictEncodeRep1) {
-      var encodeRepWith2 = encodeRepWith(dictEncodeRep1);
-      return {
-        encodeRepWith: function(v) {
-          return function(v1) {
-            if (v1 instanceof Inl) {
-              return encodeRepWith1(v)(v1.value0);
-            }
-            ;
-            if (v1 instanceof Inr) {
-              return encodeRepWith2(v)(v1.value0);
-            }
-            ;
-            throw new Error("Failed pattern match at Data.Argonaut.Encode.Generic (line 36, column 1 - line 38, column 50): " + [v.constructor.name, v1.constructor.name]);
-          };
-        }
-      };
-    };
-  };
-  var encodeRepArgsNoArguments = {
-    encodeRepArgs: function(v) {
-      return [];
-    }
-  };
-  var encodeRepArgs = function(dict) {
-    return dict.encodeRepArgs;
-  };
-  var encodeRepConstructor = function(dictIsSymbol) {
-    var reflectSymbol2 = reflectSymbol(dictIsSymbol);
-    return function(dictEncodeRepArgs) {
-      var encodeRepArgs1 = encodeRepArgs(dictEncodeRepArgs);
-      return {
-        encodeRepWith: function(e) {
-          return function(v) {
-            var values = function() {
-              var vs = encodeRepArgs1(v);
-              if (e.unwrapSingleArguments) {
-                if (vs.length === 1) {
-                  return vs[0];
-                }
-                ;
-                return id2(vs);
-              }
-              ;
-              return id2(vs);
-            }();
-            return id2(insert3(e.tagKey)(id2(reflectSymbol2($$Proxy.value)))(insert3(e.valuesKey)(values)(empty4)));
-          };
-        }
-      };
-    };
-  };
-
   // output/Data.Show.Generic/foreign.js
   var intercalate3 = function(separator) {
     return function(xs) {
@@ -8231,16 +8044,10 @@
     }
   };
   var genericShow2 = /* @__PURE__ */ genericShow(genericSceneIndex_)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(MenuSceneIndexIsSymbol))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(ExampleSceneIndexIsSymbol))(/* @__PURE__ */ genericShowConstructor2(IntroSceneIndexIsSymbol))));
-  var genericEncodeJson2 = /* @__PURE__ */ genericEncodeJson(genericSceneIndex_)(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(MenuSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(ExampleSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepConstructor(IntroSceneIndexIsSymbol)(encodeRepArgsNoArguments))));
   var genericDecodeJson2 = /* @__PURE__ */ genericDecodeJson(genericSceneIndex_)(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(MenuSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(ExampleSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepConstructorNoArgs(IntroSceneIndexIsSymbol))));
   var showSceneIndex = {
     show: function(x) {
       return genericShow2(x);
-    }
-  };
-  var encodeJsonSceneIndex = {
-    encodeJson: function(x) {
-      return genericEncodeJson2(x);
     }
   };
   var decodeJsonSceneIndex = {
@@ -8289,11 +8096,11 @@
       };
     };
   };
-  var lens = function(get7) {
+  var lens = function(get6) {
     return function(set3) {
       return function(dictStrong) {
         return lens$prime(function(s) {
-          return new Tuple(get7(s), function(b2) {
+          return new Tuple(get6(s), function(b2) {
             return set3(s)(b2);
           });
         })(dictStrong);
@@ -8303,13 +8110,13 @@
 
   // output/Data.Lens.Record/index.js
   var prop3 = function(dictIsSymbol) {
-    var get7 = get2(dictIsSymbol)();
+    var get6 = get2(dictIsSymbol)();
     var set3 = set(dictIsSymbol)()();
     return function() {
       return function() {
         return function(l) {
           return function(dictStrong) {
-            return lens(get7(l))(flip(set3(l)))(dictStrong);
+            return lens(get6(l))(flip(set3(l)))(dictStrong);
           };
         };
       };
@@ -8382,7 +8189,7 @@
     initialState: {},
     initialize: /* @__PURE__ */ log4("[menu.initialize]"),
     render: function(v) {
-      return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("menu")]), div2([])([button([onClick($$const(lift4(assign3(prop5)(IntroSceneIndex.value))))])([text5("start")])]), div2([])([button([onClick($$const(lift4(assign3(prop5)(ExampleSceneIndex.value))))])([text5("example scene")])])]);
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("menu")]), div2([])([button([onClick($$const(lift4(assign3(prop5)(IntroSceneIndex.value))))])([text5("start")])]), div2([])([button([onClick($$const(lift4(assign3(prop5)(ExampleSceneIndex.value))))])([text5("example scene")])])]);
     }
   });
   var intro_component = /* @__PURE__ */ function() {
@@ -8393,7 +8200,7 @@
       },
       initialize: log4("[intro.initialize]"),
       render: function(state3) {
-        return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("intro")]), div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([])([button([onClick($$const(bind8(get4)(function(v) {
+        return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("intro")]), div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([])([button([onClick($$const(bind8(get4)(function(v) {
           var $52 = v.dialogue_index >= (length3(dialogue) - 1 | 0);
           if ($52) {
             return lift4(assign3(prop5)(ExampleSceneIndex.value));
@@ -8414,7 +8221,7 @@
     },
     initialize: /* @__PURE__ */ log4("[example.initialize]"),
     render: function(state3) {
-      return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift4(assign3(prop5)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift4(modifying1(function($55) {
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift4(assign3(prop5)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift4(modifying1(function($55) {
         return prop22(prop32($55));
       })(function(v) {
         return v + 1 | 0;
@@ -8462,7 +8269,7 @@
   var tell3 = /* @__PURE__ */ tell2()(sceneIsSymbol)(ordString);
   var component = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([style("flex-grow: 1;")])([slot2($$Proxy.value)(show3(state3.scene_index))(getSceneComponent(state3.scene_index))({})(identity10)]), div2([style("flex-shrink: 0; width: 200px; box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([])([text5("player = " + show12(state3.player))])])]);
+      return div2([style("box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("Protag")]), div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([style("flex-grow: 1;")])([slot2($$Proxy.value)(show3(state3.scene_index))(getSceneComponent(state3.scene_index))({})(identity10)]), div2([style("flex-shrink: 0; width: 400px; box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([])([text5("player = " + show12(state3.player))])])])]);
     };
     var initialState = function(input3) {
       return {
@@ -8507,10 +8314,8 @@
     }
   };
   var inj12 = /* @__PURE__ */ inj3(submitIsSymbol);
+  var pure11 = /* @__PURE__ */ pure(applicativeMaybe);
   var on4 = /* @__PURE__ */ on3();
-  var on12 = /* @__PURE__ */ on4(submitIsSymbol);
-  var bind10 = /* @__PURE__ */ bind(bindHalogenM);
-  var get6 = /* @__PURE__ */ get(monadStateHalogenM);
   var nameIsSymbol = {
     reflectSymbol: function() {
       return "name";
@@ -8521,24 +8326,22 @@
       return "health";
     }
   };
-  var scene_indexIsSymbol = {
-    reflectSymbol: function() {
-      return "scene_index";
-    }
-  };
   var playerIsSymbol = {
     reflectSymbol: function() {
       return "player";
     }
   };
-  var fromJsonString2 = /* @__PURE__ */ fromJsonString(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonInt))(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonString))(gDecodeJsonNil)(nameIsSymbol)()())(healthIsSymbol)()())()))(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonSceneIndex))(gDecodeJsonNil)(scene_indexIsSymbol)()())(playerIsSymbol)()())());
+  var fromJsonString2 = /* @__PURE__ */ fromJsonString(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonInt))(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonString))(gDecodeJsonNil)(nameIsSymbol)()())(healthIsSymbol)()())()))(/* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldId(decodeJsonSceneIndex))(gDecodeJsonNil)({
+    reflectSymbol: function() {
+      return "scene_index";
+    }
+  })()())(playerIsSymbol)()())());
   var assign4 = /* @__PURE__ */ assign2(monadStateHalogenM);
   var prop6 = /* @__PURE__ */ prop4({
     reflectSymbol: function() {
       return "mb_status";
     }
   })()()(strongFn);
-  var pure11 = /* @__PURE__ */ pure(applicativeMaybe);
   var modify_game_stateIsSymbol = {
     reflectSymbol: function() {
       return "modify_game_state";
@@ -8550,7 +8353,6 @@
   var identity11 = /* @__PURE__ */ identity(categoryFn);
   var prop33 = /* @__PURE__ */ prop4(healthIsSymbol)()();
   var show4 = /* @__PURE__ */ show(showInt);
-  var toJsonString2 = /* @__PURE__ */ toJsonString(/* @__PURE__ */ encodeRecord(/* @__PURE__ */ gEncodeJsonCons(/* @__PURE__ */ encodeRecord(/* @__PURE__ */ gEncodeJsonCons(encodeJsonInt)(/* @__PURE__ */ gEncodeJsonCons(encodeJsonJString)(gEncodeJsonNil)(nameIsSymbol)())(healthIsSymbol)())())(/* @__PURE__ */ gEncodeJsonCons(encodeJsonSceneIndex)(gEncodeJsonNil)(scene_indexIsSymbol)())(playerIsSymbol)())());
   var discard7 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
   var log5 = /* @__PURE__ */ log3(/* @__PURE__ */ monadEffectHalogenM(monadEffectAff));
   var modifying3 = /* @__PURE__ */ modifying(monadStateHalogenM);
@@ -8564,14 +8366,14 @@
       return "playGame";
     }
   };
-  var on22 = /* @__PURE__ */ on4(playGameIsSymbol);
+  var on12 = /* @__PURE__ */ on4(playGameIsSymbol);
   var slot_2 = /* @__PURE__ */ slot_()(playGameIsSymbol)(ordUnit);
   var loadGameIsSymbol = {
     reflectSymbol: function() {
       return "loadGame";
     }
   };
-  var on32 = /* @__PURE__ */ on4(loadGameIsSymbol);
+  var on22 = /* @__PURE__ */ on4(loadGameIsSymbol);
   var slot3 = /* @__PURE__ */ slot();
   var slot1 = /* @__PURE__ */ slot3(loadGameIsSymbol)(ordUnit);
   var inj32 = /* @__PURE__ */ inj3(playGameIsSymbol);
@@ -8580,7 +8382,7 @@
       return "newCharacter";
     }
   };
-  var on42 = /* @__PURE__ */ on4(newCharacterIsSymbol);
+  var on32 = /* @__PURE__ */ on4(newCharacterIsSymbol);
   var slot22 = /* @__PURE__ */ slot3({
     reflectSymbol: function() {
       return "createCharacter";
@@ -8591,7 +8393,7 @@
       return "init";
     }
   };
-  var on5 = /* @__PURE__ */ on4(initIsSymbol);
+  var on42 = /* @__PURE__ */ on4(initIsSymbol);
   var inj4 = /* @__PURE__ */ inj3(newCharacterIsSymbol);
   var inj5 = /* @__PURE__ */ inj3(loadGameIsSymbol);
   var inj6 = /* @__PURE__ */ inj3(initIsSymbol);
@@ -8602,7 +8404,7 @@
   })()()(strongFn);
   var loadGame_component = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("display: flex; flex-direction: column; gap: 0.5em; align-items: center")])([textarea([value13(state3.game_state_string)]), button([onClick($$const(inj12(unit)))])([text5("Submit")]), div_(function() {
+      return div2([style("display: flex; flex-direction: column; gap: 0.5em; align-items: center")])([input2([value13(state3.game_state_string)]), button([onClick($$const(inj12(unit)))])([text5("Submit")]), div_(function() {
         if (state3.mb_status instanceof Nothing) {
           return [];
         }
@@ -8611,13 +8413,13 @@
           return [text5(state3.mb_status.value0)];
         }
         ;
-        throw new Error("Failed pattern match at Protag.App (line 142, column 17 - line 144, column 44): " + [state3.mb_status.constructor.name]);
+        throw new Error("Failed pattern match at Protag.App (line 132, column 17 - line 134, column 44): " + [state3.mb_status.constructor.name]);
       }())]);
     };
     var initialState = function(v) {
       return {
         game_state_string: "",
-        mb_status: Nothing.value
+        mb_status: pure11("hello world")
       };
     };
     var $$eval = mkEval({
@@ -8625,7 +8427,7 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on12($$const(bind10(get6)(function(state3) {
+      handleAction: on4(submitIsSymbol)($$const(bind(bindHalogenM)(get(monadStateHalogenM))(function(state3) {
         var v1 = fromJsonString2(state3.game_state_string);
         if (v1 instanceof Left) {
           return assign4(prop6)(pure11(printJsonDecodeError(v1.value0)));
@@ -8635,7 +8437,7 @@
           return raise(v1.value0);
         }
         ;
-        throw new Error("Failed pattern match at Protag.App (line 128, column 17 - line 130, column 57): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Protag.App (line 118, column 17 - line 120, column 57): " + [v1.constructor.name]);
       })))(case_)
     });
     return mkComponent({
@@ -8653,9 +8455,9 @@
           return function(toString3) {
             return function(fromString3) {
               return div2([style("display: flex; flex-direction: row; gap: 0.5em;")])([div2([style("font-weight: bold;")])([text5(label5)]), input2([value13(viewOn(state3.game_state)(function() {
-                var $141 = to2(toString3);
-                return function($142) {
-                  return l1($141($142));
+                var $120 = to2(toString3);
+                return function($121) {
+                  return l1($120($121));
                 };
               }())), onValueInput(function(x) {
                 return inj22(set2(l2)(fromString3(x)));
@@ -8665,23 +8467,23 @@
         };
       };
       return div2([style("display: flex; flex-direction: column; gap: 0.5em; align-items: center")])([renderInput("player name")(function(dictStrong) {
-        var $143 = prop12(dictStrong);
-        var $144 = prop23(dictStrong);
-        return function($145) {
-          return $143($144($145));
+        var $122 = prop12(dictStrong);
+        var $123 = prop23(dictStrong);
+        return function($124) {
+          return $122($123($124));
         };
       })(identity11)(identity11), renderInput("player health")(function(dictStrong) {
-        var $146 = prop12(dictStrong);
-        var $147 = prop33(dictStrong);
-        return function($148) {
-          return $146($147($148));
+        var $125 = prop12(dictStrong);
+        var $126 = prop33(dictStrong);
+        return function($127) {
+          return $125($126($127));
         };
       })(show4)(function() {
-        var $149 = fromMaybe(0);
-        return function($150) {
-          return $149(fromString($150));
+        var $128 = fromMaybe(0);
+        return function($129) {
+          return $128(fromString($129));
         };
-      }()), div2([])([text5(toJsonString2(state3.game_state))]), div2([])([button([onClick($$const(inj12(unit)))])([text5("Submit")])])]);
+      }())]);
     };
     var initialState = function(v) {
       return {
@@ -8699,13 +8501,11 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on12($$const(bind10(get6)(function(state3) {
-        return raise(state3.game_state);
-      })))(on4(modify_game_stateIsSymbol)(function(f) {
+      handleAction: on4(modify_game_stateIsSymbol)(function(f) {
         return discard7(log5("[App.createCharacter.modify_game_state]"))(function() {
           return modifying3(prop43)(f);
         });
-      })(case_))
+      })(case_)
     });
     return mkComponent({
       initialState,
@@ -8715,11 +8515,11 @@
   }();
   var component2 = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("margin: auto; padding: 20px 0; width: 800px; box-shadow: 0 0 0 1px black inset; display: flex; flex-direction: column; gap: 1em;")])([div2([style("font-size: 2em; text-align: center")])([text5("Protag")]), on22(function(game_state) {
+      return div2([style("margin: auto; padding: 20px 0; width: 800px; box-shadow: 0 0 0 1px black inset; display: flex; flex-direction: column; gap: 1em;")])([div2([style("font-size: 2em; text-align: center")])([text5("Protag")]), on12(function(game_state) {
         return slot_2($$Proxy.value)(unit)(component)({
           game_state
         });
-      })(on32($$const(slot1($$Proxy.value)(unit)(loadGame_component)(unit)(inj32)))(on42($$const(slot22($$Proxy.value)(unit)(createCharacter_component)(unit)(inj32)))(on5($$const(div2([style("display: flex; flex-direction: column; gap: 1em;")])([button([onClick($$const(inj4(unit)))])([text5("new")]), button([onClick($$const(inj5(unit)))])([text5("load")])])))(case_))))(state3.mode)]);
+      })(on22($$const(slot1($$Proxy.value)(unit)(loadGame_component)(unit)(inj32)))(on32($$const(slot22($$Proxy.value)(unit)(createCharacter_component)(unit)(inj32)))(on42($$const(div2([style("display: flex; flex-direction: column; gap: 1em;")])([button([onClick($$const(inj4(unit)))])([text5("new")]), button([onClick($$const(inj5(unit)))])([text5("load")])])))(case_))))(state3.mode)]);
     };
     var initialState = function(v) {
       return {
@@ -8731,9 +8531,9 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on22(function(game) {
+      handleAction: on12(function(game) {
         return assign4(prop52)(inj32(game));
-      })(on32($$const(assign4(prop52)(inj5(unit))))(on42($$const(assign4(prop52)(inj4(unit))))(case_)))
+      })(on22($$const(assign4(prop52)(inj5(unit))))(on32($$const(assign4(prop52)(inj4(unit))))(case_)))
     });
     return mkComponent({
       initialState,
@@ -8748,4 +8548,3 @@
   // <stdin>
   main2();
 })();
-//# sourceMappingURL=main.js.map

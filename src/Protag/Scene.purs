@@ -29,7 +29,7 @@ menu_component = makeSceneComponent
   , initialize: do
       Console.log "[menu.initialize]"
   , render: \{} ->
-      HH.div [ HP.style "box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
+      HH.div [ HP.style "box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
         [ HH.div [ HP.style "font-size: 2em;" ] [ HH.text "menu" ]
         , HH.div []
             [ HH.button
@@ -57,7 +57,7 @@ intro_component = makeSceneComponent
   , initialize: do
       Console.log "[intro.initialize]"
   , render: \state ->
-      HH.div [ HP.style "box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
+      HH.div [ HP.style "box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
         [ HH.div [ HP.style "font-size: 2em;" ]
             [ HH.text "intro" ]
         , HH.div [ HP.style "display: flex; flex-direction: row; gap: 0.5em;" ]
@@ -94,7 +94,7 @@ example_component = makeSceneComponent
   , initialize: do
       Console.log "[example.initialize]"
   , render: \state ->
-      HH.div [ HP.style "box-shadow: 0 0 0 1px black; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
+      HH.div [ HP.style "box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
         [ HH.div [ HP.style "font-size: 2em;" ]
             [ HH.text "example" ]
         , HH.div []
