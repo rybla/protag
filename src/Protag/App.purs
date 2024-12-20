@@ -22,12 +22,18 @@ import Protag.Game as Game
 import Protag.Utility (inj, on, prop)
 import Type.Prelude (Proxy(..))
 
+example_game_state :: InputGameState
+example_game_state =
+  { player: { name: "Kellan Veylor", health: 20 }
+  , scene_index: IntroSceneIndex
+  }
+
 component :: forall query input output. H.Component query input output Aff
 component = H.mkComponent { initialState, eval, render }
   where
   initialState _ =
-    { mode: inj @"init" unit
-    }
+    -- { mode: inj @"init" unit }
+    { mode: inj @"playGame" example_game_state }
 
   eval = H.mkEval H.defaultEval
     { handleAction = case_
@@ -38,9 +44,9 @@ component = H.mkComponent { initialState, eval, render }
 
   render state =
     HH.div
-      [ HP.style "margin: auto; padding: 20px 0; width: 800px; box-shadow: 0 0 0 1px black inset; display: flex; flex-direction: column; gap: 1em;" ]
+      [ HP.style "margin: auto; height: 700px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;" ]
       [ HH.div
-          [ HP.style "font-size: 2em; text-align: center" ]
+          [ HP.style "font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)" ]
           [ HH.text "Protag" ]
       , case_
           # on @"init"
@@ -65,11 +71,7 @@ createCharacter_component :: forall query input. H.Component query input InputGa
 createCharacter_component = H.mkComponent { initialState, eval, render }
   where
   initialState _ =
-    { game_state:
-        { player: { name: "Kellan Veylor", health: 20 }
-        , scene_index: IntroSceneIndex
-        } :: InputGameState
-    }
+    { game_state: example_game_state }
 
   eval = H.mkEval H.defaultEval
     { handleAction = case_

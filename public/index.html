@@ -15,6 +15,213 @@
     body {
       width: 100vw;
       height: 100vh;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body {
+      background-color: #f4e7d6;
+      /* Subtle parchment-like background */
+      font-family: 'Cinzel', serif;
+      /* Fantasy-themed font */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .magic-button {
+      /* old: font-size: 1.5rem; */
+      font-weight: bold;
+      color: #fff;
+      background-color: #8b5e34;
+      /* Rich brown */
+      border: 2px solid #5a3a1e;
+      /* Darker brown border */
+      /* old: border-radius: 12px; */
+      border-radius: 5px;
+      /* old: padding: 15px 30px; */
+      /* padding: 10px 15px; */
+      padding: 5px 8px;
+      text-shadow: 0 0 5px #000, 0 0 10px #d4af37;
+      cursor: pointer;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      transition: transform 0.1s, box-shadow 0.2s;
+      user-select: none;
+    }
+
+    .magic-button:before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #d4af37 10%, transparent 50%);
+      animation: glow 5s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    .magic-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.8), 0 0 50px rgba(212, 175, 55, 0.4);
+    }
+
+    .magic-button:hover:before {
+      animation: hover-glow 1s infinite;
+    }
+
+    .magic-button:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 3px solid rgba(212, 175, 55, 0.6);
+      /* old: border-radius: 12px; */
+      border-radius: 5px;
+      opacity: 0;
+      animation: border-glow 1.5s infinite;
+    }
+
+    .magic-button:hover:after {
+      opacity: 1;
+    }
+
+    .magic-button:active {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 0 6px rgba(0, 0, 0, 0.4);
+      transform: scale(0.95);
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    @keyframes hover-glow {
+      0% {
+        transform: scale(1);
+        opacity: 0.2;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 0.2;
+      }
+    }
+
+    @keyframes border-glow {
+      0% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 0.8;
+      }
+
+      100% {
+        opacity: 0.2;
+      }
+    }
+
+    /* Container for shimmering text */
+    .shimmer-text-container * {
+      color: #000000;
+      animation: shimmer-text-animation 3s infinite ease-in-out;
+    }
+
+    /* Shimmer animation */
+    @keyframes shimmer-text-animation {
+
+      0%,
+      100% {
+        text-shadow: 0 0 10px #00000093;
+        transform: translateY(1px);
+      }
+
+      50% {
+        text-shadow: 0 0 40px #000000;
+        transform: translateY(-1px);
+      }
+    }
+
+    button.wispy-scroll {
+      background: linear-gradient(to bottom, #f9f4e8, #e8dfc9);
+      color: #4a3b26;
+      font-family: "Cursive", "Papyrus", serif;
+      /* font-size: 18px; */
+      font-weight: bold;
+      padding: 5px 10px;
+      border: 2px solid #d1c7a1;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.5);
+      text-shadow: 1px 1px 2px #fff, -1px -1px 1px #d1c7a1;
+      background-image: url('/assets/old-wall.png');
+      background-size: cover;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    button.wispy-scroll:hover {
+      background: linear-gradient(to bottom, #e8dfc9, #f9f4e8);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 0 12px rgba(255, 255, 255, 0.7);
+      transform: scale(1.01) rotate(-1deg);
+    }
+
+    button.wispy-scroll:active {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 0 6px rgba(0, 0, 0, 0.4);
+      transform: scale(0.95);
+    }
+
+
+    /* Container for the text */
+    .fade-in-shimmer-text-container * {
+      opacity: 0;
+      /* Start invisible */
+      transform: translateY(10px);
+      /* Start slightly below */
+      animation: fadeInShimmer 1s ease-out forwards;
+      /* Apply the effect */
+    }
+
+    /* Keyframes for the fade-in and shimmer effect */
+    @keyframes fadeInShimmer {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: translateY(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>

@@ -37,12 +37,11 @@ component = H.mkComponent { initialState, eval, render }
 
   render state =
     HH.div
-      [ HP.style "display: flex; flex-direction: row; gap: 0.5em;" ]
-      [ HH.div
-          [ HP.style "flex-grow: 1;" ]
-          [ HH.slot (Proxy @"scene") (show state.scene_index) (getSceneComponent state.scene_index) {} identity ]
+      [ HP.style "flex-grow: 1; display: flex; flex-direction: row;" ]
+      [ HH.slot (Proxy @"scene") (show state.scene_index) (getSceneComponent state.scene_index) {} identity
       , HH.div
-          [ HP.style "flex-shrink: 0; width: 200px; box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
-          [ HH.div [] [ HH.text $ "player = " <> show state.player ]
+          [ HP.style "flex-shrink: 0; width: calc(200px - 2em); padding: 1em; background-color:rgba(196, 164, 132, 0.5); display: flex; flex-direction: column; gap: 0.5em;" ]
+          [ HH.text $ "player = " <> show state.player
+          , HH.div [] [ HH.text $ "... other properties ..." ]
           ]
       ]
