@@ -49,46 +49,6 @@ menu_component = makeSceneComponent
 
 --------------------------------------------------------------------------------
 
--- intro_component :: SceneComponent
--- intro_component = makeSceneComponent
---   { initialState:
---       { dialogue_index: 0 }
---   , initialize: do
---       Console.log "[intro.initialize]"
---   , render: \state ->
---       HH.div [ HP.style "box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
---         [ HH.div [ HP.style "font-size: 2em;" ]
---             [ HH.text "intro" ]
---         , HH.img
---             [ HP.style "width: 100%"
---             , HP.src "/assets/approaching_snowy_town.png"
---             ]
---         , if state.dialogue_index < (dialogue # Array.length) then
---             HH.div [ HP.style "display: flex; flex-direction: column; gap: 1em;" ]
---               [ HH.div [ HP.style "display: flex; flex-direction: row; gap: 0.5em;" ]
---                   [ HH.div []
---                       [ HH.button
---                           [ HE.onClick $ const do prop @"dialogue_index" %= (_ + 1) ]
---                           [ HH.text "next" ]
---                       ]
---                   , HH.div []
---                       [ HH.text $ show (state.dialogue_index + 1) <> " / " <> show (dialogue # Array.length) ]
---                   ]
---               , HH.div [ HP.style "padding: 0.5em;" ]
---                   [ HH.text (dialogue Array.!! state.dialogue_index # fromMaybe' \_ -> bug "impossible") ]
---               ]
---           else
---             HH.div [ HP.style "display: flex; flex-direction: column; gap: 1em;" ]
---               [ HH.button [] [ HH.text "go north" ]
---               , HH.button [] [ HH.text "go east" ]
---               , HH.button [] [ HH.text "go south" ]
---               , HH.button [] [ HH.text "go west" ]
---               ]
---         ]
---   }
---   where
---   dialogue = intro_dialogue
-
 intro_component :: SceneComponent
 intro_component = makeSceneComponent'
   { title: HH.div [] [ HH.text "Introduction" ]
