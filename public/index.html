@@ -231,6 +231,32 @@
         transform: translateY(0);
       }
     }
+
+
+    @keyframes mystic-glimmer {
+
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+
+      25%,
+      75% {
+        opacity: 1;
+      }
+
+    }
+
+    .mystic-keyword {
+      color: #5800fc;
+      text-shadow: 0 0 8px #9575cd, 0 0 12px #7e57c2;
+      font-weight: bold;
+      /* animation-name: mystic-glimmer;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out; */
+      animation: mystic-glimmer 5s infinite ease-in-out;
+    }
   </style>
 </head>
 

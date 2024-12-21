@@ -6398,6 +6398,7 @@
   var input2 = function(props) {
     return element2("input")(props)([]);
   };
+  var span3 = /* @__PURE__ */ element2("span");
   var textarea = function(es) {
     return element2("textarea")(es)([]);
   };
@@ -8864,7 +8865,15 @@
         return function($54) {
           return $52($53($54));
         };
-      }()(trim("\nIn the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy.\nHere, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities.\nThe air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the secrets of the Horizon Gates\u2014mystical portals said to lead to realms where time and space unravel.\nBut as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation\u2014or the undoing of all that soars.\n... blah blah blah ...")), [new Inject_DialogueItem([button([classes(["wispy-scroll"]), onClick($$const(lift5(assign3(prop6)(TownSceneIndex.value))))])([text5("go into the town")]), button([classes(["wispy-scroll"]), onClick($$const(lift5(assign3(prop6)(MountainSceneIndex.value))))])([text5("go out into the mountains")])])]])
+      }()(trim("\nIn the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy.\nHere, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities.")), [new Inject_DialogueItem([span3([style("display: block;")])([text5("The air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the "), span3([classes(["mystic-keyword"]), style("display: inline;")])([text5("secret")]), text5("s of the Horizon Gates\u2014mystical portals said to lead to realms where time and space unravel.")])])], function() {
+        var $56 = map33(function($59) {
+          return Inject_DialogueItem.create(singleton4(text5(trim($59))));
+        });
+        var $57 = split("\n");
+        return function($58) {
+          return $56($57($58));
+        };
+      }()(trim("\nBut as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation\u2014or the undoing of all that soars.\n... blah blah blah ...")), [new Inject_DialogueItem([button([classes(["wispy-scroll"]), onClick($$const(lift5(assign3(prop6)(TownSceneIndex.value))))])([text5("go into the town")]), button([classes(["wispy-scroll"]), onClick($$const(lift5(assign3(prop6)(MountainSceneIndex.value))))])([text5("go out into the mountains")])])]])
     });
   }();
   var example_component = /* @__PURE__ */ makeSceneComponent({
@@ -8873,8 +8882,8 @@
     },
     initialize: /* @__PURE__ */ log4("[example.initialize]"),
     render: function(state3) {
-      return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift5(assign3(prop6)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift5(modifying2(function($56) {
-        return prop12(prop23($56));
+      return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift5(assign3(prop6)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift5(modifying2(function($60) {
+        return prop12(prop23($60));
       })(function(v) {
         return v + 1 | 0;
       }))))])([text5("heal")])]), div2([])([text5("counter = " + show3(state3.counter))]), div2([])([button([onClick($$const(modifying1(prop32)(function(v) {

@@ -66,8 +66,21 @@ intro_component = makeSceneComponent'
       , String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> HH.text >>> Array.singleton >>> Inject_DialogueItem) $
           """
 In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy.
-Here, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities.
-The air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the secrets of the Horizon Gates—mystical portals said to lead to realms where time and space unravel.
+Here, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities."""
+      , [ Inject_DialogueItem
+            [ HH.span [ HP.style "display: block;" ]
+                [ HH.text """The air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the """
+                , HH.span
+                    [ HP.classes [ HH.ClassName "mystic-keyword" ]
+                    , HP.style "display: inline;"
+                    ]
+                    [ HH.text "secret" ]
+                , HH.text """s of the Horizon Gates—mystical portals said to lead to realms where time and space unravel."""
+                ]
+            ]
+        ]
+      , String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> HH.text >>> Array.singleton >>> Inject_DialogueItem) $
+          """
 But as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation—or the undoing of all that soars.
 ... blah blah blah ..."""
       , [ Inject_DialogueItem
