@@ -97,10 +97,10 @@
   };
   var applySecond = function(dictApply) {
     var apply1 = apply(dictApply);
-    var map33 = map(dictApply.Functor0());
+    var map34 = map(dictApply.Functor0());
     return function(a2) {
       return function(b2) {
-        return apply1(map33($$const(identity2))(a2))(b2);
+        return apply1(map34($$const(identity2))(a2))(b2);
       };
     };
   };
@@ -110,7 +110,7 @@
     return dict.pure;
   };
   var unless = function(dictApplicative) {
-    var pure14 = pure(dictApplicative);
+    var pure15 = pure(dictApplicative);
     return function(v) {
       return function(v1) {
         if (!v) {
@@ -118,7 +118,7 @@
         }
         ;
         if (v) {
-          return pure14(unit);
+          return pure15(unit);
         }
         ;
         throw new Error("Failed pattern match at Control.Applicative (line 68, column 1 - line 68, column 65): " + [v.constructor.name, v1.constructor.name]);
@@ -126,7 +126,7 @@
     };
   };
   var when = function(dictApplicative) {
-    var pure14 = pure(dictApplicative);
+    var pure15 = pure(dictApplicative);
     return function(v) {
       return function(v1) {
         if (v) {
@@ -134,7 +134,7 @@
         }
         ;
         if (!v) {
-          return pure14(unit);
+          return pure15(unit);
         }
         ;
         throw new Error("Failed pattern match at Control.Applicative (line 63, column 1 - line 63, column 63): " + [v.constructor.name, v1.constructor.name]);
@@ -143,10 +143,10 @@
   };
   var liftA1 = function(dictApplicative) {
     var apply2 = apply(dictApplicative.Apply0());
-    var pure14 = pure(dictApplicative);
+    var pure15 = pure(dictApplicative);
     return function(f) {
       return function(a2) {
-        return apply2(pure14(f))(a2);
+        return apply2(pure15(f))(a2);
       };
     };
   };
@@ -1088,12 +1088,12 @@
   };
   var ap = function(dictMonad) {
     var bind10 = bind(dictMonad.Bind1());
-    var pure14 = pure(dictMonad.Applicative0());
+    var pure15 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a2) {
         return bind10(f)(function(f$prime) {
           return bind10(a2)(function(a$prime) {
-            return pure14(f$prime(a$prime));
+            return pure15(f$prime(a$prime));
           });
         });
       };
@@ -1783,11 +1783,11 @@
   var $$try = function(dictMonadError) {
     var catchError1 = catchError(dictMonadError);
     var Monad0 = dictMonadError.MonadThrow0().Monad0();
-    var map33 = map(Monad0.Bind1().Apply0().Functor0());
-    var pure14 = pure(Monad0.Applicative0());
+    var map34 = map(Monad0.Bind1().Apply0().Functor0());
+    var pure15 = pure(Monad0.Applicative0());
     return function(a2) {
-      return catchError1(map33(Right.create)(a2))(function($52) {
-        return pure14(Left.create($52));
+      return catchError1(map34(Right.create)(a2))(function($52) {
+        return pure15(Left.create($52));
       });
     };
   };
@@ -2189,12 +2189,12 @@
   };
   var bindExceptT = function(dictMonad) {
     var bind10 = bind(dictMonad.Bind1());
-    var pure14 = pure(dictMonad.Applicative0());
+    var pure15 = pure(dictMonad.Applicative0());
     return {
       bind: function(v) {
         return function(k) {
           return bind10(v)(either(function($193) {
-            return pure14(Left.create($193));
+            return pure15(Left.create($193));
           })(function(a2) {
             var v1 = k(a2);
             return v1;
@@ -2345,13 +2345,13 @@
   };
   var traverse_ = function(dictApplicative) {
     var applySecond2 = applySecond(dictApplicative.Apply0());
-    var pure14 = pure(dictApplicative);
+    var pure15 = pure(dictApplicative);
     return function(dictFoldable) {
       var foldr22 = foldr(dictFoldable);
       return function(f) {
         return foldr22(function($454) {
           return applySecond2(f($454));
-        })(pure14(unit));
+        })(pure15(unit));
       };
     };
   };
@@ -4702,12 +4702,12 @@
     };
   };
   var unsafeReadTagged = function(dictMonad) {
-    var pure14 = pure(applicativeExceptT(dictMonad));
+    var pure15 = pure(applicativeExceptT(dictMonad));
     var fail1 = fail(dictMonad);
     return function(tag) {
       return function(value14) {
         if (tagOf(value14) === tag) {
-          return pure14(unsafeFromForeign(value14));
+          return pure15(unsafeFromForeign(value14));
         }
         ;
         if (otherwise) {
@@ -5191,7 +5191,7 @@
     return Lift.create;
   }();
   var goLeft = function(dictApplicative) {
-    var pure14 = pure(dictApplicative);
+    var pure15 = pure(dictApplicative);
     return function(fStack) {
       return function(valStack) {
         return function(nat) {
@@ -5199,7 +5199,7 @@
             return function(count) {
               if (func instanceof Pure) {
                 return new Tuple(new Cons({
-                  func: pure14(func.value0),
+                  func: pure15(func.value0),
                   count
                 }, fStack), valStack);
               }
@@ -5270,7 +5270,7 @@
   };
   var foldFreeAp = function(dictApplicative) {
     var goApply1 = goApply(dictApplicative);
-    var pure14 = pure(dictApplicative);
+    var pure15 = pure(dictApplicative);
     var goLeft1 = goLeft(dictApplicative);
     return function(nat) {
       return function(z) {
@@ -5279,7 +5279,7 @@
           var $tco_result;
           function $tco_loop(v) {
             if (v.value1.value0 instanceof Pure) {
-              var v1 = goApply1(v.value0)(v.value1.value1)(pure14(v.value1.value0.value0));
+              var v1 = goApply1(v.value0)(v.value1.value1)(pure15(v.value1.value0.value0));
               if (v1 instanceof Left) {
                 $tco_done = true;
                 return v1.value0;
@@ -5703,13 +5703,13 @@
   var foldFree = function(dictMonadRec) {
     var Monad0 = dictMonadRec.Monad0();
     var map112 = map(Monad0.Bind1().Apply0().Functor0());
-    var pure14 = pure(Monad0.Applicative0());
+    var pure15 = pure(Monad0.Applicative0());
     var tailRecM4 = tailRecM(dictMonadRec);
     return function(k) {
       var go2 = function(f) {
         var v = toView(f);
         if (v instanceof Return) {
-          return map112(Done.create)(pure14(v.value0));
+          return map112(Done.create)(pure15(v.value0));
         }
         ;
         if (v instanceof Bind) {
@@ -5731,11 +5731,11 @@
   var monadTransStateT = {
     lift: function(dictMonad) {
       var bind10 = bind(dictMonad.Bind1());
-      var pure14 = pure(dictMonad.Applicative0());
+      var pure15 = pure(dictMonad.Applicative0());
       return function(m) {
         return function(s) {
           return bind10(m)(function(x) {
-            return pure14(new Tuple(x, s));
+            return pure15(new Tuple(x, s));
           });
         };
       };
@@ -5743,12 +5743,12 @@
   };
   var lift3 = /* @__PURE__ */ lift(monadTransStateT);
   var functorStateT = function(dictFunctor) {
-    var map33 = map(dictFunctor);
+    var map34 = map(dictFunctor);
     return {
       map: function(f) {
         return function(v) {
           return function(s) {
-            return map33(function(v1) {
+            return map34(function(v1) {
               return new Tuple(f(v1.value0), v1.value1);
             })(v(s));
           };
@@ -5757,10 +5757,10 @@
     };
   };
   var execStateT = function(dictFunctor) {
-    var map33 = map(dictFunctor);
+    var map34 = map(dictFunctor);
     return function(v) {
       return function(s) {
-        return map33(snd)(v(s));
+        return map34(snd)(v(s));
       };
     };
   };
@@ -5802,11 +5802,11 @@
     };
   };
   var applicativeStateT = function(dictMonad) {
-    var pure14 = pure(dictMonad.Applicative0());
+    var pure15 = pure(dictMonad.Applicative0());
     return {
       pure: function(a2) {
         return function(s) {
-          return pure14(new Tuple(a2, s));
+          return pure15(new Tuple(a2, s));
         };
       },
       Apply0: function() {
@@ -5831,12 +5831,12 @@
     };
   };
   var monadStateStateT = function(dictMonad) {
-    var pure14 = pure(dictMonad.Applicative0());
+    var pure15 = pure(dictMonad.Applicative0());
     var monadStateT1 = monadStateT(dictMonad);
     return {
       state: function(f) {
         return function($206) {
-          return pure14(f($206));
+          return pure15(f($206));
         };
       },
       Monad0: function() {
@@ -6070,9 +6070,9 @@
           return function(p2) {
             return function(q2) {
               return liftF(new ChildQuery2(mkChildQueryBox(new ChildQuery(function(dictApplicative) {
-                var pure14 = pure(dictApplicative);
+                var pure15 = pure(dictApplicative);
                 return function(k) {
-                  var $177 = maybe(pure14(Nothing.value))(k);
+                  var $177 = maybe(pure15(Nothing.value))(k);
                   var $178 = lookup23(label5)(p2);
                   return function($179) {
                     return $177($178($179));
@@ -8052,10 +8052,10 @@
   // output/Foreign.Index/index.js
   var unsafeReadProp = function(dictMonad) {
     var fail2 = fail(dictMonad);
-    var pure14 = pure(applicativeExceptT(dictMonad));
+    var pure15 = pure(applicativeExceptT(dictMonad));
     return function(k) {
       return function(value14) {
-        return unsafeReadPropImpl(fail2(new TypeMismatch("object", typeOf(value14))), pure14, k, value14);
+        return unsafeReadPropImpl(fail2(new TypeMismatch("object", typeOf(value14))), pure15, k, value14);
       };
     };
   };
@@ -8428,7 +8428,7 @@
     var lift1 = lift4(dictMonad);
     var discard12 = discard6(bindStateT2);
     var put3 = put(monadStateStateT2);
-    var pure14 = pure(applicativeStateT(dictMonad));
+    var pure15 = pure(applicativeStateT(dictMonad));
     return function(l) {
       var l1 = l(strongForget);
       var l2 = l(strongFn);
@@ -8436,7 +8436,7 @@
         return bind10(get6)(function(s2) {
           return bind10(lift1(runStateT(m1)(viewOn(s2)(l1))))(function(v) {
             return discard12(put3(set2(l2)(v.value1)(s2)))(function() {
-              return pure14(v.value0);
+              return pure15(v.value0);
             });
           });
         });
@@ -8503,6 +8503,16 @@
       return "IntroSceneIndex";
     }
   };
+  var TownSceneIndexIsSymbol = {
+    reflectSymbol: function() {
+      return "TownSceneIndex";
+    }
+  };
+  var MountainSceneIndexIsSymbol = {
+    reflectSymbol: function() {
+      return "MountainSceneIndex";
+    }
+  };
   var discard7 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
   var put2 = /* @__PURE__ */ put(monadStateHalogenM);
   var pure10 = /* @__PURE__ */ pure(applicativeHalogenM);
@@ -8548,6 +8558,20 @@
     ;
     IntroSceneIndex2.value = new IntroSceneIndex2();
     return IntroSceneIndex2;
+  }();
+  var TownSceneIndex = /* @__PURE__ */ function() {
+    function TownSceneIndex2() {
+    }
+    ;
+    TownSceneIndex2.value = new TownSceneIndex2();
+    return TownSceneIndex2;
+  }();
+  var MountainSceneIndex = /* @__PURE__ */ function() {
+    function MountainSceneIndex2() {
+    }
+    ;
+    MountainSceneIndex2.value = new MountainSceneIndex2();
+    return MountainSceneIndex2;
   }();
   var PutSceneState = /* @__PURE__ */ function() {
     function PutSceneState2(value0, value1) {
@@ -8602,11 +8626,19 @@
         return ExampleSceneIndex.value;
       }
       ;
-      if (x instanceof Inr && x.value0 instanceof Inr) {
+      if (x instanceof Inr && (x.value0 instanceof Inr && x.value0.value0 instanceof Inl)) {
         return IntroSceneIndex.value;
       }
       ;
-      throw new Error("Failed pattern match at Protag.Common (line 75, column 1 - line 75, column 37): " + [x.constructor.name]);
+      if (x instanceof Inr && (x.value0 instanceof Inr && (x.value0.value0 instanceof Inr && x.value0.value0.value0 instanceof Inl))) {
+        return TownSceneIndex.value;
+      }
+      ;
+      if (x instanceof Inr && (x.value0 instanceof Inr && (x.value0.value0 instanceof Inr && x.value0.value0.value0 instanceof Inr))) {
+        return MountainSceneIndex.value;
+      }
+      ;
+      throw new Error("Failed pattern match at Protag.Common (line 77, column 1 - line 77, column 37): " + [x.constructor.name]);
     },
     from: function(x) {
       if (x instanceof MenuSceneIndex) {
@@ -8618,15 +8650,23 @@
       }
       ;
       if (x instanceof IntroSceneIndex) {
-        return new Inr(new Inr(NoArguments.value));
+        return new Inr(new Inr(new Inl(NoArguments.value)));
       }
       ;
-      throw new Error("Failed pattern match at Protag.Common (line 75, column 1 - line 75, column 37): " + [x.constructor.name]);
+      if (x instanceof TownSceneIndex) {
+        return new Inr(new Inr(new Inr(new Inl(NoArguments.value))));
+      }
+      ;
+      if (x instanceof MountainSceneIndex) {
+        return new Inr(new Inr(new Inr(new Inr(NoArguments.value))));
+      }
+      ;
+      throw new Error("Failed pattern match at Protag.Common (line 77, column 1 - line 77, column 37): " + [x.constructor.name]);
     }
   };
-  var genericShow2 = /* @__PURE__ */ genericShow(genericSceneIndex_)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(MenuSceneIndexIsSymbol))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(ExampleSceneIndexIsSymbol))(/* @__PURE__ */ genericShowConstructor2(IntroSceneIndexIsSymbol))));
-  var genericEncodeJson2 = /* @__PURE__ */ genericEncodeJson(genericSceneIndex_)(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(MenuSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(ExampleSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepConstructor(IntroSceneIndexIsSymbol)(encodeRepArgsNoArguments))));
-  var genericDecodeJson2 = /* @__PURE__ */ genericDecodeJson(genericSceneIndex_)(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(MenuSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(ExampleSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepConstructorNoArgs(IntroSceneIndexIsSymbol))));
+  var genericShow2 = /* @__PURE__ */ genericShow(genericSceneIndex_)(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(MenuSceneIndexIsSymbol))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(ExampleSceneIndexIsSymbol))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(IntroSceneIndexIsSymbol))(/* @__PURE__ */ genericShowSum(/* @__PURE__ */ genericShowConstructor2(TownSceneIndexIsSymbol))(/* @__PURE__ */ genericShowConstructor2(MountainSceneIndexIsSymbol))))));
+  var genericEncodeJson2 = /* @__PURE__ */ genericEncodeJson(genericSceneIndex_)(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(MenuSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(ExampleSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(IntroSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepSum(/* @__PURE__ */ encodeRepConstructor(TownSceneIndexIsSymbol)(encodeRepArgsNoArguments))(/* @__PURE__ */ encodeRepConstructor(MountainSceneIndexIsSymbol)(encodeRepArgsNoArguments))))));
+  var genericDecodeJson2 = /* @__PURE__ */ genericDecodeJson(genericSceneIndex_)(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(MenuSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(ExampleSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(IntroSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepSum(/* @__PURE__ */ decodeRepConstructorNoArgs(TownSceneIndexIsSymbol))(/* @__PURE__ */ decodeRepConstructorNoArgs(MountainSceneIndexIsSymbol))))));
   var showSceneIndex = {
     show: function(x) {
       return genericShow2(x);
@@ -8704,7 +8744,7 @@
               });
             }
             ;
-            throw new Error("Failed pattern match at Protag.Common (line 124, column 55 - line 131, column 24): " + [v2.constructor.name]);
+            throw new Error("Failed pattern match at Protag.Common (line 126, column 55 - line 133, column 24): " + [v2.constructor.name]);
           }))(function() {
             return pure10(pure13(v1.value1));
           });
@@ -8725,16 +8765,16 @@
       var dialogue_item = fromMaybe$prime(function(v) {
         return bug("impossible");
       })(index2(args.dialogue)(state3.dialogue_index));
-      return div2([style("flex-grow: 1; display: flex; flex-direction: column;")])([div2([classes(["shimmer-text-container"]), style("font-size: 2em; padding: 0.5em; background-color:rgba(169, 125, 81, 0.5);")])([mapAction_ComponentHTML(transformStateT2(function(dictStrong) {
+      return div2([style("flex-grow: 1; height: calc(800px - 2.5em); display: flex; flex-direction: column;")])([div2([classes(["shimmer-text-container"]), style("font-size: 2em; padding: 0.5em; background-color:rgba(169, 125, 81, 0.5);")])([mapAction_ComponentHTML(transformStateT2(function(dictStrong) {
         return prop5(dictStrong);
-      }))(args.title)]), img([style("width: 100%;"), src9(args.background_image_src)]), div2([style("background-color: rgb(186, 173, 147); padding: 0.5em; display: flex; flex-direction: row; justify-content: space-between; align-items: center")])(fold3([function() {
-        var $105 = !(state3.dialogue_index < (dialogue_length - 1 | 0));
-        if ($105) {
+      }))(args.title)]), div2([style("width: 100%; display: flex; flex-direction: row; justify-content: center; align-items: center; background-color: black;")])([img([style("max-height: 400px; max-width: 100%;"), src9(args.background_image_src)])]), div2([style("background-color: rgb(186, 173, 147); padding: 0.5em; display: flex; flex-direction: row; justify-content: space-between; align-items: center; user-select: none")])(fold3([function() {
+        var $136 = !(state3.dialogue_index < (dialogue_length - 1 | 0));
+        if ($136) {
           return [];
         }
         ;
         return [div2([])([button([classes(["magic-button"]), onClick($$const(addModifying2(prop1)(1)))])([div2([])([text5("next")])])])];
-      }(), [div2([])([])], [div2([])([text5(show2(state3.dialogue_index + 1 | 0) + (" / " + show2(dialogue_length)))])]])), div2([style("flex-grow: 1; overflow-x: scroll; padding: 0.5em; background-color: rgb(245, 227, 192);"), classes(["fade-in-shimmer-text-container"]), ref2("dialogue_item")])([renderDialogueItem(dialogue_item)])]);
+      }(), [div2([])([])], [div2([])([text5(show2(state3.dialogue_index + 1 | 0) + (" / " + show2(dialogue_length)))])]])), div2([style("flex-grow: 1; min-height: 0; overflow-x: scroll; padding: 0.5em; line-height: 1.5em; background-color: rgb(245, 227, 192);"), classes(["fade-in-shimmer-text-container"]), ref2("dialogue_item")])([renderDialogueItem(dialogue_item)])]);
     };
     return mkComponent({
       initialState,
@@ -8744,6 +8784,9 @@
   };
 
   // output/Protag.Scene/index.js
+  var pure11 = /* @__PURE__ */ pure(/* @__PURE__ */ applicativeStateT(monadHalogenM));
+  var fold4 = /* @__PURE__ */ fold2(monoidArray);
+  var map33 = /* @__PURE__ */ map(functorArray);
   var log4 = /* @__PURE__ */ log3(/* @__PURE__ */ monadEffectState(/* @__PURE__ */ monadEffectHalogenM(monadEffectAff)));
   var lift5 = /* @__PURE__ */ lift(monadTransStateT)(monadHalogenM);
   var assign3 = /* @__PURE__ */ assign2(monadStateHalogenM);
@@ -8770,6 +8813,36 @@
       return "counter";
     }
   })()()(strongFn);
+  var town_component = /* @__PURE__ */ makeSceneComponent$prime({
+    title: /* @__PURE__ */ div2([])([/* @__PURE__ */ text5("A Small Town in the Mountains")]),
+    initialState: {},
+    initialize: /* @__PURE__ */ pure11(unit),
+    background_image_src: "/assets/in_snowy_town.png",
+    dialogue: /* @__PURE__ */ fold4([/* @__PURE__ */ function() {
+      var $44 = map33(function($47) {
+        return Inject_DialogueItem.create(singleton4(text5(trim($47))));
+      });
+      var $45 = split("\n");
+      return function($46) {
+        return $44($45($46));
+      };
+    }()(/* @__PURE__ */ trim("\nThe snow lies thick and unbroken upon the cobbled streets of the mountain town, muffling every footstep into silence.\nEach breath is a pale ghost escaping into the crisp winter air, and the scent of woodsmoke curls from crooked chimneys, carrying with it the faint tang of pine and something sharper, something unplaceable.\nThe sun is a pale disk, low and weary in the sky, casting long blue shadows that seem to stretch out like skeletal fingers across the snowdrifts piled against stone walls.\nThe buildings huddle together, their steep roofs heavy with frost, their narrow windows glinting like wary eyes.\nOccasionally, a curtain twitches as you pass, and you catch a glimpse of a face\u2014there, and gone\u2014leaving only a sense of fleeting unease.\nDown an alley, a faint sound drifts through the stillness\u2014a distant chime, like glass struck gently by metal.\nThe bell tower at the center of town looms high and dark against the white-washed sky, its ancient stones blackened by time and weather, but its clock face remains still, frozen at an hour no one speaks of aloud.\nA few townsfolk shuffle past, bundled in furs, their heads bowed and eyes fixed on the ground, as though to meet a stranger\u2019s gaze might invite an unspoken consequence.\nThe town feels like a held breath, a moment suspended on the edge of something vast and unnameable.\nWhatever secret sleeps beneath the snow and shadowed eaves, it stirs faintly now, felt more than known\u2014a presence just beneath the thin crust of ordinary winter silence."))])
+  });
+  var mountain_component = /* @__PURE__ */ makeSceneComponent$prime({
+    title: /* @__PURE__ */ div2([])([/* @__PURE__ */ text5("Among the Mountains")]),
+    initialState: {},
+    initialize: /* @__PURE__ */ pure11(unit),
+    background_image_src: "/assets/in_the_mountains.png",
+    dialogue: /* @__PURE__ */ function() {
+      var $48 = map33(function($51) {
+        return Inject_DialogueItem.create(singleton4(text5(trim($51))));
+      });
+      var $49 = split("\n");
+      return function($50) {
+        return $48($49($50));
+      };
+    }()(/* @__PURE__ */ trim("\nThe mountain trail winds upward, a pale ribbon of packed snow threading through skeletal trees that creak faintly in the biting wind.\nFrost clings to every branch like spun glass, glittering coldly beneath the thin winter sun.\nEach step crunches softly, and the air carries an almost crystalline clarity, so sharp it feels like breathing in shards of ice.\nFar below, the isolated town lies quiet and still, its rooftops dusted with white, its secrets tucked beneath a quilt of snow and shadow.\nAbove, the sky is vast and pale, washed out like old parchment, and the peaks rise jagged and unyielding, crowned with clouds that glow faintly gold at their edges.\nBut there\u2019s something else here\u2014something older than the stones beneath your boots or the brittle trees clawing at the sky.\nIt hums just at the edge of hearing, like a faint chorus carried on the wind.\nA crow calls out in the distance, its voice hollow and knowing, before it takes flight, black wings cutting stark against the white expanse.\nOccasionally, you catch a flicker of movement from the corner of your eye\u2014a shimmer in the snowdrifts, a shadow gliding across the ridge above you where no figure stands.\nThe air feels heavy with a presence, as if the mountain itself were watching, breathing, waiting.\nThere are places along the trail where the snow seems untouched by time, where the silence deepens into something almost sacred.\nYou pause at an overlook, the world sprawling out before you in hushed grandeur, and the faintest scent of something herbal\u2014sage, perhaps, or pine resin\u2014drifts past, as though carried by unseen hands.\nWhatever power hums beneath the skin of this place, it feels vast and patient, curled deep in the marrow of the mountain, watching and listening with ancient, half-lidded eyes."))
+  });
   var menu_component = /* @__PURE__ */ makeSceneComponent({
     initialState: {},
     initialize: /* @__PURE__ */ log4("[menu.initialize]"),
@@ -8777,32 +8850,31 @@
       return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("menu")]), div2([])([button([onClick($$const(lift5(assign3(prop6)(IntroSceneIndex.value))))])([text5("start")])]), div2([])([button([onClick($$const(lift5(assign3(prop6)(ExampleSceneIndex.value))))])([text5("example scene")])])]);
     }
   });
-  var intro_dialogue = /* @__PURE__ */ function() {
-    return fold2(monoidArray)([[new Inject_DialogueItem([button([classes(["wispy-scroll"])])([text5("go into the town, quick!")])])], function() {
-      var $44 = map(functorArray)(function($47) {
-        return Inject_DialogueItem.create(singleton4(text5(trim($47))));
-      });
-      var $45 = split("\n");
-      return function($46) {
-        return $44($45($46));
-      };
-    }()(trim("\nIn the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy.\nHere, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities.\nThe air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the secrets of the Horizon Gates\u2014mystical portals said to lead to realms where time and space unravel.\nBut as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation\u2014or the undoing of all that soars.\n  "))]);
+  var intro_component = /* @__PURE__ */ function() {
+    return makeSceneComponent$prime({
+      title: div2([])([text5("Introduction")]),
+      initialState: {},
+      initialize: pure11(unit),
+      background_image_src: "/assets/approaching_snowy_town.png",
+      dialogue: fold4([[new Inject_DialogueItem([button([classes(["wispy-scroll"])])([text5("this button doesnt do anything")])])], function() {
+        var $52 = map33(function($55) {
+          return Inject_DialogueItem.create(singleton4(text5(trim($55))));
+        });
+        var $53 = split("\n");
+        return function($54) {
+          return $52($53($54));
+        };
+      }()(trim("\nIn the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy.\nHere, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities.\nThe air hums with the ancient songs of the Eyrlock, immortal stewards of the ether, who guard the secrets of the Horizon Gates\u2014mystical portals said to lead to realms where time and space unravel.\nBut as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation\u2014or the undoing of all that soars.\n... blah blah blah ...")), [new Inject_DialogueItem([button([classes(["wispy-scroll"]), onClick($$const(lift5(assign3(prop6)(TownSceneIndex.value))))])([text5("go into the town")]), button([classes(["wispy-scroll"]), onClick($$const(lift5(assign3(prop6)(MountainSceneIndex.value))))])([text5("go out into the mountains")])])]])
+    });
   }();
-  var intro_component = /* @__PURE__ */ makeSceneComponent$prime({
-    title: /* @__PURE__ */ div2([])([/* @__PURE__ */ text5("Introduction")]),
-    initialState: {},
-    initialize: /* @__PURE__ */ pure(/* @__PURE__ */ applicativeStateT(monadHalogenM))(unit),
-    background_image_src: "/assets/approaching_snowy_town.png",
-    dialogue: intro_dialogue
-  });
   var example_component = /* @__PURE__ */ makeSceneComponent({
     initialState: {
       counter: 0
     },
     initialize: /* @__PURE__ */ log4("[example.initialize]"),
     render: function(state3) {
-      return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift5(assign3(prop6)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift5(modifying2(function($48) {
-        return prop12(prop23($48));
+      return div2([style("box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;")])([div2([style("font-size: 2em;")])([text5("example")]), div2([])([button([onClick($$const(lift5(assign3(prop6)(MenuSceneIndex.value))))])([text5("menu")])]), div2([])([button([onClick($$const(lift5(modifying2(function($56) {
+        return prop12(prop23($56));
       })(function(v) {
         return v + 1 | 0;
       }))))])([text5("heal")])]), div2([])([text5("counter = " + show3(state3.counter))]), div2([])([button([onClick($$const(modifying1(prop32)(function(v) {
@@ -8823,7 +8895,15 @@
       return intro_component;
     }
     ;
-    throw new Error("Failed pattern match at Protag.Scene (line 18, column 21 - line 21, column 37): " + [v.constructor.name]);
+    if (v instanceof TownSceneIndex) {
+      return town_component;
+    }
+    ;
+    if (v instanceof MountainSceneIndex) {
+      return mountain_component;
+    }
+    ;
+    throw new Error("Failed pattern match at Protag.Scene (line 18, column 21 - line 23, column 43): " + [v.constructor.name]);
   };
 
   // output/Protag.Game/index.js
@@ -8925,7 +9005,7 @@
       return "mb_status";
     }
   })()()(strongFn);
-  var pure11 = /* @__PURE__ */ pure(applicativeMaybe);
+  var pure14 = /* @__PURE__ */ pure(applicativeMaybe);
   var modify_game_stateIsSymbol = {
     reflectSymbol: function() {
       return "modify_game_state";
@@ -9013,7 +9093,7 @@
       handleAction: on12($$const(bind9(get5)(function(state3) {
         var v1 = fromJsonString2(state3.game_state_string);
         if (v1 instanceof Left) {
-          return assign4(prop7)(pure11(printJsonDecodeError(v1.value0)));
+          return assign4(prop7)(pure14(printJsonDecodeError(v1.value0)));
         }
         ;
         if (v1 instanceof Right) {
@@ -9103,7 +9183,7 @@
   }();
   var component2 = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("margin: auto; height: 700px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), on22(function(game_state) {
+      return div2([style("margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), on22(function(game_state) {
         return slot_2($$Proxy.value)(unit)(component)({
           game_state
         });

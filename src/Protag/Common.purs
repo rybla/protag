@@ -71,6 +71,8 @@ data SceneIndex
   = MenuSceneIndex
   | ExampleSceneIndex
   | IntroSceneIndex
+  | TownSceneIndex
+  | MountainSceneIndex
 
 derive instance Generic SceneIndex _
 
@@ -143,17 +145,19 @@ makeSceneComponent' args = H.mkComponent { initialState, eval, render }
       dialogue_length = args.dialogue # Array.length
       dialogue_item = args.dialogue Array.!! state.dialogue_index # fromMaybe' \_ -> bug "impossible"
     in
-      HH.div [ HP.style "flex-grow: 1; display: flex; flex-direction: column;" ]
+      HH.div [ HP.style "flex-grow: 1; height: calc(800px - 2.5em); display: flex; flex-direction: column;" ]
         [ HH.div
             [ HP.classes [ H.ClassName "shimmer-text-container" ]
             , HP.style "font-size: 2em; padding: 0.5em; background-color:rgba(169, 125, 81, 0.5);"
             ]
             [ args.title # mapAction_ComponentHTML (transformStateT (prop @"special")) ]
-        , HH.img
-            [ HP.style "width: 100%;"
-            , HP.src args.background_image_src
+        , HH.div [ HP.style "width: 100%; display: flex; flex-direction: row; justify-content: center; align-items: center; background-color: black;" ]
+            [ HH.img
+                [ HP.style "max-height: 400px; max-width: 100%;"
+                , HP.src args.background_image_src
+                ]
             ]
-        , HH.div [ HP.style "background-color: rgb(186, 173, 147); padding: 0.5em; display: flex; flex-direction: row; justify-content: space-between; align-items: center" ] $
+        , HH.div [ HP.style "background-color: rgb(186, 173, 147); padding: 0.5em; display: flex; flex-direction: row; justify-content: space-between; align-items: center; user-select: none" ] $
             [ if not (state.dialogue_index < dialogue_length - 1) then []
               else
                 [ HH.div []
@@ -170,7 +174,7 @@ makeSceneComponent' args = H.mkComponent { initialState, eval, render }
               ]
             ] # Array.fold
         , HH.div
-            [ HP.style "flex-grow: 1; overflow-x: scroll; padding: 0.5em; background-color: rgb(245, 227, 192);"
+            [ HP.style "flex-grow: 1; min-height: 0; overflow-x: scroll; padding: 0.5em; line-height: 1.5em; background-color: rgb(245, 227, 192);"
             , HP.classes [ H.ClassName "fade-in-shimmer-text-container" ]
             , HP.ref dialogue_item_ref
             ]
