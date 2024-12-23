@@ -11,8 +11,8 @@ import Halogen.HTML as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
-import Protag.Common (SceneComponent, SceneIndex(..))
+import Protag.Common (SceneIndex(..))
 import Protag.Utility (prop, todo)
 
-getSceneComponent :: SceneIndex -> SceneComponent
-getSceneComponent = todo "getSceneComponent"
+-- getSceneComponent :: SceneIndex -> SceneComponent
+-- getSceneComponent = todo "getSceneComponent"

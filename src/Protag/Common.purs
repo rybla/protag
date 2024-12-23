@@ -2,15 +2,16 @@ module Protag.Common where
 
 import Prelude
 
-import Control.Monad.State (StateT)
 import Data.Argonaut (class DecodeJson, class EncodeJson)
 import Data.Argonaut.Decode.Generic (genericDecodeJson)
 import Data.Argonaut.Encode.Generic (genericEncodeJson)
 import Data.Const (Const)
 import Data.Generic.Rep (class Generic)
+import Data.Maybe (Maybe)
 import Data.Show.Generic (genericShow)
 import Effect.Aff (Aff)
 import Halogen as H
+import Protag.Language (Instruction)
 
 --------------------------------------------------------------------------------
 -- Game
@@ -27,17 +28,21 @@ type GameInput =
 
 type GameOutput = Void
 
-data GameAction = GameAction (GameM Unit)
+data GameAction = GameAction (Instruction Unit)
 
 type GameSlots =
-  ( scene :: H.Slot SceneQuery SceneOutput SceneSlotId
+  ( widget :: WidgetSlot Int
   )
 
 --------------------------------------------------------------------------------
 -- GameState
 --------------------------------------------------------------------------------
 
-type GameState = GameState_ ()
+type GameState = GameState_
+  ( messages :: Array String
+  , mb_widget :: Maybe WidgetComponent
+  , widget_index :: Int
+  )
 
 type InputGameState = GameState_ ()
 
@@ -71,17 +76,27 @@ instance DecodeJson SceneIndex where
   decodeJson x = genericDecodeJson x
 
 --------------------------------------------------------------------------------
--- Scene
+-- Widget
 --------------------------------------------------------------------------------
 
-type SceneComponent = H.Component SceneQuery SceneInput SceneOutput Aff
-type SceneHTML state slots = H.ComponentHTML (SceneAction state) slots Aff
+type WidgetComponent = H.Component WidgetQuery WidgetInput WidgetOutput Aff
+type WidgetQuery = Const Void
+type WidgetInput = {}
+type WidgetOutput = GameAction
+type WidgetSlot = H.Slot WidgetQuery WidgetOutput
 
-data SceneQuery :: forall k. k -> Type
-data SceneQuery a
+-- --------------------------------------------------------------------------------
+-- -- Scene
+-- --------------------------------------------------------------------------------
 
-type SceneInput = {}
-type SceneOutput = GameAction
-type SceneSlotId = String
-type SceneAction state = StateT state GameM Unit
+-- type SceneComponent = H.Component SceneQuery SceneInput SceneOutput Aff
+-- type SceneHTML state slots = H.ComponentHTML (SceneAction state) slots Aff
+
+-- data SceneQuery :: forall k. k -> Type
+-- data SceneQuery a
+
+-- type SceneInput = {}
+-- type SceneOutput = GameAction
+-- type SceneSlotId = String
+-- type SceneAction state = StateT state GameM Unit
 
