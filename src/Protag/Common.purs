@@ -11,6 +11,7 @@ import Data.Maybe (Maybe)
 import Data.Show.Generic (genericShow)
 import Effect.Aff (Aff)
 import Halogen as H
+import Halogen.HTML (PlainHTML)
 import Protag.Language (Instruction)
 
 --------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ type GameSlots =
 --------------------------------------------------------------------------------
 
 type GameState = GameState_
-  ( messages :: Array String
+  ( messages :: Array PlainHTML
   , mb_widget :: Maybe WidgetComponent
   , widget_index :: Int
   )

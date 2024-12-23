@@ -45,3 +45,4 @@ mapAction_ComponentHTML
   -> ComponentHTML action slots m
   -> ComponentHTML action' slots m
 mapAction_ComponentHTML f = bimap (map f) f
+
