@@ -81,23 +81,8 @@ instance DecodeJson SceneIndex where
 --------------------------------------------------------------------------------
 
 type WidgetComponent = H.Component WidgetQuery WidgetInput WidgetOutput Aff
-type WidgetQuery = Const Void
+type WidgetQuery = Const Void :: Type -> Type
 type WidgetInput = {}
 type WidgetOutput = GameAction
 type WidgetSlot = H.Slot WidgetQuery WidgetOutput
-
--- --------------------------------------------------------------------------------
--- -- Scene
--- --------------------------------------------------------------------------------
-
--- type SceneComponent = H.Component SceneQuery SceneInput SceneOutput Aff
--- type SceneHTML state slots = H.ComponentHTML (SceneAction state) slots Aff
-
--- data SceneQuery :: forall k. k -> Type
--- data SceneQuery a
-
--- type SceneInput = {}
--- type SceneOutput = GameAction
--- type SceneSlotId = String
--- type SceneAction state = StateT state GameM Unit
 

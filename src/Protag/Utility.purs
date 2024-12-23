@@ -46,3 +46,13 @@ mapAction_ComponentHTML
   -> ComponentHTML action' slots m
 mapAction_ComponentHTML f = bimap (map f) f
 
+newtype ExistsCons r = ExistsCons (forall z. ExistsConsK r z -> z)
+
+type ExistsConsK :: Row Type -> Type -> Type
+type ExistsConsK r z = forall x a r_. IsSymbol x => Cons x a r_ r => Proxy x -> z
+
+mkExistsCons :: forall r. ExistsConsK r (ExistsCons r)
+mkExistsCons a = ExistsCons \k -> k a
+
+unExistsCons :: forall r z. ExistsConsK r z -> ExistsCons r -> z
+unExistsCons k1 (ExistsCons k2) = k2 k1

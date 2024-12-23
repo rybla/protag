@@ -1361,11 +1361,60 @@
   var showString = {
     show: showStringImpl
   };
+  var showRecordFields = function(dict) {
+    return dict.showRecordFields;
+  };
+  var showRecord = function() {
+    return function() {
+      return function(dictShowRecordFields) {
+        var showRecordFields1 = showRecordFields(dictShowRecordFields);
+        return {
+          show: function(record) {
+            return "{" + (showRecordFields1($$Proxy.value)(record) + "}");
+          }
+        };
+      };
+    };
+  };
   var showInt = {
     show: showIntImpl
   };
   var show = function(dict) {
     return dict.show;
+  };
+  var showRecordFieldsCons = function(dictIsSymbol) {
+    var reflectSymbol2 = reflectSymbol(dictIsSymbol);
+    return function(dictShowRecordFields) {
+      var showRecordFields1 = showRecordFields(dictShowRecordFields);
+      return function(dictShow) {
+        var show13 = show(dictShow);
+        return {
+          showRecordFields: function(v) {
+            return function(record) {
+              var tail2 = showRecordFields1($$Proxy.value)(record);
+              var key = reflectSymbol2($$Proxy.value);
+              var focus3 = unsafeGet(key)(record);
+              return " " + (key + (": " + (show13(focus3) + ("," + tail2))));
+            };
+          }
+        };
+      };
+    };
+  };
+  var showRecordFieldsConsNil = function(dictIsSymbol) {
+    var reflectSymbol2 = reflectSymbol(dictIsSymbol);
+    return function(dictShow) {
+      var show13 = show(dictShow);
+      return {
+        showRecordFields: function(v) {
+          return function(record) {
+            var key = reflectSymbol2($$Proxy.value);
+            var focus3 = unsafeGet(key)(record);
+            return " " + (key + (": " + (show13(focus3) + " ")));
+          };
+        }
+      };
+    };
   };
 
   // output/Data.Generic.Rep/index.js
@@ -6253,6 +6302,9 @@
   var element2 = /* @__PURE__ */ function() {
     return element(Nothing.value);
   }();
+  var img = function(props) {
+    return element2("img")(props)([]);
+  };
   var input2 = function(props) {
     return element2("input")(props)([]);
   };
@@ -6268,6 +6320,7 @@
     return prop(dictIsProp);
   };
   var prop22 = /* @__PURE__ */ prop2(isPropString);
+  var src9 = /* @__PURE__ */ prop22("src");
   var value12 = function(dictIsProp) {
     return prop2(dictIsProp)("value");
   };
@@ -8529,13 +8582,22 @@
     }
   })(ordInt);
   var identity10 = /* @__PURE__ */ identity(categoryFn);
+  var show2 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord()()(/* @__PURE__ */ showRecordFieldsCons({
+    reflectSymbol: function() {
+      return "health";
+    }
+  })(/* @__PURE__ */ showRecordFieldsConsNil({
+    reflectSymbol: function() {
+      return "name";
+    }
+  })(showString))(showInt)));
   var none1 = /* @__PURE__ */ none(unfoldableArray);
   var print7 = /* @__PURE__ */ print6(applicativeAff);
   var prompt2 = /* @__PURE__ */ prompt(applicativeAff);
-  var show2 = /* @__PURE__ */ show(showString);
+  var show12 = /* @__PURE__ */ show(showString);
   var prompt_component = function(v) {
     var render = function(v1) {
-      return div2([])([div2([])([fromPlainHTML(v.msg)]), input2([id2("input")]), button([onClick($$const(inj3(new GameAction(bind8(liftEffect7(windowImpl))(function(window2) {
+      return div2([style("padding: 1em;")])([div2([])([fromPlainHTML(v.msg)]), input2([id2("input")]), button([onClick($$const(inj3(new GameAction(bind8(liftEffect7(windowImpl))(function(window2) {
         return bind8(liftEffect7(document(window2)))(function(document2) {
           return bind8(bind8(liftEffect7(getElementById("input")(toNonElementParentNode(document2))))(maybe$prime(function(v2) {
             return bug("impossible");
@@ -8587,8 +8649,8 @@
         return discard23(addModifying2(prop1)(1))(function() {
           return discard23(assign3(prop5)(pure13(prompt_component({
             msg: v1.value0.value0,
-            k: function($90) {
-              return InteractionT(wrap3(Lift3.create(v1.value0.value1($90))));
+            k: function($101) {
+              return InteractionT(wrap3(Lift3.create(v1.value0.value1($101))));
             }
           }))))(function() {
             return pure23(pure32(unit));
@@ -8602,44 +8664,46 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Protag.Game (line 117, column 50 - line 128, column 17): " + [v1.constructor.name]);
+      throw new Error("Failed pattern match at Protag.Game (line 167, column 50 - line 178, column 17): " + [v1.constructor.name]);
     })(v);
   };
   var component = /* @__PURE__ */ function() {
     var renderScene = function(state3) {
-      if (state3.scene_index instanceof MenuSceneIndex) {
-        return [div2([])([text5("MenuSceneIndex")])];
-      }
-      ;
-      if (state3.scene_index instanceof ExampleSceneIndex) {
-        return [div2([])([text5("ExampleSceneIndex")])];
-      }
-      ;
-      if (state3.scene_index instanceof IntroSceneIndex) {
-        return [div2([])([text5("IntroSceneIndex")])];
-      }
-      ;
-      if (state3.scene_index instanceof TownSceneIndex) {
-        return [div2([])([text5("TownSceneIndex")])];
-      }
-      ;
-      if (state3.scene_index instanceof MountainSceneIndex) {
-        return [div2([])([text5("MountainSceneIndex")])];
-      }
-      ;
-      throw new Error("Failed pattern match at Protag.Game (line 76, column 23 - line 81, column 73): " + [state3.scene_index.constructor.name]);
+      return div2([style("display: flex; flex-direction: column; align-items: center; overflow-y: scroll;")])(function() {
+        if (state3.scene_index instanceof MenuSceneIndex) {
+          return [div2([])([text5("MenuSceneIndex")])];
+        }
+        ;
+        if (state3.scene_index instanceof ExampleSceneIndex) {
+          return [div2([])([text5("ExampleSceneIndex")])];
+        }
+        ;
+        if (state3.scene_index instanceof IntroSceneIndex) {
+          return [img([src9("/assets/approaching_snowy_town.png"), style("max-height: 100%; max-width: 100%;")])];
+        }
+        ;
+        if (state3.scene_index instanceof TownSceneIndex) {
+          return [div2([])([text5("TownSceneIndex")])];
+        }
+        ;
+        if (state3.scene_index instanceof MountainSceneIndex) {
+          return [div2([])([text5("MountainSceneIndex")])];
+        }
+        ;
+        throw new Error("Failed pattern match at Protag.Game (line 121, column 7 - line 131, column 57): " + [state3.scene_index.constructor.name]);
+      }());
     };
     var render = function(state3) {
-      return div2([style("flex-grow: 1; display: flex; flex-direction: row;")])([div2([style("display: flex; flex-direction: column;")])(fold3([renderScene(state3), map27(function(msg) {
+      return div2([style("flex-grow: 1; display: flex; flex-direction: row;")])([div2([style("flex-grow: 1; display: flex; flex-direction: column;")])(fold3([[renderScene(state3)], [div2([style("padding: 1em; overflow-y: scroll; max-height: 300px;")])(map27(function(msg) {
         return div2([])([fromPlainHTML(msg)]);
-      })(state3.messages), foldMap2(function(widget2) {
+      })(state3.messages))], foldMap2(function(widget2) {
         return [slot2($$Proxy.value)(state3.widget_index)(widget2)({})(identity10)];
-      })(state3.mb_widget)]))]);
+      })(state3.mb_widget)])), div2([style("flex-shrink: 0; width: calc(200px - 2em); padding: 1em; background-color:rgba(196, 164, 132, 0.5); display: flex; flex-direction: column; gap: 0.5em;")])([text5("player = " + show2(state3.player)), div2([])([text5("... other properties ...")])])]);
     };
     var initialState = function(input3) {
       return {
-        player: input3.game_state.player,
         scene_index: input3.game_state.scene_index,
+        player: input3.game_state.player,
         messages: none1,
         widget_index: 0,
         mb_widget: none2
@@ -8653,9 +8717,87 @@
         return discard12(print7(text5("print1")))(function() {
           return discard12(print7(text5("print2")))(function() {
             return discard12(print7(text5("print3")))(function() {
-              return bind8(prompt2(text5("what is your name?")))(function(reply) {
-                return discard12(print7(text5("your name is: " + show2(reply))))(function() {
-                  return pure11(unit);
+              return discard12(print7(text5("print3")))(function() {
+                return discard12(print7(text5("print3")))(function() {
+                  return discard12(print7(text5("print3")))(function() {
+                    return discard12(print7(text5("print3")))(function() {
+                      return discard12(print7(text5("print3")))(function() {
+                        return discard12(print7(text5("print3")))(function() {
+                          return discard12(print7(text5("print3")))(function() {
+                            return discard12(print7(text5("print3")))(function() {
+                              return discard12(print7(text5("print3")))(function() {
+                                return discard12(print7(text5("print3")))(function() {
+                                  return discard12(print7(text5("print3")))(function() {
+                                    return discard12(print7(text5("print3")))(function() {
+                                      return discard12(print7(text5("print3")))(function() {
+                                        return discard12(print7(text5("print3")))(function() {
+                                          return discard12(print7(text5("print3")))(function() {
+                                            return discard12(print7(text5("print3")))(function() {
+                                              return discard12(print7(text5("print3")))(function() {
+                                                return discard12(print7(text5("print3")))(function() {
+                                                  return discard12(print7(text5("print3")))(function() {
+                                                    return discard12(print7(text5("print3")))(function() {
+                                                      return discard12(print7(text5("print3")))(function() {
+                                                        return discard12(print7(text5("print3")))(function() {
+                                                          return discard12(print7(text5("print3")))(function() {
+                                                            return discard12(print7(text5("print3")))(function() {
+                                                              return discard12(print7(text5("print3")))(function() {
+                                                                return discard12(print7(text5("print3")))(function() {
+                                                                  return discard12(print7(text5("print3")))(function() {
+                                                                    return discard12(print7(text5("print3")))(function() {
+                                                                      return discard12(print7(text5("print3")))(function() {
+                                                                        return discard12(print7(text5("print3")))(function() {
+                                                                          return discard12(print7(text5("print3")))(function() {
+                                                                            return discard12(print7(text5("print3")))(function() {
+                                                                              return discard12(print7(text5("print3")))(function() {
+                                                                                return discard12(print7(text5("print3")))(function() {
+                                                                                  return discard12(print7(text5("print3")))(function() {
+                                                                                    return discard12(print7(text5("print3")))(function() {
+                                                                                      return discard12(print7(text5("print3")))(function() {
+                                                                                        return discard12(print7(text5("print3")))(function() {
+                                                                                          return discard12(print7(text5("print3")))(function() {
+                                                                                            return bind8(prompt2(text5("what is your name?")))(function(reply) {
+                                                                                              return discard12(print7(text5("your name is: " + show12(reply))))(function() {
+                                                                                                return pure11(unit);
+                                                                                              });
+                                                                                            });
+                                                                                          });
+                                                                                        });
+                                                                                      });
+                                                                                    });
+                                                                                  });
+                                                                                });
+                                                                              });
+                                                                            });
+                                                                          });
+                                                                        });
+                                                                      });
+                                                                    });
+                                                                  });
+                                                                });
+                                                              });
+                                                            });
+                                                          });
+                                                        });
+                                                      });
+                                                    });
+                                                  });
+                                                });
+                                              });
+                                            });
+                                          });
+                                        });
+                                      });
+                                    });
+                                  });
+                                });
+                              });
+                            });
+                          });
+                        });
+                      });
+                    });
+                  });
                 });
               });
             });
