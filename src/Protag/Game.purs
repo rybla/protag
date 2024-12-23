@@ -2,12 +2,11 @@ module Protag.Game where
 
 import Prelude
 
-import Control.Monad.State (get)
 import Effect.Class.Console as Console
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
-import Protag.Common (GameAction(..), GameComponent, SceneQuery(..))
+import Protag.Common (GameAction(..), GameComponent)
 import Protag.Scene (getSceneComponent)
 import Type.Prelude (Proxy(..))
 
@@ -23,16 +22,16 @@ component = H.mkComponent { initialState, eval, render }
     { initialize = pure $ GameAction do
         Console.log "[game.initialize]"
     , handleAction = case _ of
+        -- SceneAction ms -> do
+        --   { scene_index } <- get
+        --   s <- ms
+        --   -- Note that this will make sure to _only_ set the state of a scene
+        --   -- that has the same shape of state as the scene from which `ms` came
+        --   -- from since scene types are determined by `scene_index` (since if 
+        --   -- the `scene_index` of the current scene is different from how it 
+        --   -- started before `ms` was run, the `H.tell` below won't do anything).
+        --   H.tell (Proxy @"scene") (show scene_index) $ PutSceneState s
         GameAction mu -> mu
-        SceneAction ms -> do
-          { scene_index } <- get
-          s <- ms
-          -- Note that this will make sure to _only_ set the state of a scene
-          -- that has the same shape of state as the scene from which `ms` came
-          -- from since scene types are determined by `scene_index` (since if 
-          -- the `scene_index` of the current scene is different from how it 
-          -- started before `ms` was run, the `H.tell` below won't do anything).
-          H.tell (Proxy @"scene") (show scene_index) $ PutSceneState s
     }
 
   render state =
