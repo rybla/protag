@@ -8,7 +8,7 @@ import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
 import Data.Foldable (foldMap)
 import Data.Lens ((%=), (+=), (.=))
-import Data.List (List)
+import Data.List (List, (:))
 import Data.Maybe (fromMaybe', maybe')
 import Data.Unfoldable (none)
 import Data.Variant (Variant, case_)
@@ -21,11 +21,14 @@ import Halogen.HTML (PlainHTML)
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
+import Prim.Row (class Cons)
+import Prim.RowList (class RowToList, RowList)
+import Prim.RowList as RL
 import Protag.Common (GameAction(..), GameComponent, GameInput, GameM, GameState, SceneIndex(..), WidgetComponent)
 import Protag.Interaction (InteractionF(..), InteractionT(..))
 import Protag.Language (Instruction, InstructionF(..), clearWidget, print, prompt, unExistsChoice)
-import Protag.Utility (ExistsCons, bug, inj, on, prop, todo, unExistsCons)
-import Type.Prelude (Proxy(..))
+import Protag.Utility (class MapRowLabels, ExistsCons, bug, inj, mapRowLabels, mkExistsCons, on, prop, todo, unExistsCons)
+import Type.Prelude (class IsSymbol, Proxy(..))
 import Type.Row.Homogeneous (class Homogeneous)
 import Unsafe.Coerce (unsafeCoerce)
 import Web.DOM.NonElementParentNode as Web.DOM.NonElementParentNode
@@ -178,6 +181,7 @@ prompt_component { msg, k } = H.mkComponent { initialState, eval, render }
 choice_component
   :: forall opts
    . Homogeneous opts Unit
+  => MapRowLabels opts
   => { msg :: PlainHTML
      , opts :: Proxy opts
      , render_opt :: Variant opts -> PlainHTML
@@ -216,9 +220,6 @@ choice_component { msg, opts, render_opt, k } = H.mkComponent { initialState, ev
               # Array.fromFoldable
           )
       ]
-
-mapRowLabels :: forall r a. (ExistsCons r -> a) -> Proxy r -> List a
-mapRowLabels = todo ""
 
 --------------------------------------------------------------------------------
 -- runInstruction

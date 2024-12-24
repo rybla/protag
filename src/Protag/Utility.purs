@@ -7,6 +7,7 @@ import Control.Monad.Trans.Class (lift)
 import Data.Bifunctor (bimap)
 import Data.Lens (Lens', (.~), (^.))
 import Data.Lens.Record as Data.Lens.Record
+import Data.List (List, (:))
 import Data.Profunctor.Strong (class Strong)
 import Data.Symbol (class IsSymbol)
 import Data.Tuple.Nested ((/\))
@@ -15,6 +16,8 @@ import Data.Variant as V
 import Halogen (ComponentHTML)
 import Partial.Unsafe (unsafeCrashWith)
 import Prim.Row (class Cons)
+import Prim.RowList (class RowToList, RowList)
+import Prim.RowList as RL
 import Type.Prelude (Proxy(..))
 
 todo :: forall a. String -> a
@@ -56,3 +59,24 @@ mkExistsCons a = ExistsCons \k -> k a
 
 unExistsCons :: forall r z. ExistsConsK r z -> ExistsCons r -> z
 unExistsCons k1 (ExistsCons k2) = k2 k1
+
+class MapRowLabels r where
+  mapRowLabels :: forall a. (ExistsCons r -> a) -> Proxy r -> List a
+
+instance (RowToList r rl, MapRowLabels_RL r rl) => MapRowLabels r where
+  mapRowLabels f r = mapRowLabels_RL f r (Proxy @rl)
+
+class MapRowLabels_RL :: Row Type -> RowList Type -> Constraint
+class MapRowLabels_RL r rl | rl -> r where
+  mapRowLabels_RL :: forall a. (ExistsCons r -> a) -> Proxy r -> Proxy rl -> List a
+
+instance MapRowLabels_RL () RL.Nil where
+  mapRowLabels_RL _ _ _ = mempty
+
+instance
+  ( IsSymbol x
+  , Cons x a r_ r
+  , MapRowLabels_RL r rl
+  ) =>
+  MapRowLabels_RL r (RL.Cons x a rl) where
+  mapRowLabels_RL f _ _ = f (mkExistsCons (Proxy @x)) : mapRowLabels_RL f (Proxy @r) (Proxy @rl)
