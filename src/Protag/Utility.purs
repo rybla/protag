@@ -11,8 +11,8 @@ import Data.List (List, (:))
 import Data.Profunctor.Strong (class Strong)
 import Data.Symbol (class IsSymbol)
 import Data.Tuple.Nested ((/\))
-import Data.Variant (Variant)
-import Data.Variant as V
+import Protag.Variant (Variant)
+import Protag.Variant as V
 import Halogen (ComponentHTML)
 import Partial.Unsafe (unsafeCrashWith)
 import Prim.Row (class Cons)
@@ -67,7 +67,7 @@ instance (RowToList r rl, MapRowLabels_RL r rl) => MapRowLabels r where
   mapRowLabels f r = mapRowLabels_RL f r (Proxy @rl)
 
 class MapRowLabels_RL :: Row Type -> RowList Type -> Constraint
-class MapRowLabels_RL r rl | rl -> r where
+class MapRowLabels_RL r rl where
   mapRowLabels_RL :: forall a. (ExistsCons r -> a) -> Proxy r -> Proxy rl -> List a
 
 instance MapRowLabels_RL r RL.Nil where

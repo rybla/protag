@@ -3,46 +3,47 @@ module Protag.Language where
 import Prelude
 
 import Control.Monad.Free (liftF)
-import Data.Variant (Variant)
+import Protag.Variant (Variant)
 import Effect.Aff (Aff)
 import Halogen.HTML (PlainHTML)
 import Protag.Interaction (InteractionF(..), InteractionT(..))
 import Protag.Utility (class MapRowLabels)
-import Type.Proxy (Proxy(..))
+import Type.Proxy (Proxy)
 import Type.Row.Homogeneous (class Homogeneous)
 
-type Instruction = InstructionT Aff
-type InstructionT = InteractionT InstructionF
+type Instruction scenes = InstructionT scenes Aff
+type InstructionT scenes = InteractionT (InstructionF scenes)
 
-data InstructionF m (a :: Type)
+data InstructionF scenes m (a :: Type)
   = Prompt PlainHTML (String -> m a)
   | Choice PlainHTML (ExistsChoice m a)
   | ClearWidget (m a)
   | Print PlainHTML (m a)
+  | SetScene (Variant scenes) (m a)
 
-derive instance Functor m => Functor (InstructionF m)
+derive instance Functor m => Functor (InstructionF scenes m)
 
-clearWidget :: forall m. Applicative m => InteractionT InstructionF m Unit
+clearWidget :: forall scenes m. Applicative m => InstructionT scenes m Unit
 clearWidget = InteractionT $ liftF $ Interact $ ClearWidget (pure unit)
 
-prompt :: forall m. Applicative m => PlainHTML -> InstructionT m String
+prompt :: forall scenes m. Applicative m => PlainHTML -> InstructionT scenes m String
 prompt msg = (InteractionT $ liftF $ Interact $ Prompt msg pure) # then_clearWidget
 
-print :: forall m. Applicative m => PlainHTML -> InstructionT m Unit
+print :: forall scenes m. Applicative m => PlainHTML -> InstructionT scenes m Unit
 print msg = InteractionT $ liftF $ Interact $ Print msg (pure unit)
 
 choice
-  :: forall m @opts
+  :: forall scenes m @opts
    . Applicative m
   => Homogeneous opts Unit
   => MapRowLabels opts
   => PlainHTML
   -> Proxy opts
   -> (Variant opts -> PlainHTML)
-  -> InstructionT m (Variant opts)
+  -> InstructionT scenes m (Variant opts)
 choice msg opts render_opt = (InteractionT $ liftF $ Interact $ Choice msg $ mkExistsChoice opts render_opt pure) # then_clearWidget
 
-then_clearWidget :: forall a m. Applicative m => InstructionT m a -> InstructionT m a
+then_clearWidget :: forall scenes m a. Applicative m => InstructionT scenes m a -> InstructionT scenes m a
 then_clearWidget ma = do
   a <- ma
   clearWidget

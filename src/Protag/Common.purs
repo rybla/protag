@@ -9,6 +9,7 @@ import Data.Const (Const)
 import Data.Generic.Rep (class Generic)
 import Data.Maybe (Maybe)
 import Data.Show.Generic (genericShow)
+import Protag.Variant (Variant)
 import Effect.Aff (Aff)
 import Halogen as H
 import Halogen.HTML (PlainHTML)
@@ -18,38 +19,40 @@ import Protag.Language (Instruction)
 -- Game
 --------------------------------------------------------------------------------
 
-type GameComponent = H.Component GameQuery GameInput GameOutput Aff
-type GameHTML = H.ComponentHTML GameAction GameSlots Aff
-type GameM = H.HalogenM GameState GameAction GameSlots GameOutput Aff
+type GameComponent scenes = H.Component GameQuery (GameInput scenes) GameOutput Aff
+type GameHTML scenes = H.ComponentHTML (GameAction scenes) (GameSlots scenes) Aff
+type GameM scenes = H.HalogenM (GameState scenes) (GameAction scenes) (GameSlots scenes) GameOutput Aff
 
 type GameQuery = Const Void :: Type -> Type
-type GameInput =
-  { game_state :: InputGameState
+type GameInput scenes =
+  { inputGameState :: InputGameState scenes
   }
 
 type GameOutput = Void
 
-data GameAction = GameAction (Instruction Unit)
+data GameAction scenes = GameAction (Instruction scenes Unit)
 
-type GameSlots =
-  ( widget :: WidgetSlot Int
+type GameSlots scenes =
+  ( widget :: WidgetSlot scenes Int
   )
 
 --------------------------------------------------------------------------------
 -- GameState
 --------------------------------------------------------------------------------
 
-type GameState = GameState_
+-- automatically initialized fields of GameState
+type GameState scenes = GameState_ scenes
   ( messages :: Array PlainHTML
-  , mb_widget :: Maybe WidgetComponent
+  , mb_widget :: Maybe (WidgetComponent scenes)
   , widget_index :: Int
   )
 
-type InputGameState = GameState_ ()
+type InputGameState scenes = GameState_ scenes ()
 
-type GameState_ r =
+-- manually-initialized fields of GameState
+type GameState_ scenes r =
   { player :: Player
-  , scene_index :: SceneIndex
+  , scene :: Variant scenes
   | r
   }
 
@@ -80,9 +83,9 @@ instance DecodeJson SceneIndex where
 -- Widget
 --------------------------------------------------------------------------------
 
-type WidgetComponent = H.Component WidgetQuery WidgetInput WidgetOutput Aff
+type WidgetComponent scenes = H.Component WidgetQuery WidgetInput (WidgetOutput scenes) Aff
 type WidgetQuery = Const Void :: Type -> Type
 type WidgetInput = {}
-type WidgetOutput = GameAction
-type WidgetSlot = H.Slot WidgetQuery WidgetOutput
+type WidgetOutput scenes = GameAction scenes
+type WidgetSlot scenes = H.Slot WidgetQuery (WidgetOutput scenes)
 

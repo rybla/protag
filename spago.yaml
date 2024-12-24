@@ -12,7 +12,6 @@ package:
     - prelude
     - profunctor-lenses
     - transformers
-    - variant
   test:
     main: Test.Main
     dependencies: []

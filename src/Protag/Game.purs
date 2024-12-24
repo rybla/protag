@@ -6,12 +6,10 @@ import Control.Monad.Free (runFreeM)
 import Control.Monad.Free as Free
 import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
-import Data.Foldable (foldMap, sequence_)
+import Data.Foldable (foldMap)
 import Data.Lens ((%=), (+=), (.=))
 import Data.Maybe (fromMaybe', maybe')
 import Data.Unfoldable (none)
-import Data.Variant (Variant, case_)
-import Data.Variant as V
 import Effect.Aff.Class (liftAff)
 import Effect.Class.Console as Console
 import Halogen (liftEffect)
@@ -20,10 +18,12 @@ import Halogen.HTML (PlainHTML)
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
-import Protag.Common (GameAction(..), GameComponent, GameInput, GameM, GameState, SceneIndex(..), WidgetComponent)
+import Protag.Common (GameAction(..), GameComponent, GameInput, GameM, GameState, WidgetComponent, GameHTML)
 import Protag.Interaction (InteractionF(..), InteractionT(..))
-import Protag.Language (Instruction, InstructionF(..), choice, print, prompt, unExistsChoice)
+import Protag.Language (Instruction, InstructionF(..), unExistsChoice)
 import Protag.Utility (class MapRowLabels, bug, inj, mapRowLabels, on, prop, unExistsCons)
+import Protag.Variant (Variant, case_)
+import Protag.Variant as V
 import Type.Prelude (Proxy(..))
 import Type.Row.Homogeneous (class Homogeneous)
 import Unsafe.Coerce (unsafeCoerce)
@@ -33,13 +33,18 @@ import Web.HTML.HTMLDocument as Web.HTML.HTMLDocument
 import Web.HTML.HTMLInputElement as Web.HTML.HTMLInputElement
 import Web.HTML.Window as Web.HTML.Window
 
-component :: GameComponent
-component = H.mkComponent { initialState, eval, render }
+component
+  :: forall scenes
+   . { story :: Instruction scenes Unit
+     , renderScene :: GameState scenes -> GameHTML scenes
+     }
+  -> GameComponent scenes
+component params = H.mkComponent { initialState, eval, render }
   where
-  initialState :: GameInput -> GameState
+  initialState :: GameInput scenes -> GameState scenes
   initialState input =
-    { scene_index: input.game_state.scene_index
-    , player: input.game_state.player
+    { scene: input.inputGameState.scene
+    , player: input.inputGameState.player
     , messages: none
     , widget_index: 0
     , mb_widget: none
@@ -48,19 +53,7 @@ component = H.mkComponent { initialState, eval, render }
   eval = H.mkEval H.defaultEval
     { initialize = pure $ GameAction do
         Console.log "[game.initialize]"
-        print $ HH.text "print1"
-        print $ HH.text "print2"
-        print $ HH.text "print3"
-        let
-          render_opt = case_
-            # on @"A" (\_ -> HH.text "this is option A")
-            # on @"B" (\_ -> HH.text "this is option B")
-        sequence_ $ Array.replicate 4 do
-          opt <- choice (HH.text "choose A or B") Proxy render_opt
-          print $ HH.text $ "you chose option " <> show opt
-        reply <- prompt $ HH.text "what is your name?"
-        print $ HH.text $ "your name is: " <> show reply
-        pure unit
+        params.story
     , handleAction = case _ of
         GameAction m -> m # runInstruction
     }
@@ -70,7 +63,7 @@ component = H.mkComponent { initialState, eval, render }
       [ HP.style "flex-grow: 1; display: flex; flex-direction: row;" ]
       [ HH.div
           [ HP.style "flex-grow: 1; display: flex; flex-direction: column;" ]
-          ( [ [ renderScene state ]
+          ( [ [ params.renderScene state ]
             , [ HH.div
                   [ HP.style "padding: 1em; overflow-y: scroll; max-height: 300px;" ]
                   (state.messages # map \msg -> HH.div [] [ msg # HH.fromPlainHTML ])
@@ -86,26 +79,11 @@ component = H.mkComponent { initialState, eval, render }
           ]
       ]
 
-  renderScene state =
-    HH.div
-      [ HP.style "display: flex; flex-direction: column; align-items: center; overflow-y: scroll;" ]
-      case state.scene_index of
-        MenuSceneIndex ->
-          [ HH.div [] [ HH.text "MenuSceneIndex" ] ]
-        ExampleSceneIndex ->
-          [ HH.div [] [ HH.text "ExampleSceneIndex" ] ]
-        IntroSceneIndex ->
-          [ HH.img [ HP.src "/assets/approaching_snowy_town.png", HP.style "max-height: 100%; max-width: 100%;" ] ]
-        TownSceneIndex ->
-          [ HH.div [] [ HH.text "TownSceneIndex" ] ]
-        MountainSceneIndex ->
-          [ HH.div [] [ HH.text "MountainSceneIndex" ] ]
-
 --------------------------------------------------------------------------------
 -- prompt_component
 --------------------------------------------------------------------------------
 
-prompt_component :: { msg :: PlainHTML, k :: String -> Instruction Unit } -> WidgetComponent
+prompt_component :: forall scenes. { msg :: PlainHTML, k :: String -> Instruction scenes Unit } -> WidgetComponent scenes
 prompt_component { msg, k } = H.mkComponent { initialState, eval, render }
   where
   initialState _ = {}
@@ -142,15 +120,15 @@ prompt_component { msg, k } = H.mkComponent { initialState, eval, render }
 --------------------------------------------------------------------------------
 
 choice_component
-  :: forall opts
+  :: forall scenes opts
    . Homogeneous opts Unit
   => MapRowLabels opts
   => { msg :: PlainHTML
      , opts :: Proxy opts
      , render_opt :: Variant opts -> PlainHTML
-     , k :: Variant opts -> Instruction Unit
+     , k :: Variant opts -> Instruction scenes Unit
      }
-  -> WidgetComponent
+  -> WidgetComponent scenes
 choice_component { msg, opts, render_opt, k } = H.mkComponent { initialState, eval, render }
   where
   initialState _ = {}
@@ -188,7 +166,7 @@ choice_component { msg, opts, render_opt, k } = H.mkComponent { initialState, ev
 -- runInstruction
 --------------------------------------------------------------------------------
 
-runInstruction :: Instruction Unit -> GameM Unit
+runInstruction :: forall scenes. Instruction scenes Unit -> GameM scenes Unit
 runInstruction (InteractionT ff) = ff # runFreeM case _ of
   Lift ma -> ma # lift
   Interact (ClearWidget ma) -> do
@@ -205,6 +183,9 @@ runInstruction (InteractionT ff) = ff # runFreeM case _ of
     prop @"widget_index" += 1
     prop @"mb_widget" .= pure (choice_component { msg, opts, render_opt, k: k >>> Lift >>> Free.wrap >>> InteractionT })
     pure unit # pure
+  Interact (SetScene scene ma) -> do
+    prop @"scene" .= scene
+    ma # lift
 
 {-
 subcomponent = H.mkComponent { initialState, eval, render }

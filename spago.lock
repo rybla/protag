@@ -15,8 +15,7 @@
             "maybe",
             "prelude",
             "profunctor-lenses",
-            "transformers",
-            "variant"
+            "transformers"
           ],
           "build_plan": [
             "aff",
@@ -87,7 +86,6 @@
             "unfoldable",
             "unsafe-coerce",
             "unsafe-reference",
-            "variant",
             "web-clipboard",
             "web-dom",
             "web-events",
@@ -1516,21 +1514,6 @@
       "integrity": "sha256-zU7BhfJU14nXQRZG9iADsp0mSiKhz07OcKyjRB2YT+Y=",
       "dependencies": [
         "prelude"
-      ]
-    },
-    "variant": {
-      "type": "registry",
-      "version": "8.0.0",
-      "integrity": "sha256-SR//zQDg2dnbB8ZHslcxieUkCeNlbMToapvmh9onTtw=",
-      "dependencies": [
-        "enums",
-        "lists",
-        "maybe",
-        "partial",
-        "prelude",
-        "record",
-        "tuples",
-        "unsafe-coerce"
       ]
     },
     "web-clipboard": {
