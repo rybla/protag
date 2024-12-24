@@ -70,7 +70,7 @@ class MapRowLabels_RL :: Row Type -> RowList Type -> Constraint
 class MapRowLabels_RL r rl | rl -> r where
   mapRowLabels_RL :: forall a. (ExistsCons r -> a) -> Proxy r -> Proxy rl -> List a
 
-instance MapRowLabels_RL () RL.Nil where
+instance MapRowLabels_RL r RL.Nil where
   mapRowLabels_RL _ _ _ = mempty
 
 instance

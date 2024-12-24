@@ -110,7 +110,7 @@
     return dict.pure;
   };
   var unless = function(dictApplicative) {
-    var pure15 = pure(dictApplicative);
+    var pure16 = pure(dictApplicative);
     return function(v) {
       return function(v1) {
         if (!v) {
@@ -118,7 +118,7 @@
         }
         ;
         if (v) {
-          return pure15(unit);
+          return pure16(unit);
         }
         ;
         throw new Error("Failed pattern match at Control.Applicative (line 68, column 1 - line 68, column 65): " + [v.constructor.name, v1.constructor.name]);
@@ -126,7 +126,7 @@
     };
   };
   var when = function(dictApplicative) {
-    var pure15 = pure(dictApplicative);
+    var pure16 = pure(dictApplicative);
     return function(v) {
       return function(v1) {
         if (v) {
@@ -134,7 +134,7 @@
         }
         ;
         if (!v) {
-          return pure15(unit);
+          return pure16(unit);
         }
         ;
         throw new Error("Failed pattern match at Control.Applicative (line 63, column 1 - line 63, column 63): " + [v.constructor.name, v1.constructor.name]);
@@ -143,10 +143,10 @@
   };
   var liftA1 = function(dictApplicative) {
     var apply2 = apply(dictApplicative.Apply0());
-    var pure15 = pure(dictApplicative);
+    var pure16 = pure(dictApplicative);
     return function(f) {
       return function(a2) {
-        return apply2(pure15(f))(a2);
+        return apply2(pure16(f))(a2);
       };
     };
   };
@@ -1076,24 +1076,24 @@
 
   // output/Control.Monad/index.js
   var unlessM = function(dictMonad) {
-    var bind10 = bind(dictMonad.Bind1());
+    var bind11 = bind(dictMonad.Bind1());
     var unless2 = unless(dictMonad.Applicative0());
     return function(mb) {
       return function(m) {
-        return bind10(mb)(function(b2) {
+        return bind11(mb)(function(b2) {
           return unless2(b2)(m);
         });
       };
     };
   };
   var ap = function(dictMonad) {
-    var bind10 = bind(dictMonad.Bind1());
-    var pure15 = pure(dictMonad.Applicative0());
+    var bind11 = bind(dictMonad.Bind1());
+    var pure16 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a2) {
-        return bind10(f)(function(f$prime) {
-          return bind10(a2)(function(a$prime) {
-            return pure15(f$prime(a$prime));
+        return bind11(f)(function(f$prime) {
+          return bind11(a2)(function(a$prime) {
+            return pure16(f$prime(a$prime));
           });
         });
       };
@@ -1358,6 +1358,11 @@
   };
 
   // output/Data.Show/index.js
+  var showUnit = {
+    show: function(v) {
+      return "unit";
+    }
+  };
   var showString = {
     show: showStringImpl
   };
@@ -1784,10 +1789,10 @@
     var catchError1 = catchError(dictMonadError);
     var Monad0 = dictMonadError.MonadThrow0().Monad0();
     var map28 = map(Monad0.Bind1().Apply0().Functor0());
-    var pure15 = pure(Monad0.Applicative0());
+    var pure16 = pure(Monad0.Applicative0());
     return function(a2) {
       return catchError1(map28(Right.create)(a2))(function($52) {
-        return pure15(Left.create($52));
+        return pure16(Left.create($52));
       });
     };
   };
@@ -2180,13 +2185,13 @@
     };
   };
   var bindExceptT = function(dictMonad) {
-    var bind10 = bind(dictMonad.Bind1());
-    var pure15 = pure(dictMonad.Applicative0());
+    var bind11 = bind(dictMonad.Bind1());
+    var pure16 = pure(dictMonad.Applicative0());
     return {
       bind: function(v) {
         return function(k) {
-          return bind10(v)(either(function($193) {
-            return pure15(Left.create($193));
+          return bind11(v)(either(function($193) {
+            return pure16(Left.create($193));
           })(function(a2) {
             var v1 = k(a2);
             return v1;
@@ -2337,13 +2342,13 @@
   };
   var traverse_ = function(dictApplicative) {
     var applySecond2 = applySecond(dictApplicative.Apply0());
-    var pure15 = pure(dictApplicative);
+    var pure16 = pure(dictApplicative);
     return function(dictFoldable) {
       var foldr22 = foldr(dictFoldable);
       return function(f) {
         return foldr22(function($454) {
           return applySecond2(f($454));
-        })(pure15(unit));
+        })(pure16(unit));
       };
     };
   };
@@ -2351,6 +2356,12 @@
     var traverse_14 = traverse_(dictApplicative);
     return function(dictFoldable) {
       return flip(traverse_14(dictFoldable));
+    };
+  };
+  var sequence_ = function(dictApplicative) {
+    var traverse_14 = traverse_(dictApplicative);
+    return function(dictFoldable) {
+      return traverse_14(dictFoldable)(identity5);
     };
   };
   var foldl = function(dict) {
@@ -2388,11 +2399,11 @@
       };
     },
     foldMap: function(dictMonoid) {
-      var mempty2 = mempty(dictMonoid);
+      var mempty3 = mempty(dictMonoid);
       return function(v) {
         return function(v1) {
           if (v1 instanceof Nothing) {
-            return mempty2;
+            return mempty3;
           }
           ;
           if (v1 instanceof Just) {
@@ -2408,13 +2419,13 @@
     var foldr22 = foldr(dictFoldable);
     return function(dictMonoid) {
       var append5 = append(dictMonoid.Semigroup0());
-      var mempty2 = mempty(dictMonoid);
+      var mempty3 = mempty(dictMonoid);
       return function(f) {
         return foldr22(function(x) {
           return function(acc) {
             return append5(f(x))(acc);
           };
-        })(mempty2);
+        })(mempty3);
       };
     };
   };
@@ -3261,14 +3272,14 @@
     },
     foldMap: function(dictMonoid) {
       var append22 = append(dictMonoid.Semigroup0());
-      var mempty2 = mempty(dictMonoid);
+      var mempty3 = mempty(dictMonoid);
       return function(f) {
         return foldl(foldableList)(function(acc) {
           var $286 = append22(acc);
           return function($287) {
             return $286(f($287));
           };
-        })(mempty2);
+        })(mempty3);
       };
     }
   };
@@ -3281,6 +3292,14 @@
     }
   };
   var append1 = /* @__PURE__ */ append(semigroupList);
+  var monoidList = /* @__PURE__ */ function() {
+    return {
+      mempty: Nil.value,
+      Semigroup0: function() {
+        return semigroupList;
+      }
+    };
+  }();
   var altList = {
     alt: append1,
     Functor0: function() {
@@ -3700,12 +3719,12 @@
       };
     },
     foldMap: function(dictMonoid) {
-      var mempty2 = mempty(dictMonoid);
+      var mempty3 = mempty(dictMonoid);
       var append12 = append(dictMonoid.Semigroup0());
       return function(f) {
         var go2 = function(v) {
           if (v instanceof Leaf) {
-            return mempty2;
+            return mempty3;
           }
           ;
           if (v instanceof Node) {
@@ -3971,6 +3990,31 @@
     return result;
   };
   var replicateImpl = typeof Array.prototype.fill === "function" ? replicateFill : replicatePolyfill;
+  var fromFoldableImpl = /* @__PURE__ */ function() {
+    function Cons2(head3, tail2) {
+      this.head = head3;
+      this.tail = tail2;
+    }
+    var emptyList = {};
+    function curryCons(head3) {
+      return function(tail2) {
+        return new Cons2(head3, tail2);
+      };
+    }
+    function listToArray(list) {
+      var result = [];
+      var count = 0;
+      var xs = list;
+      while (xs !== emptyList) {
+        result[count++] = xs.head;
+        xs = xs.tail;
+      }
+      return result;
+    }
+    return function(foldr4, xs) {
+      return listToArray(foldr4(curryCons)(emptyList)(xs));
+    };
+  }();
   var length3 = function(xs) {
     return xs.length;
   };
@@ -4033,6 +4077,13 @@
   var push = /* @__PURE__ */ runSTFn2(pushImpl);
 
   // output/Data.Function.Uncurried/foreign.js
+  var runFn2 = function(fn) {
+    return function(a2) {
+      return function(b2) {
+        return fn(a2, b2);
+      };
+    };
+  };
   var runFn4 = function(fn) {
     return function(a2) {
       return function(b2) {
@@ -4052,6 +4103,10 @@
     return function(x) {
       return withArray(push(x))(xs)();
     };
+  };
+  var replicate = /* @__PURE__ */ runFn2(replicateImpl);
+  var fromFoldable = function(dictFoldable) {
+    return runFn2(fromFoldableImpl)(foldr(dictFoldable));
   };
   var fold2 = function(dictMonoid) {
     return fold1(dictMonoid);
@@ -4802,12 +4857,12 @@
     };
   };
   var unsafeReadTagged = function(dictMonad) {
-    var pure15 = pure(applicativeExceptT(dictMonad));
+    var pure16 = pure(applicativeExceptT(dictMonad));
     var fail1 = fail(dictMonad);
     return function(tag) {
       return function(value14) {
         if (tagOf(value14) === tag) {
-          return pure15(unsafeFromForeign(value14));
+          return pure16(unsafeFromForeign(value14));
         }
         ;
         if (otherwise) {
@@ -5246,7 +5301,7 @@
     return Lift.create;
   }();
   var goLeft = function(dictApplicative) {
-    var pure15 = pure(dictApplicative);
+    var pure16 = pure(dictApplicative);
     return function(fStack) {
       return function(valStack) {
         return function(nat) {
@@ -5254,7 +5309,7 @@
             return function(count) {
               if (func instanceof Pure) {
                 return new Tuple(new Cons({
-                  func: pure15(func.value0),
+                  func: pure16(func.value0),
                   count
                 }, fStack), valStack);
               }
@@ -5325,7 +5380,7 @@
   };
   var foldFreeAp = function(dictApplicative) {
     var goApply1 = goApply(dictApplicative);
-    var pure15 = pure(dictApplicative);
+    var pure16 = pure(dictApplicative);
     var goLeft1 = goLeft(dictApplicative);
     return function(nat) {
       return function(z) {
@@ -5334,7 +5389,7 @@
           var $tco_result;
           function $tco_loop(v) {
             if (v.value1.value0 instanceof Pure) {
-              var v1 = goApply1(v.value0)(v.value1.value1)(pure15(v.value1.value0.value0));
+              var v1 = goApply1(v.value0)(v.value1.value1)(pure16(v.value1.value0.value0));
               if (v1 instanceof Left) {
                 $tco_done = true;
                 return v1.value0;
@@ -5705,13 +5760,13 @@
     return function(dictMonadRec) {
       var Monad0 = dictMonadRec.Monad0();
       var map28 = map(Monad0.Bind1().Apply0().Functor0());
-      var pure15 = pure(Monad0.Applicative0());
+      var pure16 = pure(Monad0.Applicative0());
       var tailRecM4 = tailRecM(dictMonadRec);
       return function(k) {
         var go2 = function(f) {
           var v = toView(f);
           if (v instanceof Return) {
-            return map28(Done.create)(pure15(v.value0));
+            return map28(Done.create)(pure16(v.value0));
           }
           ;
           if (v instanceof Bind) {
@@ -5785,13 +5840,13 @@
   var foldFree = function(dictMonadRec) {
     var Monad0 = dictMonadRec.Monad0();
     var map110 = map(Monad0.Bind1().Apply0().Functor0());
-    var pure15 = pure(Monad0.Applicative0());
+    var pure16 = pure(Monad0.Applicative0());
     var tailRecM4 = tailRecM(dictMonadRec);
     return function(k) {
       var go2 = function(f) {
         var v = toView(f);
         if (v instanceof Return) {
-          return map110(Done.create)(pure15(v.value0));
+          return map110(Done.create)(pure16(v.value0));
         }
         ;
         if (v instanceof Bind) {
@@ -7859,7 +7914,103 @@
     };
   };
 
+  // output/Data.Variant.Internal/index.js
+  var variantTagsNil = {
+    variantTags: function(v) {
+      return Nil.value;
+    }
+  };
+  var variantTags = function(dict) {
+    return dict.variantTags;
+  };
+  var variantTagsCons = function(dictVariantTags) {
+    var variantTags1 = variantTags(dictVariantTags);
+    return function(dictIsSymbol) {
+      var reflectSymbol2 = reflectSymbol(dictIsSymbol);
+      return {
+        variantTags: function(v) {
+          return new Cons(reflectSymbol2($$Proxy.value), variantTags1($$Proxy.value));
+        }
+      };
+    };
+  };
+  var impossible = function(str) {
+    return unsafeCrashWith("Data.Variant: impossible `" + (str + "`"));
+  };
+  var lookup6 = function(name15) {
+    return function(tag) {
+      var go2 = function($copy_v) {
+        return function($copy_v1) {
+          var $tco_var_v = $copy_v;
+          var $tco_done = false;
+          var $tco_result;
+          function $tco_loop(v, v1) {
+            if (v instanceof Cons && v1 instanceof Cons) {
+              if (v.value0 === tag) {
+                $tco_done = true;
+                return v1.value0;
+              }
+              ;
+              if (otherwise) {
+                $tco_var_v = v.value1;
+                $copy_v1 = v1.value1;
+                return;
+              }
+              ;
+            }
+            ;
+            $tco_done = true;
+            return impossible(name15);
+          }
+          ;
+          while (!$tco_done) {
+            $tco_result = $tco_loop($tco_var_v, $copy_v1);
+          }
+          ;
+          return $tco_result;
+        };
+      };
+      return go2;
+    };
+  };
+
   // output/Data.Variant/index.js
+  var show2 = /* @__PURE__ */ show(showString);
+  var variantShows = function(dict) {
+    return dict.variantShows;
+  };
+  var showVariantNil = {
+    variantShows: function(v) {
+      return Nil.value;
+    }
+  };
+  var showVariantCons = function(dictVariantShows) {
+    var variantShows1 = variantShows(dictVariantShows);
+    return function(dictShow) {
+      var show13 = show(dictShow);
+      return {
+        variantShows: function(v) {
+          return new Cons(show13, variantShows1($$Proxy.value));
+        }
+      };
+    };
+  };
+  var showVariant = function() {
+    return function(dictVariantTags) {
+      var variantTags2 = variantTags(dictVariantTags);
+      return function(dictVariantShows) {
+        var variantShows1 = variantShows(dictVariantShows);
+        return {
+          show: function(v1) {
+            var tags = variantTags2($$Proxy.value);
+            var shows = variantShows1($$Proxy.value);
+            var body2 = lookup6("show")(v1.type)(tags)(shows)(v1.value);
+            return "(inj @" + (show2(v1.type) + (" " + (body2 + ")")));
+          }
+        };
+      };
+    };
+  };
   var on2 = function() {
     return function(dictIsSymbol) {
       var reflectSymbol2 = reflectSymbol(dictIsSymbol);
@@ -7917,10 +8068,10 @@
   // output/Foreign.Index/index.js
   var unsafeReadProp = function(dictMonad) {
     var fail2 = fail(dictMonad);
-    var pure15 = pure(applicativeExceptT(dictMonad));
+    var pure16 = pure(applicativeExceptT(dictMonad));
     return function(k) {
       return function(value14) {
-        return unsafeReadPropImpl(fail2(new TypeMismatch("object", typeOf(value14))), pure15, k, value14);
+        return unsafeReadPropImpl(fail2(new TypeMismatch("object", typeOf(value14))), pure16, k, value14);
       };
     };
   };
@@ -8372,6 +8523,9 @@
 
   // output/Protag.Language/index.js
   var map25 = /* @__PURE__ */ map(functorFn);
+  var bind8 = /* @__PURE__ */ bind(bindInteractionT);
+  var discard6 = /* @__PURE__ */ discard(discardUnit)(bindInteractionT);
+  var pure11 = /* @__PURE__ */ pure(applicativeInteractionT);
   var Prompt = /* @__PURE__ */ function() {
     function Prompt2(value0, value1) {
       this.value0 = value0;
@@ -8384,6 +8538,19 @@
       };
     };
     return Prompt2;
+  }();
+  var Choice = /* @__PURE__ */ function() {
+    function Choice2(value0, value1) {
+      this.value0 = value0;
+      this.value1 = value1;
+    }
+    ;
+    Choice2.create = function(value0) {
+      return function(value1) {
+        return new Choice2(value0, value1);
+      };
+    };
+    return Choice2;
   }();
   var ClearWidget = /* @__PURE__ */ function() {
     function ClearWidget2(value0) {
@@ -8408,13 +8575,72 @@
     };
     return Print2;
   }();
+  var unExistsChoice = function(k1) {
+    return function(v) {
+      var k12 = k1();
+      return v(function() {
+        return function(dictMapRowLabels) {
+          return k12(dictMapRowLabels);
+        };
+      });
+    };
+  };
+  var print6 = function(dictApplicative) {
+    var pure16 = pure(dictApplicative);
+    return function(msg) {
+      return liftF(new Interact(new Print(msg, pure16(unit))));
+    };
+  };
+  var mkExistsChoice = function() {
+    return function(dictMapRowLabels) {
+      return function(opts) {
+        return function(render_opt) {
+          return function(x) {
+            return function(k) {
+              return k()(dictMapRowLabels)(opts)(render_opt)(x);
+            };
+          };
+        };
+      };
+    };
+  };
+  var mkExistsChoice1 = /* @__PURE__ */ mkExistsChoice();
+  var functorExistsChoice = function(dictFunctor) {
+    var map110 = map(dictFunctor);
+    return {
+      map: function(f) {
+        return unExistsChoice(function() {
+          return function(dictMapRowLabels) {
+            var mkExistsChoice2 = mkExistsChoice1(dictMapRowLabels);
+            return function(opts) {
+              return function(render_opt) {
+                return function(k) {
+                  return mkExistsChoice2(opts)(render_opt)(function() {
+                    var $57 = map110(f);
+                    return function($58) {
+                      return $57(k($58));
+                    };
+                  }());
+                };
+              };
+            };
+          };
+        });
+      }
+    };
+  };
   var functorInstructionF = function(dictFunctor) {
     var map110 = map(dictFunctor);
+    var map28 = map(functorExistsChoice(dictFunctor));
     return {
       map: function(f) {
         return function(m) {
           if (m instanceof Prompt) {
             return new Prompt(m.value0, map25(map110(f))(m.value1));
+          }
+          ;
+          if (m instanceof Choice) {
+            return new Choice(m.value0, map28(f)(m.value1));
           }
           ;
           if (m instanceof ClearWidget) {
@@ -8430,20 +8656,41 @@
       }
     };
   };
-  var prompt = function(dictApplicative) {
-    var pure15 = pure(dictApplicative);
-    return function(msg) {
-      return liftF(new Interact(new Prompt(msg, pure15)));
-    };
-  };
-  var print6 = function(dictApplicative) {
-    var pure15 = pure(dictApplicative);
-    return function(msg) {
-      return liftF(new Interact(new Print(msg, pure15(unit))));
-    };
-  };
   var clearWidget = function(dictApplicative) {
     return liftF(new Interact(new ClearWidget(pure(dictApplicative)(unit))));
+  };
+  var then_clearWidget = function(dictApplicative) {
+    var clearWidget1 = clearWidget(dictApplicative);
+    return function(ma) {
+      return bind8(ma)(function(a2) {
+        return discard6(clearWidget1)(function() {
+          return pure11(a2);
+        });
+      });
+    };
+  };
+  var prompt = function(dictApplicative) {
+    var then_clearWidget1 = then_clearWidget(dictApplicative);
+    var pure16 = pure(dictApplicative);
+    return function(msg) {
+      return then_clearWidget1(liftF(new Interact(new Prompt(msg, pure16))));
+    };
+  };
+  var choice = function(dictApplicative) {
+    var then_clearWidget1 = then_clearWidget(dictApplicative);
+    var pure16 = pure(dictApplicative);
+    return function() {
+      return function(dictMapRowLabels) {
+        var mkExistsChoice2 = mkExistsChoice1(dictMapRowLabels);
+        return function(msg) {
+          return function(opts) {
+            return function(render_opt) {
+              return then_clearWidget1(liftF(new Interact(new Choice(msg, mkExistsChoice2(opts)(render_opt)(pure16)))));
+            };
+          };
+        };
+      };
+    };
   };
 
   // output/Data.Lens.Lens/index.js
@@ -8486,8 +8733,28 @@
   };
 
   // output/Protag.Utility/index.js
+  var mempty2 = /* @__PURE__ */ mempty(monoidList);
   var on1 = /* @__PURE__ */ on2();
   var inj1 = /* @__PURE__ */ inj();
+  var mapRowLabels_RLNil = {
+    mapRowLabels_RL: function(v) {
+      return function(v1) {
+        return function(v2) {
+          return mempty2;
+        };
+      };
+    }
+  };
+  var unExistsCons = function(k1) {
+    return function(v) {
+      return v(function(dictIsSymbol) {
+        var k12 = k1(dictIsSymbol)();
+        return function() {
+          return k12;
+        };
+      });
+    };
+  };
   var prop4 = function(dictIsSymbol) {
     var prop13 = prop3(dictIsSymbol)()();
     return function() {
@@ -8502,6 +8769,50 @@
     return function(dictIsSymbol) {
       return on1(dictIsSymbol)($$Proxy.value);
     };
+  };
+  var mkExistsCons = function(dictIsSymbol) {
+    return function() {
+      return function(a2) {
+        return function(k) {
+          return k(dictIsSymbol)()(a2);
+        };
+      };
+    };
+  };
+  var mapRowLabels_RL = function(dict) {
+    return dict.mapRowLabels_RL;
+  };
+  var mapRowLabels1 = function() {
+    return function(dictMapRowLabels_RL) {
+      var mapRowLabels_RL1 = mapRowLabels_RL(dictMapRowLabels_RL);
+      return {
+        mapRowLabels: function(f) {
+          return function(r) {
+            return mapRowLabels_RL1(f)(r)($$Proxy.value);
+          };
+        }
+      };
+    };
+  };
+  var mapRowLabels_RLCons = function(dictIsSymbol) {
+    var mkExistsCons1 = mkExistsCons(dictIsSymbol)();
+    return function() {
+      return function(dictMapRowLabels_RL) {
+        var mapRowLabels_RL1 = mapRowLabels_RL(dictMapRowLabels_RL);
+        return {
+          mapRowLabels_RL: function(f) {
+            return function(v) {
+              return function(v1) {
+                return new Cons(f(mkExistsCons1($$Proxy.value)), mapRowLabels_RL1(f)($$Proxy.value)($$Proxy.value));
+              };
+            };
+          }
+        };
+      };
+    };
+  };
+  var mapRowLabels = function(dict) {
+    return dict.mapRowLabels;
   };
   var inj2 = function() {
     return function(dictIsSymbol) {
@@ -8538,16 +8849,17 @@
     }
   };
   var inj3 = /* @__PURE__ */ inj2()(GameActionIsSymbol);
-  var bind8 = /* @__PURE__ */ bind(bindInteractionT);
+  var bind9 = /* @__PURE__ */ bind(bindInteractionT);
   var monadEffectInteractionT2 = /* @__PURE__ */ monadEffectInteractionT(monadEffectAff);
   var liftEffect7 = /* @__PURE__ */ liftEffect(monadEffectInteractionT2);
-  var pure11 = /* @__PURE__ */ pure(applicativeInteractionT);
-  var discard6 = /* @__PURE__ */ discard(discardUnit);
-  var discard12 = /* @__PURE__ */ discard6(bindInteractionT);
-  var clearWidget2 = /* @__PURE__ */ clearWidget(applicativeAff);
-  var on4 = /* @__PURE__ */ on3()(GameActionIsSymbol);
-  var discard23 = /* @__PURE__ */ discard6(bindHalogenM);
+  var pure13 = /* @__PURE__ */ pure(applicativeInteractionT);
+  var on4 = /* @__PURE__ */ on3();
+  var on12 = /* @__PURE__ */ on4(GameActionIsSymbol);
+  var discard7 = /* @__PURE__ */ discard(discardUnit);
+  var discard12 = /* @__PURE__ */ discard7(bindHalogenM);
   var log4 = /* @__PURE__ */ log3(/* @__PURE__ */ monadEffectHalogenM(monadEffectAff));
+  var fromFoldable6 = /* @__PURE__ */ fromFoldable(foldableList);
+  var inj12 = /* @__PURE__ */ inj();
   var runFreeM2 = /* @__PURE__ */ runFreeM(/* @__PURE__ */ functorInteractionF(functorAff)(/* @__PURE__ */ functorInstructionF(functorAff)))(monadRecHalogenM);
   var lift4 = /* @__PURE__ */ lift(monadTransHalogenM)(monadAff);
   var assign3 = /* @__PURE__ */ assign2(monadStateHalogenM);
@@ -8563,7 +8875,7 @@
       return "widget_index";
     }
   })()()(strongFn);
-  var pure13 = /* @__PURE__ */ pure(applicativeMaybe);
+  var pure14 = /* @__PURE__ */ pure(applicativeMaybe);
   var pure23 = /* @__PURE__ */ pure(applicativeHalogenM);
   var pure32 = /* @__PURE__ */ pure(freeApplicative);
   var modifying2 = /* @__PURE__ */ modifying(monadStateHalogenM);
@@ -8582,7 +8894,7 @@
     }
   })(ordInt);
   var identity10 = /* @__PURE__ */ identity(categoryFn);
-  var show2 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord()()(/* @__PURE__ */ showRecordFieldsCons({
+  var show3 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord()()(/* @__PURE__ */ showRecordFieldsCons({
     reflectSymbol: function() {
       return "health";
     }
@@ -8592,22 +8904,36 @@
     }
   })(showString))(showInt)));
   var none1 = /* @__PURE__ */ none(unfoldableArray);
+  var discard23 = /* @__PURE__ */ discard7(bindInteractionT);
   var print7 = /* @__PURE__ */ print6(applicativeAff);
+  var BIsSymbol = {
+    reflectSymbol: function() {
+      return "B";
+    }
+  };
+  var on22 = /* @__PURE__ */ on4(BIsSymbol);
+  var AIsSymbol = {
+    reflectSymbol: function() {
+      return "A";
+    }
+  };
+  var on32 = /* @__PURE__ */ on4(AIsSymbol);
+  var sequence_2 = /* @__PURE__ */ sequence_(applicativeInteractionT)(foldableArray);
+  var choice2 = /* @__PURE__ */ choice(applicativeAff)()(/* @__PURE__ */ mapRowLabels1()(/* @__PURE__ */ mapRowLabels_RLCons(AIsSymbol)()(/* @__PURE__ */ mapRowLabels_RLCons(BIsSymbol)()(mapRowLabels_RLNil))));
+  var show12 = /* @__PURE__ */ show(/* @__PURE__ */ showVariant()(/* @__PURE__ */ variantTagsCons(/* @__PURE__ */ variantTagsCons(variantTagsNil)(BIsSymbol))(AIsSymbol))(/* @__PURE__ */ showVariantCons(/* @__PURE__ */ showVariantCons(showVariantNil)(showUnit))(showUnit)));
   var prompt2 = /* @__PURE__ */ prompt(applicativeAff);
-  var show12 = /* @__PURE__ */ show(showString);
+  var show22 = /* @__PURE__ */ show(showString);
   var prompt_component = function(v) {
     var render = function(v1) {
-      return div2([style("padding: 1em;")])([div2([])([fromPlainHTML(v.msg)]), input2([id2("input")]), button([onClick($$const(inj3(new GameAction(bind8(liftEffect7(windowImpl))(function(window2) {
-        return bind8(liftEffect7(document(window2)))(function(document2) {
-          return bind8(bind8(liftEffect7(getElementById("input")(toNonElementParentNode(document2))))(maybe$prime(function(v2) {
+      return div2([style("padding: 1em;")])([div2([])([fromPlainHTML(v.msg)]), input2([id2("input")]), button([onClick($$const(inj3(new GameAction(bind9(liftEffect7(windowImpl))(function(window2) {
+        return bind9(liftEffect7(document(window2)))(function(document2) {
+          return bind9(bind9(liftEffect7(getElementById("input")(toNonElementParentNode(document2))))(maybe$prime(function(v2) {
             return bug("impossible");
-          })(pure11)))(function(input_elem) {
-            return bind8(liftEffect7(value3(fromMaybe$prime(function(v2) {
+          })(pure13)))(function(input_elem) {
+            return bind9(liftEffect7(value3(fromMaybe$prime(function(v2) {
               return bug("impossible");
             })(fromElement2(input_elem)))))(function(input_str) {
-              return discard12(clearWidget2)(function() {
-                return v.k(input_str);
-              });
+              return v.k(input_str);
             });
           });
         });
@@ -8621,8 +8947,8 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on4(function(ga) {
-        return discard23(log4("[prompt.eval] GameAction"))(function() {
+      handleAction: on12(function(ga) {
+        return discard12(log4("[prompt.eval] GameAction"))(function() {
           return raise(ga);
         });
       })(case_)
@@ -8633,6 +8959,44 @@
       render
     });
   };
+  var choice_component = function() {
+    return function(dictMapRowLabels) {
+      var mapRowLabels2 = mapRowLabels(dictMapRowLabels);
+      return function(v) {
+        var render = function(v1) {
+          return div2([style("padding: 1em;")])([div2([])([fromPlainHTML(v.msg)]), div2([])(fromFoldable6(mapRowLabels2(unExistsCons(function(dictIsSymbol) {
+            var inj23 = inj12(dictIsSymbol);
+            return function() {
+              return function(x) {
+                var opt = inj23(x)(unit);
+                return button([onClick($$const(inj3(new GameAction(v.k(opt)))))])([fromPlainHTML(v.render_opt(opt))]);
+              };
+            };
+          }))(v.opts)))]);
+        };
+        var initialState = function(v1) {
+          return {};
+        };
+        var $$eval = mkEval({
+          handleQuery: defaultEval.handleQuery,
+          receive: defaultEval.receive,
+          initialize: defaultEval.initialize,
+          finalize: defaultEval.finalize,
+          handleAction: on12(function(ga) {
+            return discard12(log4("[prompt.eval] GameAction"))(function() {
+              return raise(ga);
+            });
+          })(case_)
+        });
+        return mkComponent({
+          initialState,
+          "eval": $$eval,
+          render
+        });
+      };
+    };
+  };
+  var choice_component1 = /* @__PURE__ */ choice_component();
   var runInstruction = function(v) {
     return runFreeM2(function(v1) {
       if (v1 instanceof Lift3) {
@@ -8640,17 +9004,17 @@
       }
       ;
       if (v1 instanceof Interact && v1.value0 instanceof ClearWidget) {
-        return discard23(assign3(prop5)(none2))(function() {
+        return discard12(assign3(prop5)(none2))(function() {
           return lift4(v1.value0.value0);
         });
       }
       ;
       if (v1 instanceof Interact && v1.value0 instanceof Prompt) {
-        return discard23(addModifying2(prop1)(1))(function() {
-          return discard23(assign3(prop5)(pure13(prompt_component({
+        return discard12(addModifying2(prop1)(1))(function() {
+          return discard12(assign3(prop5)(pure14(prompt_component({
             msg: v1.value0.value0,
-            k: function($101) {
-              return InteractionT(wrap3(Lift3.create(v1.value0.value1($101))));
+            k: function($152) {
+              return InteractionT(wrap3(Lift3.create(v1.value0.value1($152))));
             }
           }))))(function() {
             return pure23(pure32(unit));
@@ -8659,12 +9023,38 @@
       }
       ;
       if (v1 instanceof Interact && v1.value0 instanceof Print) {
-        return discard23(modifying2(prop23)(flip(snoc)(v1.value0.value0)))(function() {
+        return discard12(modifying2(prop23)(flip(snoc)(v1.value0.value0)))(function() {
           return liftAff2(v1.value0.value1);
         });
       }
       ;
-      throw new Error("Failed pattern match at Protag.Game (line 167, column 50 - line 178, column 17): " + [v1.constructor.name]);
+      if (v1 instanceof Interact && v1.value0 instanceof Choice) {
+        return unExistsChoice(function() {
+          return function(dictMapRowLabels) {
+            var choice_component2 = choice_component1(dictMapRowLabels);
+            return function(opts) {
+              return function(render_opt) {
+                return function(k) {
+                  return discard12(addModifying2(prop1)(1))(function() {
+                    return discard12(assign3(prop5)(pure14(choice_component2({
+                      msg: v1.value0.value0,
+                      opts,
+                      render_opt,
+                      k: function($153) {
+                        return InteractionT(wrap3(Lift3.create(k($153))));
+                      }
+                    }))))(function() {
+                      return pure23(pure32(unit));
+                    });
+                  });
+                };
+              };
+            };
+          };
+        })(v1.value0.value1);
+      }
+      ;
+      throw new Error("Failed pattern match at Protag.Game (line 192, column 50 - line 207, column 21): " + [v1.constructor.name]);
     })(v);
   };
   var component = /* @__PURE__ */ function() {
@@ -8690,7 +9080,7 @@
           return [div2([])([text5("MountainSceneIndex")])];
         }
         ;
-        throw new Error("Failed pattern match at Protag.Game (line 121, column 7 - line 131, column 57): " + [state3.scene_index.constructor.name]);
+        throw new Error("Failed pattern match at Protag.Game (line 92, column 7 - line 102, column 57): " + [state3.scene_index.constructor.name]);
       }());
     };
     var render = function(state3) {
@@ -8698,7 +9088,7 @@
         return div2([])([fromPlainHTML(msg)]);
       })(state3.messages))], foldMap2(function(widget2) {
         return [slot2($$Proxy.value)(state3.widget_index)(widget2)({})(identity10)];
-      })(state3.mb_widget)])), div2([style("flex-shrink: 0; width: calc(200px - 2em); padding: 1em; background-color:rgba(196, 164, 132, 0.5); display: flex; flex-direction: column; gap: 0.5em;")])([text5("player = " + show2(state3.player)), div2([])([text5("... other properties ...")])])]);
+      })(state3.mb_widget)])), div2([style("flex-shrink: 0; width: calc(200px - 2em); padding: 1em; background-color:rgba(196, 164, 132, 0.5); display: flex; flex-direction: column; gap: 0.5em;")])([text5("player = " + show3(state3.player)), div2([])([text5("... other properties ...")])])]);
     };
     var initialState = function(input3) {
       return {
@@ -8713,90 +9103,21 @@
       handleQuery: defaultEval.handleQuery,
       receive: defaultEval.receive,
       finalize: defaultEval.finalize,
-      initialize: pure13(new GameAction(discard12(log3(monadEffectInteractionT2)("[game.initialize]"))(function() {
-        return discard12(print7(text5("print1")))(function() {
-          return discard12(print7(text5("print2")))(function() {
-            return discard12(print7(text5("print3")))(function() {
-              return discard12(print7(text5("print3")))(function() {
-                return discard12(print7(text5("print3")))(function() {
-                  return discard12(print7(text5("print3")))(function() {
-                    return discard12(print7(text5("print3")))(function() {
-                      return discard12(print7(text5("print3")))(function() {
-                        return discard12(print7(text5("print3")))(function() {
-                          return discard12(print7(text5("print3")))(function() {
-                            return discard12(print7(text5("print3")))(function() {
-                              return discard12(print7(text5("print3")))(function() {
-                                return discard12(print7(text5("print3")))(function() {
-                                  return discard12(print7(text5("print3")))(function() {
-                                    return discard12(print7(text5("print3")))(function() {
-                                      return discard12(print7(text5("print3")))(function() {
-                                        return discard12(print7(text5("print3")))(function() {
-                                          return discard12(print7(text5("print3")))(function() {
-                                            return discard12(print7(text5("print3")))(function() {
-                                              return discard12(print7(text5("print3")))(function() {
-                                                return discard12(print7(text5("print3")))(function() {
-                                                  return discard12(print7(text5("print3")))(function() {
-                                                    return discard12(print7(text5("print3")))(function() {
-                                                      return discard12(print7(text5("print3")))(function() {
-                                                        return discard12(print7(text5("print3")))(function() {
-                                                          return discard12(print7(text5("print3")))(function() {
-                                                            return discard12(print7(text5("print3")))(function() {
-                                                              return discard12(print7(text5("print3")))(function() {
-                                                                return discard12(print7(text5("print3")))(function() {
-                                                                  return discard12(print7(text5("print3")))(function() {
-                                                                    return discard12(print7(text5("print3")))(function() {
-                                                                      return discard12(print7(text5("print3")))(function() {
-                                                                        return discard12(print7(text5("print3")))(function() {
-                                                                          return discard12(print7(text5("print3")))(function() {
-                                                                            return discard12(print7(text5("print3")))(function() {
-                                                                              return discard12(print7(text5("print3")))(function() {
-                                                                                return discard12(print7(text5("print3")))(function() {
-                                                                                  return discard12(print7(text5("print3")))(function() {
-                                                                                    return discard12(print7(text5("print3")))(function() {
-                                                                                      return discard12(print7(text5("print3")))(function() {
-                                                                                        return discard12(print7(text5("print3")))(function() {
-                                                                                          return discard12(print7(text5("print3")))(function() {
-                                                                                            return bind8(prompt2(text5("what is your name?")))(function(reply) {
-                                                                                              return discard12(print7(text5("your name is: " + show12(reply))))(function() {
-                                                                                                return pure11(unit);
-                                                                                              });
-                                                                                            });
-                                                                                          });
-                                                                                        });
-                                                                                      });
-                                                                                    });
-                                                                                  });
-                                                                                });
-                                                                              });
-                                                                            });
-                                                                          });
-                                                                        });
-                                                                      });
-                                                                    });
-                                                                  });
-                                                                });
-                                                              });
-                                                            });
-                                                          });
-                                                        });
-                                                      });
-                                                    });
-                                                  });
-                                                });
-                                              });
-                                            });
-                                          });
-                                        });
-                                      });
-                                    });
-                                  });
-                                });
-                              });
-                            });
-                          });
-                        });
-                      });
-                    });
+      initialize: pure14(new GameAction(discard23(log3(monadEffectInteractionT2)("[game.initialize]"))(function() {
+        return discard23(print7(text5("print1")))(function() {
+          return discard23(print7(text5("print2")))(function() {
+            return discard23(print7(text5("print3")))(function() {
+              var render_opt = on22(function(v1) {
+                return text5("this is option B");
+              })(on32(function(v1) {
+                return text5("this is option A");
+              })(case_));
+              return discard23(sequence_2(replicate(4)(bind9(choice2(text5("choose A or B"))($$Proxy.value)(render_opt))(function(opt) {
+                return print7(text5("you chose option " + show12(opt)));
+              }))))(function() {
+                return bind9(prompt2(text5("what is your name?")))(function(reply) {
+                  return discard23(print7(text5("your name is: " + show22(reply))))(function() {
+                    return pure13(unit);
                   });
                 });
               });
@@ -8823,10 +9144,10 @@
       return "submit";
     }
   };
-  var inj12 = /* @__PURE__ */ inj4(submitIsSymbol);
+  var inj13 = /* @__PURE__ */ inj4(submitIsSymbol);
   var on5 = /* @__PURE__ */ on3();
-  var on12 = /* @__PURE__ */ on5(submitIsSymbol);
-  var bind9 = /* @__PURE__ */ bind(bindHalogenM);
+  var on13 = /* @__PURE__ */ on5(submitIsSymbol);
+  var bind10 = /* @__PURE__ */ bind(bindHalogenM);
   var get3 = /* @__PURE__ */ get(monadStateHalogenM);
   var nameIsSymbol = {
     reflectSymbol: function() {
@@ -8855,7 +9176,7 @@
       return "mb_status";
     }
   })()()(strongFn);
-  var pure14 = /* @__PURE__ */ pure(applicativeMaybe);
+  var pure15 = /* @__PURE__ */ pure(applicativeMaybe);
   var modify_game_stateIsSymbol = {
     reflectSymbol: function() {
       return "modify_game_state";
@@ -8866,9 +9187,9 @@
   var prop24 = /* @__PURE__ */ prop4(nameIsSymbol)()();
   var identity11 = /* @__PURE__ */ identity(categoryFn);
   var prop32 = /* @__PURE__ */ prop4(healthIsSymbol)()();
-  var show3 = /* @__PURE__ */ show(showInt);
+  var show4 = /* @__PURE__ */ show(showInt);
   var toJsonString2 = /* @__PURE__ */ toJsonString(/* @__PURE__ */ encodeRecord(/* @__PURE__ */ gEncodeJsonCons(/* @__PURE__ */ encodeRecord(/* @__PURE__ */ gEncodeJsonCons(encodeJsonInt)(/* @__PURE__ */ gEncodeJsonCons(encodeJsonJString)(gEncodeJsonNil)(nameIsSymbol)())(healthIsSymbol)())())(/* @__PURE__ */ gEncodeJsonCons(encodeJsonSceneIndex)(gEncodeJsonNil)(scene_indexIsSymbol)())(playerIsSymbol)())());
-  var discard7 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
+  var discard8 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
   var log5 = /* @__PURE__ */ log3(/* @__PURE__ */ monadEffectHalogenM(monadEffectAff));
   var modifying3 = /* @__PURE__ */ modifying(monadStateHalogenM);
   var prop42 = /* @__PURE__ */ prop4({
@@ -8881,14 +9202,14 @@
       return "playGame";
     }
   };
-  var on22 = /* @__PURE__ */ on5(playGameIsSymbol);
+  var on23 = /* @__PURE__ */ on5(playGameIsSymbol);
   var slot_2 = /* @__PURE__ */ slot_()(playGameIsSymbol)(ordUnit);
   var loadGameIsSymbol = {
     reflectSymbol: function() {
       return "loadGame";
     }
   };
-  var on32 = /* @__PURE__ */ on5(loadGameIsSymbol);
+  var on33 = /* @__PURE__ */ on5(loadGameIsSymbol);
   var slot3 = /* @__PURE__ */ slot();
   var slot1 = /* @__PURE__ */ slot3(loadGameIsSymbol)(ordUnit);
   var inj32 = /* @__PURE__ */ inj4(playGameIsSymbol);
@@ -8917,7 +9238,7 @@
   })()()(strongFn);
   var loadGame_component = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("display: flex; flex-direction: column; gap: 0.5em; align-items: center")])([textarea([value13(state3.game_state_string)]), button([onClick($$const(inj12(unit)))])([text5("Submit")]), div_(function() {
+      return div2([style("display: flex; flex-direction: column; gap: 0.5em; align-items: center")])([textarea([value13(state3.game_state_string)]), button([onClick($$const(inj13(unit)))])([text5("Submit")]), div_(function() {
         if (state3.mb_status instanceof Nothing) {
           return [];
         }
@@ -8940,10 +9261,10 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on12($$const(bind9(get3)(function(state3) {
+      handleAction: on13($$const(bind10(get3)(function(state3) {
         var v1 = fromJsonString2(state3.game_state_string);
         if (v1 instanceof Left) {
-          return assign4(prop6)(pure14(printJsonDecodeError(v1.value0)));
+          return assign4(prop6)(pure15(printJsonDecodeError(v1.value0)));
         }
         ;
         if (v1 instanceof Right) {
@@ -9000,12 +9321,12 @@
         return function($147) {
           return $145($146($147));
         };
-      })(show3)(function() {
+      })(show4)(function() {
         var $148 = fromMaybe(0);
         return function($149) {
           return $148(fromString($149));
         };
-      }()), div2([])([text5(toJsonString2(state3.game_state))]), div2([])([button([onClick($$const(inj12(unit)))])([text5("Submit")])])]);
+      }()), div2([])([text5(toJsonString2(state3.game_state))]), div2([])([button([onClick($$const(inj13(unit)))])([text5("Submit")])])]);
     };
     var initialState = function(v) {
       return {
@@ -9017,10 +9338,10 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on12($$const(bind9(get3)(function(state3) {
+      handleAction: on13($$const(bind10(get3)(function(state3) {
         return raise(state3.game_state);
       })))(on5(modify_game_stateIsSymbol)(function(f) {
-        return discard7(log5("[App.createCharacter.modify_game_state]"))(function() {
+        return discard8(log5("[App.createCharacter.modify_game_state]"))(function() {
           return modifying3(prop42)(f);
         });
       })(case_))
@@ -9033,11 +9354,11 @@
   }();
   var component2 = /* @__PURE__ */ function() {
     var render = function(state3) {
-      return div2([style("margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), on22(function(game_state) {
+      return div2([style("margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), on23(function(game_state) {
         return slot_2($$Proxy.value)(unit)(component)({
           game_state
         });
-      })(on32($$const(slot1($$Proxy.value)(unit)(loadGame_component)(unit)(inj32)))(on42($$const(slot22($$Proxy.value)(unit)(createCharacter_component)(unit)(inj32)))(on52($$const(div2([style("display: flex; flex-direction: column; gap: 1em;")])([button([onClick($$const(inj42(unit)))])([text5("new")]), button([onClick($$const(inj5(unit)))])([text5("load")])])))(case_))))(state3.mode)]);
+      })(on33($$const(slot1($$Proxy.value)(unit)(loadGame_component)(unit)(inj32)))(on42($$const(slot22($$Proxy.value)(unit)(createCharacter_component)(unit)(inj32)))(on52($$const(div2([style("display: flex; flex-direction: column; gap: 1em;")])([button([onClick($$const(inj42(unit)))])([text5("new")]), button([onClick($$const(inj5(unit)))])([text5("load")])])))(case_))))(state3.mode)]);
     };
     var initialState = function(v) {
       return {
@@ -9049,9 +9370,9 @@
       receive: defaultEval.receive,
       initialize: defaultEval.initialize,
       finalize: defaultEval.finalize,
-      handleAction: on22(function(game) {
+      handleAction: on23(function(game) {
         return assign4(prop52)(inj32(game));
-      })(on32($$const(assign4(prop52)(inj5(unit))))(on42($$const(assign4(prop52)(inj42(unit))))(case_)))
+      })(on33($$const(assign4(prop52)(inj5(unit))))(on42($$const(assign4(prop52)(inj42(unit))))(case_)))
     });
     return mkComponent({
       initialState,

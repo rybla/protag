@@ -26,22 +26,27 @@ clearWidget :: forall m. Applicative m => InteractionT InstructionF m Unit
 clearWidget = InteractionT $ liftF $ Interact $ ClearWidget (pure unit)
 
 prompt :: forall m. Applicative m => PlainHTML -> InstructionT m String
-prompt msg = InteractionT $ liftF $ Interact $ Prompt msg pure
+prompt msg = (InteractionT $ liftF $ Interact $ Prompt msg pure) # then_clearWidget
 
 print :: forall m. Applicative m => PlainHTML -> InstructionT m Unit
 print msg = InteractionT $ liftF $ Interact $ Print msg (pure unit)
 
 choice
-  :: forall m a @opts
+  :: forall m @opts
    . Applicative m
   => Homogeneous opts Unit
   => MapRowLabels opts
   => PlainHTML
   -> Proxy opts
   -> (Variant opts -> PlainHTML)
-  -> (Variant opts -> a)
-  -> InstructionT m a
-choice msg opts render_opt c = InteractionT $ liftF $ Interact $ Choice msg $ mkExistsChoice opts render_opt (c >>> pure)
+  -> InstructionT m (Variant opts)
+choice msg opts render_opt = (InteractionT $ liftF $ Interact $ Choice msg $ mkExistsChoice opts render_opt pure) # then_clearWidget
+
+then_clearWidget :: forall a m. Applicative m => InstructionT m a -> InstructionT m a
+then_clearWidget ma = do
+  a <- ma
+  clearWidget
+  pure a
 
 --------------------------------------------------------------------------------
 -- ExistsChoice

@@ -6,9 +6,8 @@ import Control.Monad.Free (runFreeM)
 import Control.Monad.Free as Free
 import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
-import Data.Foldable (foldMap)
+import Data.Foldable (foldMap, sequence_)
 import Data.Lens ((%=), (+=), (.=))
-import Data.List (List, (:))
 import Data.Maybe (fromMaybe', maybe')
 import Data.Unfoldable (none)
 import Data.Variant (Variant, case_)
@@ -21,14 +20,11 @@ import Halogen.HTML (PlainHTML)
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
-import Prim.Row (class Cons)
-import Prim.RowList (class RowToList, RowList)
-import Prim.RowList as RL
 import Protag.Common (GameAction(..), GameComponent, GameInput, GameM, GameState, SceneIndex(..), WidgetComponent)
 import Protag.Interaction (InteractionF(..), InteractionT(..))
-import Protag.Language (Instruction, InstructionF(..), clearWidget, print, prompt, unExistsChoice)
-import Protag.Utility (class MapRowLabels, ExistsCons, bug, inj, mapRowLabels, mkExistsCons, on, prop, todo, unExistsCons)
-import Type.Prelude (class IsSymbol, Proxy(..))
+import Protag.Language (Instruction, InstructionF(..), choice, print, prompt, unExistsChoice)
+import Protag.Utility (class MapRowLabels, bug, inj, mapRowLabels, on, prop, unExistsCons)
+import Type.Prelude (Proxy(..))
 import Type.Row.Homogeneous (class Homogeneous)
 import Unsafe.Coerce (unsafeCoerce)
 import Web.DOM.NonElementParentNode as Web.DOM.NonElementParentNode
@@ -55,45 +51,13 @@ component = H.mkComponent { initialState, eval, render }
         print $ HH.text "print1"
         print $ HH.text "print2"
         print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
-        print $ HH.text "print3"
+        let
+          render_opt = case_
+            # on @"A" (\_ -> HH.text "this is option A")
+            # on @"B" (\_ -> HH.text "this is option B")
+        sequence_ $ Array.replicate 4 do
+          opt <- choice (HH.text "choose A or B") Proxy render_opt
+          print $ HH.text $ "you chose option " <> show opt
         reply <- prompt $ HH.text "what is your name?"
         print $ HH.text $ "your name is: " <> show reply
         pure unit
@@ -168,7 +132,6 @@ prompt_component { msg, k } = H.mkComponent { initialState, eval, render }
               document <- window # Web.HTML.Window.document # liftEffect
               input_elem <- document # Web.HTML.HTMLDocument.toNonElementParentNode # Web.DOM.NonElementParentNode.getElementById "input" # liftEffect >>= maybe' (\_ -> bug "impossible") pure
               input_str <- input_elem # Web.HTML.HTMLInputElement.fromElement # fromMaybe' (\_ -> bug "impossible") # Web.HTML.HTMLInputElement.value # liftEffect
-              clearWidget
               k input_str
           ]
           [ HH.text "Submit" ]
