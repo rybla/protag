@@ -1242,9 +1242,6 @@
   };
 
   // output/Data.Show/foreign.js
-  var showIntImpl = function(n) {
-    return n.toString();
-  };
   var showStringImpl = function(s) {
     var l = s.length;
     return '"' + s.replace(
@@ -1286,60 +1283,8 @@
   var showString = {
     show: showStringImpl
   };
-  var showRecordFields = function(dict) {
-    return dict.showRecordFields;
-  };
-  var showRecord = function() {
-    return function() {
-      return function(dictShowRecordFields) {
-        var showRecordFields1 = showRecordFields(dictShowRecordFields);
-        return {
-          show: function(record) {
-            return "{" + (showRecordFields1($$Proxy.value)(record) + "}");
-          }
-        };
-      };
-    };
-  };
-  var showInt = {
-    show: showIntImpl
-  };
   var show = function(dict) {
     return dict.show;
-  };
-  var showRecordFieldsCons = function(dictIsSymbol) {
-    var reflectSymbol2 = reflectSymbol(dictIsSymbol);
-    return function(dictShowRecordFields) {
-      var showRecordFields1 = showRecordFields(dictShowRecordFields);
-      return function(dictShow) {
-        var show13 = show(dictShow);
-        return {
-          showRecordFields: function(v) {
-            return function(record) {
-              var tail2 = showRecordFields1($$Proxy.value)(record);
-              var key = reflectSymbol2($$Proxy.value);
-              var focus3 = unsafeGet(key)(record);
-              return " " + (key + (": " + (show13(focus3) + ("," + tail2))));
-            };
-          }
-        };
-      };
-    };
-  };
-  var showRecordFieldsConsNil = function(dictIsSymbol) {
-    var reflectSymbol2 = reflectSymbol(dictIsSymbol);
-    return function(dictShow) {
-      var show13 = show(dictShow);
-      return {
-        showRecordFields: function(v) {
-          return function(record) {
-            var key = reflectSymbol2($$Proxy.value);
-            var focus3 = unsafeGet(key)(record);
-            return " " + (key + (": " + (show13(focus3) + " ")));
-          };
-        }
-      };
-    };
   };
 
   // output/Data.Maybe/index.js
@@ -7558,15 +7503,6 @@
     }
   })(ordInt);
   var identity8 = /* @__PURE__ */ identity(categoryFn);
-  var show2 = /* @__PURE__ */ show(/* @__PURE__ */ showRecord()()(/* @__PURE__ */ showRecordFieldsCons({
-    reflectSymbol: function() {
-      return "health";
-    }
-  })(/* @__PURE__ */ showRecordFieldsConsNil({
-    reflectSymbol: function() {
-      return "name";
-    }
-  })(showString))(showInt)));
   var none1 = /* @__PURE__ */ none(unfoldableArray);
   var discard23 = /* @__PURE__ */ discard6(bindInteractionT);
   var log1 = /* @__PURE__ */ log3(monadEffectInteractionT2);
@@ -7586,7 +7522,7 @@
         });
       })))))])([text5("Submit")])]);
     };
-    var initialState = function(v1) {
+    var initialState2 = function(v1) {
       return {};
     };
     var $$eval = mkEval({
@@ -7601,7 +7537,7 @@
       })(case_)
     });
     return mkComponent({
-      initialState,
+      initialState: initialState2,
       "eval": $$eval,
       render
     });
@@ -7621,7 +7557,7 @@
             };
           }))(v.opts)))]);
         };
-        var initialState = function(v1) {
+        var initialState2 = function(v1) {
           return {};
         };
         var $$eval = mkEval({
@@ -7636,7 +7572,7 @@
           })(case_)
         });
         return mkComponent({
-          initialState,
+          initialState: initialState2,
           "eval": $$eval,
           render
         });
@@ -7660,8 +7596,8 @@
         return discard12(addModifying2(prop1)(1))(function() {
           return discard12(assign3(prop5)(pure13(prompt_component({
             msg: v1.value0.value0,
-            k: function($125) {
-              return InteractionT(wrap3(Lift3.create(v1.value0.value1($125))));
+            k: function($113) {
+              return InteractionT(wrap3(Lift3.create(v1.value0.value1($113))));
             }
           }))))(function() {
             return pure23(pure32(unit));
@@ -7687,8 +7623,8 @@
                       msg: v1.value0.value0,
                       opts,
                       render_opt,
-                      k: function($126) {
-                        return InteractionT(wrap3(Lift3.create(k($126))));
+                      k: function($114) {
+                        return InteractionT(wrap3(Lift3.create(k($114))));
                       }
                     }))))(function() {
                       return pure23(pure32(unit));
@@ -7707,24 +7643,24 @@
         });
       }
       ;
-      throw new Error("Failed pattern match at Protag.Game (line 170, column 50 - line 188, column 14): " + [v1.constructor.name]);
+      throw new Error("Failed pattern match at Protag.Game (line 163, column 50 - line 181, column 14): " + [v1.constructor.name]);
     })(v);
   };
   var component = function(params) {
     var render = function(state3) {
-      return div2([style("flex-grow: 1; display: flex; flex-direction: row;")])([div2([style("flex-grow: 1; display: flex; flex-direction: column;")])(fold3([[params.renderScene(state3)], [div2([style("padding: 1em; overflow-y: scroll; max-height: 300px;")])(map21(function(msg) {
+      return div2([style("display: flex; flex-direction: column;")])(fold3([[params.renderScene(state3)], [div2([style("padding: 1em; overflow-y: scroll; max-height: 300px;")])(map21(function(msg) {
         return div2([])([fromPlainHTML(msg)]);
       })(state3.messages))], foldMap2(function(widget2) {
         return [slot2($$Proxy.value)(state3.widget_index)(widget2)({})(identity8)];
-      })(state3.mb_widget)])), div2([style("flex-shrink: 0; width: calc(200px - 2em); padding: 1em; background-color:rgba(196, 164, 132, 0.5); display: flex; flex-direction: column; gap: 0.5em;")])([text5("player = " + show2(state3.player)), div2([])([text5("... other properties ...")])])]);
+      })(state3.mb_widget)]));
     };
-    var initialState = function(input3) {
+    var initialState2 = function(input3) {
       return {
         scene: input3.inputGameState.scene,
-        player: input3.inputGameState.player,
         messages: none1,
         widget_index: 0,
-        mb_widget: none2
+        mb_widget: none2,
+        state: params.initialState
       };
     };
     var $$eval = mkEval({
@@ -7739,7 +7675,7 @@
       }
     });
     return mkComponent({
-      initialState,
+      initialState: initialState2,
       "eval": $$eval,
       render
     });
@@ -7764,7 +7700,7 @@
   var sequence_2 = /* @__PURE__ */ sequence_(applicativeInteractionT)(foldableArray);
   var bind8 = /* @__PURE__ */ bind(bindInteractionT);
   var choice2 = /* @__PURE__ */ choice(applicativeAff)()(/* @__PURE__ */ mapRowLabels1()(/* @__PURE__ */ mapRowLabels_RLCons(AIsSymbol)()(/* @__PURE__ */ mapRowLabels_RLCons(BIsSymbol)()(mapRowLabels_RLNil))));
-  var show3 = /* @__PURE__ */ show(/* @__PURE__ */ showVariant()(/* @__PURE__ */ variantTagsCons(/* @__PURE__ */ variantTagsCons(variantTagsNil)(BIsSymbol))(AIsSymbol))(/* @__PURE__ */ showVariantCons(/* @__PURE__ */ showVariantCons(showVariantNil)(showUnit))(showUnit)));
+  var show2 = /* @__PURE__ */ show(/* @__PURE__ */ showVariant()(/* @__PURE__ */ variantTagsCons(/* @__PURE__ */ variantTagsCons(variantTagsNil)(BIsSymbol))(AIsSymbol))(/* @__PURE__ */ showVariantCons(/* @__PURE__ */ showVariantCons(showVariantNil)(showUnit))(showUnit)));
   var prompt2 = /* @__PURE__ */ prompt(applicativeAff);
   var show12 = /* @__PURE__ */ show(showString);
   var pure14 = /* @__PURE__ */ pure(applicativeInteractionT);
@@ -7783,7 +7719,7 @@
           return text5("this is option A");
         })(case_));
         return discard7(sequence_2(replicate(4)(bind8(choice2(text5("choose A or B"))($$Proxy.value)(render_opt))(function(opt) {
-          return print7(text5("you chose option " + show3(opt)));
+          return print7(text5("you chose option " + show2(opt)));
         }))))(function() {
           return bind8(prompt2(text5("what is your name?")))(function(reply) {
             return discard7(print7(text5("your name is: " + show12(reply))))(function() {
@@ -7800,15 +7736,18 @@
     })(case_)(state3.scene);
   };
   var inputGameState = {
-    player: {
-      name: "Kellan Veylor",
-      health: 20
-    },
     scene: /* @__PURE__ */ inj2()(introIsSymbol)(unit)
+  };
+  var initialState = {
+    player: {
+      name: "Veylor Falen",
+      health: 20
+    }
   };
   var game_params = {
     story,
-    renderScene
+    renderScene,
+    initialState
   };
   var game_input = {
     inputGameState
@@ -7824,12 +7763,12 @@
     var render = function(_state) {
       return div2([style("margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), slot_2($$Proxy.value)(0)(component(game_params))(game_input)]);
     };
-    var initialState = function(_input) {
+    var initialState2 = function(_input) {
       return {};
     };
     var $$eval = mkEval(defaultEval);
     return mkComponent({
-      initialState,
+      initialState: initialState2,
       "eval": $$eval,
       render
     });

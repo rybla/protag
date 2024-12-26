@@ -34,20 +34,21 @@ import Web.HTML.HTMLInputElement as Web.HTML.HTMLInputElement
 import Web.HTML.Window as Web.HTML.Window
 
 component
-  :: forall scenes
+  :: forall scenes state
    . { story :: Instruction scenes Unit
-     , renderScene :: GameState scenes -> GameHTML scenes
+     , renderScene :: GameState scenes state -> GameHTML scenes
+     , initialState :: state
      }
   -> GameComponent scenes
 component params = H.mkComponent { initialState, eval, render }
   where
-  initialState :: GameInput scenes -> GameState scenes
+  initialState :: GameInput scenes -> GameState scenes state
   initialState input =
     { scene: input.inputGameState.scene
-    , player: input.inputGameState.player
     , messages: none
     , widget_index: 0
     , mb_widget: none
+    , state: params.initialState
     }
 
   eval = H.mkEval H.defaultEval
@@ -60,24 +61,16 @@ component params = H.mkComponent { initialState, eval, render }
 
   render state =
     HH.div
-      [ HP.style "flex-grow: 1; display: flex; flex-direction: row;" ]
-      [ HH.div
-          [ HP.style "flex-grow: 1; display: flex; flex-direction: column;" ]
-          ( [ [ params.renderScene state ]
-            , [ HH.div
-                  [ HP.style "padding: 1em; overflow-y: scroll; max-height: 300px;" ]
-                  (state.messages # map \msg -> HH.div [] [ msg # HH.fromPlainHTML ])
-              ]
-            , state.mb_widget # foldMap \widget ->
-                [ HH.slot (Proxy @"widget") state.widget_index widget {} identity ]
-            ] # Array.fold
-          )
-      , HH.div
-          [ HP.style "flex-shrink: 0; width: calc(200px - 2em); padding: 1em; background-color:rgba(196, 164, 132, 0.5); display: flex; flex-direction: column; gap: 0.5em;" ]
-          [ HH.text $ "player = " <> show state.player
-          , HH.div [] [ HH.text $ "... other properties ..." ]
+      [ HP.style "display: flex; flex-direction: column;" ]
+      ( [ [ params.renderScene state ]
+        , [ HH.div
+              [ HP.style "padding: 1em; overflow-y: scroll; max-height: 300px;" ]
+              (state.messages # map \msg -> HH.div [] [ msg # HH.fromPlainHTML ])
           ]
-      ]
+        , state.mb_widget # foldMap \widget ->
+            [ HH.slot (Proxy @"widget") state.widget_index widget {} identity ]
+        ] # Array.fold
+      )
 
 --------------------------------------------------------------------------------
 -- prompt_component
@@ -166,7 +159,7 @@ choice_component { msg, opts, render_opt, k } = H.mkComponent { initialState, ev
 -- runInstruction
 --------------------------------------------------------------------------------
 
-runInstruction :: forall scenes. Instruction scenes Unit -> GameM scenes Unit
+runInstruction :: forall scenes state. Instruction scenes Unit -> GameM scenes state Unit
 runInstruction (InteractionT ff) = ff # runFreeM case _ of
   Lift ma -> ma # lift
   Interact (ClearWidget ma) -> do

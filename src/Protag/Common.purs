@@ -21,7 +21,7 @@ import Protag.Language (Instruction)
 
 type GameComponent scenes = H.Component GameQuery (GameInput scenes) GameOutput Aff
 type GameHTML scenes = H.ComponentHTML (GameAction scenes) (GameSlots scenes) Aff
-type GameM scenes = H.HalogenM (GameState scenes) (GameAction scenes) (GameSlots scenes) GameOutput Aff
+type GameM scenes state = H.HalogenM (GameState scenes state) (GameAction scenes) (GameSlots scenes) GameOutput Aff
 
 type GameQuery = Const Void :: Type -> Type
 type GameInput scenes =
@@ -41,24 +41,19 @@ type GameSlots scenes =
 --------------------------------------------------------------------------------
 
 -- automatically initialized fields of GameState
-type GameState scenes = GameState_ scenes
+type GameState scenes state = GameState_ scenes
   ( messages :: Array PlainHTML
   , mb_widget :: Maybe (WidgetComponent scenes)
   , widget_index :: Int
+  , state :: state
   )
 
 type InputGameState scenes = GameState_ scenes ()
 
 -- manually-initialized fields of GameState
 type GameState_ scenes r =
-  { player :: Player
-  , scene :: Variant scenes
+  { scene :: Variant scenes
   | r
-  }
-
-type Player =
-  { name :: String
-  , health :: Int
   }
 
 data SceneIndex

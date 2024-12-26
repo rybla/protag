@@ -12,20 +12,31 @@ import Protag.Utility (inj, on)
 import Protag.Variant (case_)
 import Type.Prelude (Proxy(..))
 
-game_params = { story, renderScene }
+game_params = { story, renderScene, initialState }
 game_input = { inputGameState }
 
 --------------------------------------------------------------------------------
 
 type Scenes = ("intro" :: Unit)
 
-inputGameState :: InputGameState Scenes
-inputGameState =
-  { player: { name: "Kellan Veylor", health: 20 }
-  , scene: inj @"intro" unit
+type State =
+  { player :: { name :: String, health :: Int }
   }
 
-renderScene :: GameState Scenes -> GameHTML Scenes
+initialState :: State
+initialState =
+  { player:
+      { name: "Veylor Falen"
+      , health: 20
+      }
+  }
+
+inputGameState :: InputGameState Scenes
+inputGameState =
+  { scene: inj @"intro" unit
+  }
+
+renderScene :: GameState Scenes State -> GameHTML Scenes
 renderScene state =
   case_
     # on @"intro"
