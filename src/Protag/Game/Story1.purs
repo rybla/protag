@@ -7,13 +7,16 @@ import Data.Array as Array
 import Data.Foldable (sequence_)
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
-import Protag.Common (GameHTML, InputGameState, GameState)
+import Protag.Common (GameHTML, GameState, InputGameState, Game)
 import Protag.Utility (inj, on)
 import Protag.Variant (case_)
 import Type.Prelude (Proxy(..))
 
-game_params = { story, renderScene, initialState }
-game_input = { inputGameState }
+game :: Game Scenes State
+game =
+  { params: { story, renderScene, initialState }
+  , input: { inputGameState }
+  }
 
 --------------------------------------------------------------------------------
 

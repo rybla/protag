@@ -7681,6 +7681,30 @@
     });
   };
 
+  // output/Protag.App/index.js
+  var slot_2 = /* @__PURE__ */ slot_()({
+    reflectSymbol: function() {
+      return "game";
+    }
+  })(ordInt);
+  var component2 = /* @__PURE__ */ function() {
+    var render = function(state3) {
+      return div2([style("margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), slot_2($$Proxy.value)(state3.game_slotId)(component(state3.game.params))(state3.game.input)]);
+    };
+    var initialState2 = function(v) {
+      return {
+        game: v.game,
+        game_slotId: 0
+      };
+    };
+    var $$eval = mkEval(defaultEval);
+    return mkComponent({
+      initialState: initialState2,
+      "eval": $$eval,
+      render
+    });
+  }();
+
   // output/Protag.Game.Story1/index.js
   var discard7 = /* @__PURE__ */ discard(discardUnit)(bindInteractionT);
   var print7 = /* @__PURE__ */ print6(applicativeAff);
@@ -7744,38 +7768,21 @@
       health: 20
     }
   };
-  var game_params = {
-    story,
-    renderScene,
-    initialState
-  };
-  var game_input = {
-    inputGameState
-  };
-
-  // output/Protag.App/index.js
-  var slot_2 = /* @__PURE__ */ slot_()({
-    reflectSymbol: function() {
-      return "game";
+  var game = {
+    params: {
+      story,
+      renderScene,
+      initialState
+    },
+    input: {
+      inputGameState
     }
-  })(ordInt);
-  var component2 = /* @__PURE__ */ function() {
-    var render = function(_state) {
-      return div2([style("margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;")])([div2([style("font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)")])([text5("Protag")]), slot_2($$Proxy.value)(0)(component(game_params))(game_input)]);
-    };
-    var initialState2 = function(_input) {
-      return {};
-    };
-    var $$eval = mkEval(defaultEval);
-    return mkComponent({
-      initialState: initialState2,
-      "eval": $$eval,
-      render
-    });
-  }();
+  };
 
   // output/Main/index.js
-  var main2 = /* @__PURE__ */ runHalogenAff(/* @__PURE__ */ bindFlipped(bindAff)(/* @__PURE__ */ runUI2(component2)({}))(awaitBody));
+  var main2 = /* @__PURE__ */ runHalogenAff(/* @__PURE__ */ bindFlipped(bindAff)(/* @__PURE__ */ runUI2(component2)({
+    game
+  }))(awaitBody));
 
   // <stdin>
   main2();

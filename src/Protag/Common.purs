@@ -19,6 +19,21 @@ import Protag.Language (Instruction)
 -- Game
 --------------------------------------------------------------------------------
 
+type Game scenes state =
+  { params :: GameParams scenes state
+  , input :: GameInput scenes
+  }
+
+type GameParams scenes state =
+  { story :: Instruction scenes Unit
+  , renderScene :: GameState scenes state -> GameHTML scenes
+  , initialState :: state
+  }
+
+--------------------------------------------------------------------------------
+-- Game
+--------------------------------------------------------------------------------
+
 type GameComponent scenes = H.Component GameQuery (GameInput scenes) GameOutput Aff
 type GameHTML scenes = H.ComponentHTML (GameAction scenes) (GameSlots scenes) Aff
 type GameM scenes state = H.HalogenM (GameState scenes state) (GameAction scenes) (GameSlots scenes) GameOutput Aff
