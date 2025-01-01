@@ -64,7 +64,7 @@ component params = H.mkComponent { initialState, eval, render }
       [ HP.style "display: flex; flex-direction: column;" ]
       ( [ [ params.renderScene state ]
         , [ HH.div
-              [ HP.style "padding: 1em; overflow-y: scroll; max-height: 300px;" ]
+              [ HP.style "padding: 1em; overflow-y: scroll; max-height: 150px; display: flex; flex-direction: column;" ]
               (state.messages # map \msg -> HH.div [] [ msg # HH.fromPlainHTML ])
           ]
         , state.mb_widget # foldMap \widget ->

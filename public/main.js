@@ -7648,7 +7648,7 @@
   };
   var component = function(params) {
     var render = function(state3) {
-      return div2([style("display: flex; flex-direction: column;")])(fold3([[params.renderScene(state3)], [div2([style("padding: 1em; overflow-y: scroll; max-height: 300px;")])(map21(function(msg) {
+      return div2([style("display: flex; flex-direction: column;")])(fold3([[params.renderScene(state3)], [div2([style("padding: 1em; overflow-y: scroll; max-height: 150px; display: flex; flex-direction: column;")])(map21(function(msg) {
         return div2([])([fromPlainHTML(msg)]);
       })(state3.messages))], foldMap2(function(widget2) {
         return [slot2($$Proxy.value)(state3.widget_index)(widget2)({})(identity8)];
