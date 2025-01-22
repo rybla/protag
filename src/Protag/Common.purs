@@ -10,6 +10,7 @@ import Data.Array as Array
 import Data.Const (Const)
 import Data.Generic.Rep (class Generic)
 import Data.Lens ((+=))
+import Data.Map (Map)
 import Data.Maybe (Maybe(..), fromMaybe')
 import Data.Show.Generic (genericShow)
 import Effect.Aff (Aff)
@@ -65,6 +66,9 @@ type GameState_ r =
 type Player =
   { name :: String
   , health :: Int
+  , description :: String
+  , status :: String
+  , inventory :: Map String Int
   }
 
 data SceneIndex

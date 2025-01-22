@@ -18,22 +18,17 @@ import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
 import Protag.Common (SceneIndex(..), InputGameState)
+import Protag.Example (input_game_state_1)
 import Protag.Game as Game
 import Protag.Utility (inj, on, prop)
 import Type.Prelude (Proxy(..))
-
-example_game_state :: InputGameState
-example_game_state =
-  { player: { name: "Kellan Veylor", health: 20 }
-  , scene_index: IntroSceneIndex
-  }
 
 component :: forall query input output. H.Component query input output Aff
 component = H.mkComponent { initialState, eval, render }
   where
   initialState _ =
     -- { mode: inj @"init" unit }
-    { mode: inj @"playGame" example_game_state }
+    { mode: inj @"playGame" input_game_state_1 }
 
   eval = H.mkEval H.defaultEval
     { handleAction = case_
@@ -46,7 +41,7 @@ component = H.mkComponent { initialState, eval, render }
     HH.div
       [ HP.style "margin: auto; height: 800px; width: 800px; box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.5); display: flex; flex-direction: column;" ]
       [ HH.div
-          [ HP.style "font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5)" ]
+          [ HP.style "font-size: 1.5em; font-variant: small-caps; text-align: center; background-color: rgba(172, 145, 118, 0.5); box-shadow: 0 2px 10px 0 black;" ]
           [ HH.text "Protag" ]
       , case_
           # on @"init"
@@ -71,7 +66,7 @@ createCharacter_component :: forall query input. H.Component query input InputGa
 createCharacter_component = H.mkComponent { initialState, eval, render }
   where
   initialState _ =
-    { game_state: example_game_state }
+    { game_state: input_game_state_1 }
 
   eval = H.mkEval H.defaultEval
     { handleAction = case_
