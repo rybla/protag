@@ -145,7 +145,6 @@ makeSceneComponent' args = H.mkComponent { initialState, eval, render }
 
   render state =
     let
-
       dialogue_length = args.dialogue # Array.length
       dialogue_item = args.dialogue Array.!! state.dialogue_index # fromMaybe' \_ -> bug "impossible"
     in

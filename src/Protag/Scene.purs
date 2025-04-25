@@ -5,14 +5,17 @@ import Prelude
 import Control.Monad.Trans.Class (lift)
 import Data.Array as Array
 import Data.Lens ((%=), (.=))
+import Data.Maybe (Maybe(..))
 import Data.String as String
+import Data.Tuple.Nested (type (/\), (/\))
 import Effect.Class.Console as Console
+import Halogen.HTML (HTML)
 import Halogen.HTML as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
-import Protag.Common (DialogueItem(..), SceneComponent, SceneIndex(..), makeSceneComponent, makeSceneComponent')
-import Protag.Utility (prop)
+import Protag.Common (DialogueItem(..), SceneComponent, SceneIndex(..), SceneHTML, makeSceneComponent, makeSceneComponent')
+import Protag.Utility (bug, prop)
 
 getSceneComponent :: SceneIndex -> SceneComponent
 getSceneComponent = case _ of
@@ -31,20 +34,17 @@ menu_component = makeSceneComponent
       Console.log "[menu.initialize]"
   , render: \{} ->
       HH.div [ HP.style "box-shadow: 0 0 0 1px black inset; padding: 0.5em; display: flex; flex-direction: column; gap: 0.5em;" ]
-        [ HH.div [ HP.style "font-size: 2em;" ] [ HH.text "menu" ]
+        [ HH.div [ HP.style "font-size: 2em;" ]
+            [ HH.text "menu" ]
         , HH.div []
-            [ HH.button
-                [ HE.onClick $ const do
-                    prop @"scene_index" .= IntroSceneIndex # lift
-                ]
+            [ simple_button
                 [ HH.text "start" ]
+                do prop @"scene_index" .= IntroSceneIndex # lift
             ]
         , HH.div []
-            [ HH.button
-                [ HE.onClick $ const do
-                    prop @"scene_index" .= ExampleSceneIndex # lift
-                ]
+            [ simple_button
                 [ HH.text "example scene" ]
+                do prop @"scene_index" .= ExampleSceneIndex # lift
             ]
         ]
   }
@@ -59,11 +59,12 @@ intro_component = makeSceneComponent'
   , background_image_src: "/assets/approaching_snowy_town.png"
   , dialogue: Array.fold $
       [ [ Inject_DialogueItem
-            [ HH.button [ HP.classes [ H.ClassName "wispy-scroll" ] ]
+            [ simple_button
                 [ HH.text "this button doesnt do anything" ]
+                do pure unit
             ]
         ]
-      , String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> HH.text >>> Array.singleton >>> Inject_DialogueItem) $
+      , parse_text_dialogue_items $
           """
 In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy. In the fractured skies of Aetheris, a world suspended between shimmering oceans of liquid light and an endless void, floating islands drift along invisible currents of arcane energy.
 Here, civilizations thrive in harmony with colossal skybeasts, whose bioluminescent scales power the ever-glowing spires of their cities."""
@@ -79,21 +80,17 @@ Here, civilizations thrive in harmony with colossal skybeasts, whose bioluminesc
                 ]
             ]
         ]
-      , String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> HH.text >>> Array.singleton >>> Inject_DialogueItem) $
+      , parse_text_dialogue_items $
           """
 But as whispers of a dying light spread across the skies, an uncharted island emerges, carrying the promise of salvation—or the undoing of all that soars.
 ... blah blah blah ..."""
       , [ Inject_DialogueItem
-            [ HH.button
-                [ HP.classes [ H.ClassName "wispy-scroll" ]
-                , HE.onClick $ const $ lift $ prop @"scene_index" .= TownSceneIndex
-                ]
+            [ simple_button
                 [ HH.text "go into the town" ]
-            , HH.button
-                [ HP.classes [ H.ClassName "wispy-scroll" ]
-                , HE.onClick $ const $ lift $ prop @"scene_index" .= MountainSceneIndex
-                ]
+                do lift $ prop @"scene_index" .= TownSceneIndex
+            , simple_button
                 [ HH.text "go out into the mountains" ]
+                do lift $ prop @"scene_index" .= MountainSceneIndex
             ]
         ]
       ]
@@ -106,7 +103,7 @@ town_component = makeSceneComponent'
   , initialize: pure unit
   , background_image_src: "/assets/in_snowy_town.png"
   , dialogue: Array.fold
-      [ String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> HH.text >>> Array.singleton >>> Inject_DialogueItem) $
+      [ parse_text_dialogue_items $
           """
 The snow lies thick and unbroken upon the cobbled streets of the mountain town, muffling every footstep into silence.
 Each breath is a pale ghost escaping into the crisp winter air, and the scent of woodsmoke curls from crooked chimneys, carrying with it the faint tang of pine and something sharper, something unplaceable.
@@ -127,7 +124,7 @@ mountain_component = makeSceneComponent'
   , initialState: {}
   , initialize: pure unit
   , background_image_src: "/assets/in_the_mountains.png"
-  , dialogue: String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> HH.text >>> Array.singleton >>> Inject_DialogueItem) $
+  , dialogue: parse_text_dialogue_items $
       """
 The mountain trail winds upward, a pale ribbon of packed snow threading through skeletal trees that creak faintly in the biting wind.
 Frost clings to every branch like spun glass, glittering coldly beneath the thin winter sun.
@@ -157,26 +154,72 @@ example_component = makeSceneComponent
         [ HH.div [ HP.style "font-size: 2em;" ]
             [ HH.text "example" ]
         , HH.div []
-            [ HH.button
-                [ HE.onClick $ const do
-                    prop @"scene_index" .= MenuSceneIndex # lift
-                ]
+            [ simple_button
                 [ HH.text "menu" ]
+                do prop @"scene_index" .= MenuSceneIndex # lift
             ]
         , HH.div []
-            [ HH.button
-                [ HE.onClick $ const do
-                    prop @"player" <<< prop @"health" %= (_ + 1) # lift
-                ]
+            [ simple_button
                 [ HH.text "heal" ]
+                do prop @"player" <<< prop @"health" %= (_ + 1) # lift
             ]
         , HH.div [] [ HH.text $ "counter = " <> show state.counter ]
         , HH.div []
-            [ HH.button
-                [ HE.onClick $ const do
-                    prop @"counter" %= (_ + 1)
-                ]
+            [ simple_button
                 [ HH.text "increment" ]
+                do
+                  prop @"counter" %= (_ + 1)
             ]
         ]
   }
+
+--------------------------------------------------------------------------------
+-- utilities
+--------------------------------------------------------------------------------
+
+parse_text_dialogue_items :: forall state slots. String -> Array (DialogueItem state slots)
+parse_text_dialogue_items = String.trim >>> String.split (String.Pattern "\n") >>> map (String.trim >>> parse_richtext >>> Inject_DialogueItem)
+
+parse_richtext :: forall state slots. String -> Array (SceneHTML state slots)
+-- parse_richtext = bug ""
+parse_richtext str =
+  case str # splitAtPattern (String.Pattern start) of
+    Nothing -> [ HH.text str ]
+    Just (str0 /\ str') -> case str' # splitAtPattern (String.Pattern mid) of
+      Nothing -> bug "error: missing mid"
+      Just (str1 /\ str'') -> case str'' # splitAtPattern (String.Pattern end) of
+        Nothing -> bug "error: missing end"
+        -- str1 is label
+        -- str2 is value
+        Just (str2 /\ str''') -> [ HH.text str0, ?a ] <> parse_richtext str'''
+
+  -- case str # String.indexOf (String.Pattern start) of
+  --   Nothing -> [ HH.text str ]
+  --   Just i0 -> 
+  --     let str' = str # String.drop (i0 + String.length start ) in 
+  --     case str' # String.indexOf (String.Pattern mid) of 
+  --         Nothing -> bug "missing mid"
+  --         Just i1 -> 
+  --             let str'' = str' # String.take i1 
+  --                 str''' = str'' # String.drop (i1  + String.length mid)
+  --             in 
+  --                 case str''' # String.indexOf (String.Pattern end)
+  where
+  start = "{{"
+  mid = "|"
+  end = "}}"
+
+splitAtPattern :: String.Pattern -> String -> Maybe (String /\ String)
+splitAtPattern (String.Pattern pat) str = do
+  i <- str # String.indexOf (String.Pattern pat)
+  let str0 = str # String.take i
+  let str1 = str # String.drop (i + String.length pat)
+  pure (str0 /\ str1)
+
+simple_button :: forall w i. Array (HTML w i) -> i -> HTML w i
+simple_button kids action =
+  HH.button
+    [ HP.classes [ H.ClassName "wispy-scroll" ]
+    , HE.onClick $ const action
+    ]
+    kids
